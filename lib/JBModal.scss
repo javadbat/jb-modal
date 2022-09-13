@@ -1,0 +1,44 @@
+.jb-modal-web-component {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    &.--closed{
+        display: none;
+    }
+    &.--opened{
+        display: block;
+    }
+    .modal-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+    }
+    .modal-content-wrapper{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        .modal-content{
+            pointer-events: all;
+            width: auto;
+            height: auto;
+            background-color: #fff;
+            border-radius: 24px;
+        }
+    }
+    
+}
