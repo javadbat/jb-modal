@@ -1,12 +1,19 @@
 import HTML from './JBModal.html';
 import CSS from './JBModal.scss';
+import { ElementsObject } from './Types';
+
 class JBModalWebComponent extends HTMLElement {
     #isOpen = false;
-    #id = null;
-    get id() {
-        return this.#id || this.getAttribute('id');
+    #id ="";
+    elements!: ElementsObject;
+    config = {
+        autoCloseOnBackgroundClick: false
     }
-    set id(value) {
+    get id(){
+        const id:string =this.getAttribute('id') || "";
+        return this.#id || id;
+    }
+    set id(value:string) {
         this.#id = value;
         this.checkInitialOpenness();
     }
@@ -25,11 +32,11 @@ class JBModalWebComponent extends HTMLElement {
 
     }
     callOnLoadEvent() {
-        var event = new CustomEvent('load', { bubbles: true, composed: true });
+        const event = new CustomEvent('load', { bubbles: true, composed: true });
         this.dispatchEvent(event);
     }
     callOnInitEvent() {
-        var event = new CustomEvent('init', { bubbles: true, composed: true });
+        const event = new CustomEvent('init', { bubbles: true, composed: true });
         this.dispatchEvent(event);
     }
     initWebComponent() {
@@ -41,20 +48,18 @@ class JBModalWebComponent extends HTMLElement {
         element.innerHTML = html;
         shadowRoot.appendChild(element.content.cloneNode(true));
         this.elements = {
-            componentWrapper: shadowRoot.querySelector('.jb-modal-web-component'),
-            background: shadowRoot.querySelector('.modal-background')
+            componentWrapper: shadowRoot.querySelector('.jb-modal-web-component')!,
+            background: shadowRoot.querySelector('.modal-background')!,
         }
 
     }
     registerEventListener() {
         this.elements.background.addEventListener('click', this.onBackgroundClick.bind(this));
         //TODO: remove listener on component unmount
-        window.addEventListener('popstate', this.onBrowserBack.bind(this))
+        window.addEventListener('popstate', this.#onBrowserBack.bind(this));
     }
     initProp() {
-        this.config = {
-            autoCloseOnBackgroundClick: false
-        }
+        
         this.registerEventListener();
     }
     checkInitialOpenness() {
@@ -82,11 +87,11 @@ class JBModalWebComponent extends HTMLElement {
             case 'isOpen':
                 if (value == 'true') {
                     if (!this.#isOpen) {
-                        this.open()
+                        this.open();
                     }
                 } else {
                     if (this.#isOpen) {
-                        this.close()
+                        this.close();
                     }
                 }
                 break;
@@ -119,7 +124,7 @@ class JBModalWebComponent extends HTMLElement {
         const history = window.history;
         const location = window.location;
         if (location.hash == `#${this.id}`) {
-            history.go(-1)
+            history.go(-1);
         }
     }
     /**
@@ -134,15 +139,11 @@ class JBModalWebComponent extends HTMLElement {
             const history = window.history;
             const location = window.location;
             if (!(location.hash == `#${this.id}`)) {
-                history.pushState({ JBModal: {} }, "", `#${this.id}`)
+                history.pushState({ JBModal: {} }, "", `#${this.id}`);
             }
         }
     }
-    /**
-     * @private
-     * when brower back button clicked physically or byy code
-     */
-    onBrowserBack(e) {
+    #onBrowserBack(e) {
         if (this.isOpen) {
             this.dispatchCloseEvent('HISTORY_BACK_EVENT');
             if (this.config.autoCloseOnBackgroundClick) {
