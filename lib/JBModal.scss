@@ -68,12 +68,13 @@
             width: auto;
             height: auto;
             background-color: var(--jb-modal-bg-color, #fff);
-            border-radius: 24px;
+            border-radius: var(--jb-modal-border-radius, 24px);
             @include mobile-tablet{
                 width: 100%;
                 height: auto;
                 max-height: calc(100% - 80px);
                 min-height: 32px;
+                border-radius: var(--jb-modal-border-radius-mobile, 24px 24px 0 0);
             }
         }
     }
