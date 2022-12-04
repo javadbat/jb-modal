@@ -19,10 +19,23 @@
         display: block;
         .modal-content-wrapper{
             @include mobile-tablet{
-                transform: translateY(0%);
+                // transform: translateY(0%);
+                animation-name: swipe-up;
+                animation-duration: 0.3s;
+                animation-delay: 0s;
+                animation-iteration-count: 1;
+                animation-timing-function: ease;
             }
         }
         
+    }
+    @keyframes swipe-up{
+        0%{
+            transform: translateY(100%);
+        }
+        100%{
+            transform: translateY(0%);
+        }
     }
     .modal-background {
         position: absolute;
@@ -49,7 +62,6 @@
             bottom: 0;
             top:initial;
             align-items: flex-end;
-            transition: all 0.5s 0s ease;
         }
         .modal-content{
             pointer-events: all;
