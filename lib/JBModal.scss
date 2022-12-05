@@ -75,6 +75,7 @@
                 max-height: calc(100% - 80px);
                 min-height: 32px;
                 border-radius: var(--jb-modal-border-radius-mobile, 24px 24px 0 0);
+                overflow-y: auto;
             }
         }
     }
