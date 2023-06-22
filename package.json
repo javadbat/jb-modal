@@ -14,7 +14,7 @@
     "pop up",
     "web component"
   ],
-  "version": "1.5.1",
+  "version": "1.5.2",
   "bugs": "https://github.com/javadbat/jb-modal/issues",
   "license": "MIT",
   "files": [
@@ -24,6 +24,7 @@
     "dist/"
   ],
   "main": "index.js",
+  "types": "./dist/JBModal.d.ts",
   "repository": {
 		"type": "git",
 		"url": "git@github.com:javadbat/jb-modal.git"
