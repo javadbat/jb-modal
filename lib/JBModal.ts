@@ -76,7 +76,7 @@ export class JBModalWebComponent extends HTMLElement {
         this.dispatchEvent(event);
     }
     static get observedAttributes() {
-        return ['isOpen', 'id'];
+        return ['is-open', 'id'];
     }
     attributeChangedCallback(name, oldValue, newValue) {
         // do something when an attribute has changed
@@ -84,7 +84,7 @@ export class JBModalWebComponent extends HTMLElement {
     }
     onAttributeChange(name, value) {
         switch (name) {
-            case 'isOpen':
+            case 'is-open':
                 if (value == 'true') {
                     if (!this.#isOpen) {
                         this.open();

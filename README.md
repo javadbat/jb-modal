@@ -1,6 +1,26 @@
 # jb-modal
-modal web compoent
+modal web component with features:
 
+- customizable content
+- auto close on background click
+- add custom route history in browser so back button can close modal
+
+## install
+
+```cmd
+npm i jb-modal
+```
+
+## usage
+```html
+<jb-modal is-open="true">
+    <div slot="content">modal content</div>
+</jb-modal>
+```
+## auto close on background click
+```js
+document.querySelector('jb-modal').config.autoCloseOnBackgroundClick = true;
+```
 ## customize modal look
 
 you can customize modal look by following css properties
