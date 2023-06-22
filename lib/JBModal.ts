@@ -2,7 +2,7 @@ import HTML from './JBModal.html';
 import CSS from './JBModal.scss';
 import { ElementsObject } from './Types';
 
-class JBModalWebComponent extends HTMLElement {
+export class JBModalWebComponent extends HTMLElement {
     #isOpen = false;
     #id ="";
     elements!: ElementsObject;
