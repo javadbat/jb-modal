@@ -1,0 +1,37 @@
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css");
+
+.page-wrapper{
+    display:flex;
+    flex-direction:column;
+    padding-top:64px;
+    width:calc(100% - 64px);
+    max-width:1200px;
+    margin: 0 auto;
+    height:100vh;
+    font-family: 'Vazir',tahoma, arial;
+    direction:ltr;
+  }
+  @media (max-width:768px) {
+    .page-wrapper{
+      text-align: center;
+      align-items:center;
+    }
+  }
+  .component-wrapper{
+    width:500px;
+    max-width: calc(100% - 64px);
+    direction: rtl;
+  }
+  .hello-modal .modal-content{
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .desc{
+    margin-top:16px;
+    font-size:0.7em;
+    color:#888;
+  }
+  
