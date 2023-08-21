@@ -6,6 +6,9 @@ modal web component with features:
 - auto close on background click
 - you can add custom route history in browser so back button can close modal and refresh (when modal is open) is open modal again
 
+Demo & Sample    
+in github: <https://javadbat.github.io/jb-modal/>    
+
 ## install
 
 ```cmd
