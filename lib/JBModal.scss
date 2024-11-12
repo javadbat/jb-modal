@@ -1,4 +1,4 @@
-@import '../../../common/scss/Medias.scss';
+@use '../../../common/scss/Medias.scss' as *;
 .jb-modal-web-component {
     position: fixed;
     top: 0;
