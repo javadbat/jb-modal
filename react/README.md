@@ -14,13 +14,13 @@ this component is React.js wrapper for [jb-modal](https://www.npmjs.com/package/
 ## installation 
 
 ```command
-    npm i jb-modal-react
+    npm i jb-modal
 ```
 
 in your jsx file
 
 ```js
-    import {JBModal} from 'jb-modal-react'
+    import {JBModal} from 'jb-modal/react'
 ```
 ``` jsx
     <JBModal></JBModal>
