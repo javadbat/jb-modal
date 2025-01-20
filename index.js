@@ -1,1 +1,1 @@
-import './dist/JBModal.js';
+export * from './dist/JBModal.js';

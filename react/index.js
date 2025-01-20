@@ -1,0 +1,1 @@
+export {JBModal} from './dist/JBModal.js';
