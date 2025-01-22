@@ -51,12 +51,13 @@ you can pass a function to onClose props so that when a user click outside of th
 you can pass true or false to this props,this way the modal will be open based on the isOpen props.
 
 ``` jsx
-    <JBModal isOpen={true}></JBModal>
+    <JBModal isOpen={isOpen}></JBModal>
     // the modal is open
 ```
 
 - id
-you can set a specific id for each one of your modals,this way when the modal is open the id of the modal will be in your url.
+you can set a specific id for each one of your modals,this way when the modal is open the id of the modal will be in your url.    
+when you set id modal will add `#your-id` to the url when open so when you refresh the page, modal will open automatically.
 
 ``` jsx
     <JBModal id={MYMODAL}></JBModal>

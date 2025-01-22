@@ -5,7 +5,8 @@
 
 modal web component with features:
 
-- customizable content
+- framework free so you can use it anywhere
+- customizable content & style
 - support typescript
 - auto close on background click
 - you can add custom route history in browser
@@ -44,6 +45,23 @@ if you want your modal to keep open when user refresh the page or you want captu
 <jb-modal is-open="true" id="Something">
 </jb-modal>
 ```
+## events
+
+```js
+//when web-component load and you can access modal logic
+document.querySelector('jb-modal').addEventListener("load",(e)=>{/*your function*/});
+// when modal load and initiated completely 
+document.querySelector('jb-modal').addEventListener("init",(e)=>{/*your function*/});
+// when page refresh and modal open by default because of url 
+document.querySelector('jb-modal').addEventListener("urlOpen",(e)=>{/*your function*/});
+// when modal closed
+document.querySelector('jb-modal').addEventListener("close",(e)=>{
+    // could be "BACKGROUND_CLICK"  "HISTORY_BACK_EVENT" "CLOSE_BUTTON_CLICK"
+    const closeType = e.detail.eventType 
+    /*your function*/
+});
+
+```
 
 ## customize modal look
 
@@ -54,3 +72,11 @@ you can customize modal look by following css properties
 | --jb-modal-back-bg-color           | modal back background color                                                                   |
 | --jb-modal-border-radius           | modal border-radius default `24px`                                                            |
 | --jb-modal-border-radius-mobile    | modal border-radius on mobile default is `24px 24px 0 0`                                      |
+
+## Other Related Docs:
+
+- see [`jb-modal/react`](https://github.com/javadbat/jb-modal/tree/main/react); if you want to use this component in react
+
+- see [All JB Design system Component List](https://github.com/javadbat/design-system/blob/main/docs/component-list.md) for more components
+
+- use [Contribution Guide](https://github.com/javadbat/design-system/blob/main/docs/contribution-guide.md) if you want to contribute in this component.
