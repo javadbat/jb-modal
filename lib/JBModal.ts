@@ -1,6 +1,6 @@
 import HTML from "./JBModal.html";
 import CSS from "./JBModal.scss";
-import { ElementsObject } from "./Types";
+import { ElementsObject } from "./Types1";
 
 export class JBModalWebComponent extends HTMLElement {
   #isOpen = false;
