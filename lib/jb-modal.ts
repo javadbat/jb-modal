@@ -1,6 +1,8 @@
-import HTML from "./JBModal.html";
-import CSS from "./JBModal.scss";
-import { ElementsObject } from "./Types1";
+import HTML from "./jb-modal.html";
+import CSS from "./jb-modal.scss";
+import { ElementsObject } from "./types.js";
+
+export * from "./types.js";
 
 export class JBModalWebComponent extends HTMLElement {
   #isOpen = false;

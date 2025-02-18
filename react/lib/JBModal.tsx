@@ -1,12 +1,9 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import 'jb-modal';
 // eslint-disable-next-line no-duplicate-imports
 import { JBModalWebComponent } from 'jb-modal';
-import { useBindEvent } from '../../../../common/hooks/use-event.js';
-export type JBModalProps = React.PropsWithChildren<{
-    onClose?: () => void,
-    onUrlOpen?: () => void,
+import { useEvents, EventProps } from './events-hook.js';
+export type JBModalProps = EventProps & React.PropsWithChildren<{
     className?:string,
     isOpen?: boolean,
     id?: string,
@@ -46,27 +43,12 @@ const JBModal = React.forwardRef((props:JBModalProps, ref) => {
 
   }, [props.isOpen]);
   useEffect(() => {
-    if (props.id !== undefined && element.current) {
-      element.current.addEventListener('urlOpen', onUrlOpen);
+    if (element.current) {
       element.current.id = props.id;
     }
-    return () => {
-      if (props.id !== undefined && element.current) {
-        element.current.removeEventListener('urlOpen', onUrlOpen);
-      }
-    };
   }, [props.id]);
-  function onClose() {
-    if (props.onClose) {
-      props.onClose();
-    }
-  }
-  function onUrlOpen() {
-    if (props.onUrlOpen) {
-      props.onUrlOpen();
-    }
-  }
-  useBindEvent(element, 'close', onClose);
+
+  useEvents(element, props);
   return (
     <jb-modal ref={element} class={props.className ? props.className : ''}>
       <div slot="content">

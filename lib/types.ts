@@ -1,4 +1,4 @@
-import type { JBModalWebComponent } from "./JBModal";
+import type { JBModalWebComponent } from "./jb-modal";
 import type {EventTypeWithTarget} from 'jb-core';
 
 export type ElementsObject = {
