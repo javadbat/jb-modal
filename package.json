@@ -32,7 +32,7 @@
 		"url": "git@github.com:javadbat/jb-modal.git"
   },
   "dependencies": {
-    "jb-core":">=0.1.0"
+    "jb-core":">=0.3.0"
   }
 
 }
