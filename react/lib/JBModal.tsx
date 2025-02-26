@@ -3,7 +3,8 @@ import 'jb-modal';
 // eslint-disable-next-line no-duplicate-imports
 import { JBModalWebComponent } from 'jb-modal';
 import { useEvents, EventProps } from './events-hook.js';
-export type JBModalProps = EventProps & React.PropsWithChildren<{
+
+export type Props = EventProps & React.PropsWithChildren<{
     className?:string,
     isOpen?: boolean,
     id?: string,
@@ -21,7 +22,7 @@ declare global {
     }
 }
 
-const JBModal = React.forwardRef((props:JBModalProps, ref) => {
+export const JBModal = React.forwardRef((props:Props, ref) => {
   const element = useRef<JBModalWebComponent>(null);
   const [refChangeCount, refChangeCountSetter] = useState(0);
   useImperativeHandle(
@@ -59,4 +60,3 @@ const JBModal = React.forwardRef((props:JBModalProps, ref) => {
 });
 
 JBModal.displayName = "JBModal";
-export {JBModal};

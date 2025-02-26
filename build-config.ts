@@ -20,6 +20,7 @@ export const reactComponentList: ReactComponentBuildConfig[] = [
     external: ["jb-modal", "prop-types", "react","jb-core", "jb-core/react"],
     globals: {
       react: "React",
+      "jb-modal":"JBModal",
       "prop-types": "PropTypes",
       "jb-core": "JBCore",
       "jb-core/react": "JBCoreReact",
