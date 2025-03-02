@@ -27,7 +27,7 @@
     "dist/"
   ],
   "main": "index.js",
-  "types": "./dist/web-component/jb-modal/react/lib/JBModal.d.ts",
+  "types": "./dist/JBModal.d.ts",
   "repository": {
 		"type": "git",
 		"url": "git@github.com:javadbat/jb-modal.git"
