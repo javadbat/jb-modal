@@ -1,7 +1,7 @@
 import HTML from "./jb-modal.html";
 import CSS from "./jb-modal.scss";
 import { ElementsObject } from "./types.js";
-
+import {defineColors} from "jb-core/theme";
 export * from "./types.js";
 
 export class JBModalWebComponent extends HTMLElement {
@@ -44,6 +44,7 @@ export class JBModalWebComponent extends HTMLElement {
     const shadowRoot = this.attachShadow({
       mode: "open",
     });
+    defineColors();
     const html = `<style>${CSS}</style>` + "\n" + HTML;
     const element = document.createElement("template");
     element.innerHTML = html;

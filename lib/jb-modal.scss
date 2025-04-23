@@ -1,4 +1,6 @@
 @use '~jb-core/styles/medias.scss' as *;
+@use "./variables.css";
+
 .jb-modal-web-component {
     position: fixed;
     top: 0;
@@ -41,7 +43,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        background-color:var(--jb-modal-back-bg-color, rgba(255, 255, 255, 0.1)) ;
+        background-color:var(--back-bg-color) ;
         backdrop-filter: blur(10px);
         z-index: 2;
         width: 100%;
@@ -67,7 +69,7 @@
             pointer-events: all;
             width: auto;
             height: auto;
-            background-color: var(--jb-modal-bg-color, #fff);
+            background-color: var(--bg-color);
             border-radius: var(--jb-modal-border-radius, 24px);
             @include mobile-tablet{
                 width: 100%;

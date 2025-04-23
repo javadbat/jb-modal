@@ -1,0 +1,4 @@
+:host{
+  --back-bg-color:var(--jb-modal-back-bg-color, oklch(from var(--jb-white) l c h / 0.1));
+  --bg-color:var(--jb-modal-bg-color, --jb-white);
+}
