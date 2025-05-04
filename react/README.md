@@ -77,6 +77,6 @@ example:
 you can customize modal look by following css properties
 | css variable name                  | description                                                                                   |
 | -------------                      | -------------                                                                                 |
-| --jb-modal-bg-color                | modal background color default is black `#fff`                                                |
-| --jb-modal-border-radius           | modal border-radius default `24px`                                                            |
-| --jb-modal-border-radius-mobile    | modal border-radius on mobile default is `24px 24px 0 0`                                      |
+| --jb-modal-bg-color                | modal background color                                                                        |
+| --jb-modal-back-bg-color           | modal background background color                                                             |
+| --jb-modal-border-radius           | modal border-radius                                                                           |

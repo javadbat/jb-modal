@@ -1,7 +1,7 @@
 import HTML from "./jb-modal.html";
 import CSS from "./jb-modal.scss";
 import { ElementsObject } from "./types.js";
-import {defineColors} from "jb-core/theme";
+import {registerDefaultVariables} from "jb-core/theme";
 export * from "./types.js";
 
 export class JBModalWebComponent extends HTMLElement {
@@ -44,7 +44,7 @@ export class JBModalWebComponent extends HTMLElement {
     const shadowRoot = this.attachShadow({
       mode: "open",
     });
-    defineColors();
+    registerDefaultVariables();
     const html = `<style>${CSS}</style>` + "\n" + HTML;
     const element = document.createElement("template");
     element.innerHTML = html;
@@ -74,7 +74,7 @@ export class JBModalWebComponent extends HTMLElement {
     }
   }
   triggerUrlOpenEvent() {
-    //when modal open itself becuase url contain modal id
+    //when modal open itself because url contain modal id
     const event = new CustomEvent("urlOpen", { bubbles: true, composed: true });
     this.dispatchEvent(event);
   }

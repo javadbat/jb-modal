@@ -1,4 +1,6 @@
 :host{
+  --border-radius:var(--jb-modal-border-radius, var(--jb-radius-xl));
+  /*colors*/
   --back-bg-color:var(--jb-modal-back-bg-color, oklch(from var(--jb-white) l c h / 0.1));
   --bg-color:var(--jb-modal-bg-color, --jb-white);
 }

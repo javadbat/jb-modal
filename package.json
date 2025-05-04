@@ -10,11 +10,12 @@
     "jb",
     "jb-modal",
     "dialog",
+    "modal",
     "modal window",
     "pop up",
     "web component"
   ],
-  "version": "1.8.0",
+  "version": "1.9.0",
   "bugs": "https://github.com/javadbat/jb-modal/issues",
   "license": "MIT",
   "files": [
@@ -32,7 +33,7 @@
 		"url": "git@github.com:javadbat/jb-modal.git"
   },
   "dependencies": {
-    "jb-core":">=0.9.0"
+    "jb-core":">=0.14.0"
   }
 
 }

@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 
 const meta: Meta<Props> = {
-  title: "Example/JBModal",
+  title: "Components/JBModal",
   component: JBModal,
 };
 export default meta;
