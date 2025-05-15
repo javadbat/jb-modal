@@ -13,9 +13,10 @@
     "modal",
     "modal window",
     "pop up",
-    "web component"
+    "web component",
+    "react component"
   ],
-  "version": "1.9.0",
+  "version": "1.9.1",
   "bugs": "https://github.com/javadbat/jb-modal/issues",
   "license": "MIT",
   "files": [
