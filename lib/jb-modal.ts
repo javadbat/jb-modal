@@ -1,5 +1,5 @@
-import HTML from "./jb-modal.html";
 import CSS from "./jb-modal.scss";
+import { renderHTML } from "./render";
 import { ElementsObject } from "./types.js";
 import {registerDefaultVariables} from "jb-core/theme";
 export * from "./types.js";
@@ -27,7 +27,7 @@ export class JBModalWebComponent extends HTMLElement {
     this.initWebComponent();
   }
   connectedCallback() {
-    // standard web component event that called when all of dom is binded
+    // standard web component event that called when all of dom is bounded
     this.callOnLoadEvent();
     this.initProp();
     this.callOnInitEvent();
@@ -45,7 +45,7 @@ export class JBModalWebComponent extends HTMLElement {
       mode: "open",
     });
     registerDefaultVariables();
-    const html = `<style>${CSS}</style>` + "\n" + HTML;
+    const html = `<style>${CSS}</style>` + "\n" + renderHTML();
     const element = document.createElement("template");
     element.innerHTML = html;
     shadowRoot.appendChild(element.content.cloneNode(true));
