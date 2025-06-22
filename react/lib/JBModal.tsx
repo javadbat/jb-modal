@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import 'jb-modal';
 // eslint-disable-next-line no-duplicate-imports
@@ -10,7 +11,7 @@ export type Props = EventProps & React.PropsWithChildren<{
     id?: string,
 }>
 
-declare global {
+declare module "react" {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace JSX {
       interface IntrinsicElements {
