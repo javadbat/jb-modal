@@ -15,6 +15,7 @@ modal web component with features:
 
 Demo & Sample    
 in github: <https://javadbat.github.io/jb-modal/>    
+in storybook: <https://javadbat.github.io/design-system/?path=/story/components-jbmodal>
 
 ## using with JS frameworks
 
