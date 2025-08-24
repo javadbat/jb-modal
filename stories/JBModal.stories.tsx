@@ -79,7 +79,7 @@ export const CloseDetail: Story = {
               </ul>
             </p>
             <p>to simulate the first one you just have to click on modal background and you can see developer tools console that shows `BACKGROUND_CLICK`</p>
-            <p>to experience the second scenario with back button since we are in storybook and storybook load stories in a `iframe` tag you should open story in <a target='_blank' href='/iframe.html?globals=&id=components-jbmodal--close-detail&viewMode=story'>isolated mode</a> then hit back button</p>
+            <p>to experience the second scenario with back button since we are in storybook and storybook load stories in a `iframe` tag you should open story in <a target='_blank' href='./iframe.html?globals=&id=components-jbmodal--close-detail&viewMode=story'>isolated mode</a> then hit back button</p>
             <q>back button scenario only works if your modal has an `id` attribute</q>
             <JBButton onClick={() => { setIsOpen(false); }}>Close Modal</JBButton>
           </div>
