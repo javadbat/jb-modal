@@ -23,7 +23,7 @@ to use this component in **react** see [`jb-modal/react`](https://github.com/jav
 
 ## install
 
-```cmd
+```sh
 npm i jb-modal
 ```
 

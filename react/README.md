@@ -13,7 +13,7 @@ this component is React.js wrapper for [jb-modal](https://www.npmjs.com/package/
 
 ## installation 
 
-```command
+```sh
     npm i jb-modal
 ```
 
