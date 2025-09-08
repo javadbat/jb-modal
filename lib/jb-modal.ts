@@ -6,6 +6,7 @@ export * from "./types.js";
 
 export class JBModalWebComponent extends HTMLElement {
   #isOpen = false;
+  #internals: ElementInternals;
   #id = "";
   elements!: ElementsObject;
   config = {
@@ -44,6 +45,9 @@ export class JBModalWebComponent extends HTMLElement {
     const shadowRoot = this.attachShadow({
       mode: "open",
     });
+    this.#internals = this.attachInternals();
+    //indicate that this component is a modal
+    this.#internals.ariaModal = "true";
     registerDefaultVariables();
     const html = `<style>${CSS}</style>` + "\n" + renderHTML();
     const element = document.createElement("template");
@@ -120,6 +124,7 @@ export class JBModalWebComponent extends HTMLElement {
    */
   close() {
     this.#isOpen = false;
+    this.#internals.ariaHidden = "true"
     this.elements.componentWrapper.classList.remove("--opened");
     this.elements.componentWrapper.classList.add("--closed");
     const history = window.history;
@@ -134,6 +139,7 @@ export class JBModalWebComponent extends HTMLElement {
    */
   open() {
     this.#isOpen = true;
+    this.#internals.ariaHidden = "false"
     this.elements.componentWrapper.classList.remove("--closed");
     this.elements.componentWrapper.classList.add("--opened");
     if (this.id) {
