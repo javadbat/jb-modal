@@ -13,9 +13,10 @@ modal web component with features:
 - back button handler to just close the modal instead of real back
 - keep modal open in case of page refresh (by just provide an id)
 
-Demo & Sample    
-in github: <https://javadbat.github.io/jb-modal/>    
-in storybook: <https://javadbat.github.io/design-system/?path=/story/components-jbmodal>
+## Demo
+
+- [github pages](https://javadbat.github.io/jb-modal)    
+- [storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
 
 ## using with JS frameworks
 

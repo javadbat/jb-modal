@@ -1,5 +1,4 @@
-@use '~jb-core/styles/medias.scss' as *;
-@use "./variables.css";
+@custom-media --tablet-until (max-width: 768px);
 
 .jb-modal-web-component {
     position: fixed;
@@ -8,20 +7,22 @@
     z-index: var(--z-index);
     width: 100%;
     height: 100%;
-    &.--closed{
+
+    &.--closed {
         display: none;
-        .modal-content-wrapper{
-            @include mobile-tablet{
+
+        .modal-content-wrapper {
+            @media(--tablet-until) {
                 transform: translateY(100%);
-                
             }
         }
     }
-    &.--opened{
+
+    &.--opened {
         display: block;
-        .modal-content-wrapper{
-            @include mobile-tablet{
-                // transform: translateY(0%);
+
+        .modal-content-wrapper {
+           @media(--tablet-until) {
                 animation-name: swipe-up;
                 animation-duration: 0.3s;
                 animation-delay: 0s;
@@ -29,27 +30,21 @@
                 animation-timing-function: ease;
             }
         }
-        
+
     }
-    @keyframes swipe-up{
-        0%{
-            transform: translateY(100%);
-        }
-        100%{
-            transform: translateY(0%);
-        }
-    }
+
     .modal-background {
         position: absolute;
         top: 0;
         left: 0;
-        background-color:var(--back-bg-color) ;
+        background-color: var(--back-bg-color);
         backdrop-filter: blur(10px);
         z-index: 2;
         width: 100%;
         height: 100%;
     }
-    .modal-content-wrapper{
+
+    .modal-content-wrapper {
         position: absolute;
         top: 0;
         left: 0;
@@ -60,26 +55,38 @@
         align-items: center;
         justify-content: center;
         pointer-events: none;
-        @include mobile-tablet{
+
+        @media(--tablet-until) {
             bottom: 0;
-            top:initial;
+            top: initial;
             align-items: flex-end;
         }
-        .modal-content{
+
+        .modal-content {
             pointer-events: all;
             width: auto;
             height: auto;
             background-color: var(--bg-color);
             border-radius: var(--border-radius);
-            @include mobile-tablet{
+            @media(--tablet-until) {
                 width: 100%;
                 height: auto;
                 max-height: calc(100% - 80px);
                 min-height: 32px;
-                border-radius:  var(--border-radius) var(--border-radius) 0 0;
+                border-radius: var(--border-radius) var(--border-radius) 0 0;
                 overflow-y: auto;
             }
         }
     }
-    
+
+}
+
+@keyframes swipe-up {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
 }

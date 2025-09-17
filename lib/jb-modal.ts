@@ -1,4 +1,5 @@
-import CSS from "./jb-modal.scss";
+import CSS from "./jb-modal.css";
+import VariablesCSS from "./variables.css";
 import { renderHTML } from "./render";
 import { ElementsObject } from "./types.js";
 import {registerDefaultVariables} from "jb-core/theme";
@@ -49,7 +50,7 @@ export class JBModalWebComponent extends HTMLElement {
     //indicate that this component is a modal
     this.#internals.ariaModal = "true";
     registerDefaultVariables();
-    const html = `<style>${CSS}</style>` + "\n" + renderHTML();
+    const html = `<style>${CSS} ${VariablesCSS}</style>` + "\n" + renderHTML();
     const element = document.createElement("template");
     element.innerHTML = html;
     shadowRoot.appendChild(element.content.cloneNode(true));

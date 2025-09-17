@@ -6,9 +6,10 @@ export const webComponentList: WebComponentBuildConfig[] = [
     path: "./lib/jb-modal.ts",
     outputPath: "./dist/jb-modal.js",
     umdName: "JBModal",
-    external:["jb-core"],
+    external:["jb-core", "jb-core/theme"],
     globals:{
-      "jb-core":"JBCore"
+      "jb-core":"JBCore",
+      "jb-core/theme":"JBCoreTheme"
     }
   },
 ];
