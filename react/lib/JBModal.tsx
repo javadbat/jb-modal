@@ -53,9 +53,7 @@ export const JBModal = React.forwardRef((props:Props, ref) => {
   useEvents(element, props);
   return (
     <jb-modal ref={element} class={props.className ? props.className : ''}>
-      <div slot="content">
         {props.children}
-      </div>
     </jb-modal>
   );
 });

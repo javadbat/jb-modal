@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { JBModal, Props } from 'jb-modal/react';
-import { type JBModalEventType } from 'jb-modal';
+import { JBModal, type Props } from 'jb-modal/react';
+import type { JBModalEventType } from 'jb-modal';
 import { JBButton } from 'jb-button/react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -18,7 +18,18 @@ type Story = StoryObj<typeof JBModal>;
 export const Normal: Story = {
   args: {
     isOpen: true,
-    children: <div className='modal-test-content'>Hello World</div>,
+    children: <div >Hello World</div>,
+  }
+};
+export const WithHeaderAndFooter: Story = {
+  render:()=>{
+    return(
+      <JBModal isOpen={true}>
+        <div slot="content">Here we put content of the modal, mostly we put some information here to show to the user</div>
+        <div slot="header"><div>Title of Header</div> <div>X</div></div>
+        <div slot="footer"><JBButton color='light'>Cancel</JBButton><JBButton>Submit</JBButton></div>
+      </JBModal>
+    )
   }
 };
 
@@ -79,7 +90,7 @@ export const CloseDetail: Story = {
               </ul>
             </p>
             <p>to simulate the first one you just have to click on modal background and you can see developer tools console that shows `BACKGROUND_CLICK`</p>
-            <p>to experience the second scenario with back button since we are in storybook and storybook load stories in a `iframe` tag you should open story in <a target='_blank' href='./iframe.html?globals=&id=components-jbmodal--close-detail&viewMode=story'>isolated mode</a> then hit back button</p>
+            <p>to experience the second scenario with back button since we are in storybook and storybook load stories in a `iframe` tag you should open story in <a rel="noopener" target='_blank' href='./iframe.html?globals=&id=components-jbmodal--close-detail&viewMode=story'>isolated mode</a> then hit back button</p>
             <q>back button scenario only works if your modal has an `id` attribute</q>
             <JBButton onClick={() => { setIsOpen(false); }}>Close Modal</JBButton>
           </div>

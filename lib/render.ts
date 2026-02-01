@@ -4,7 +4,9 @@ export function renderHTML(): string {
     <div class="modal-background"></div>
     <div class="modal-content-wrapper">
         <div class="modal-content">
-            <slot name="content"></slot>
+            <slot name="header"></slot>
+            <slot name="content"><slot></slot></slot>
+            <slot name="footer"></slot>
         </div>
     </div>
   </div>

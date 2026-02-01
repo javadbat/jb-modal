@@ -1,17 +1,21 @@
 # jb-modal
+
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/jb-modal)
 [![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://raw.githubusercontent.com/javadbat/jb-modal/main/LICENSE)
-[![NPM Downloads](https://img.shields.io/npm/dw/jb-modal)](https://www.npmjs.com/package/jb-modal)
+[![NPM Version](https://img.shields.io/npm/v/jb-modal)](https://www.npmjs.com/package/jb-modal)
+![GitHub Created At](https://img.shields.io/github/created-at/javadbat/jb-modal)
 
 modal web component with features:
 
-- framework free so you can use it anywhere
-- customizable content & style
-- support typescript
-- auto close on background click
-- you can add custom route history in browser
-- back button handler to just close the modal instead of real back
-- keep modal open in case of page refresh (by just provide an id)
+- Responsive, open as Bottom-sheet in mobile device.
+- Framework free so you can use it anywhere.
+- Customizable content & style.
+- Pre-styled header and footer. 
+- Support typescript.
+- Auto close on background click.
+- You can add custom route history in browser.
+- Back button handler to just close the modal instead of real back.
+- Keep modal open in case of page refresh (by just provide an id).
 
 ## Demo
 
@@ -29,9 +33,16 @@ npm i jb-modal
 ```
 
 ## usage
+
 ```html
 <jb-modal is-open="true">
+    <div>modal content</div>
+</jb-modal>
+<!-- OR -->
+<jb-modal is-open="true">
+    <div slot="header">modal header</div>
     <div slot="content">modal content</div>
+    <div slot="footer">modal footer</div>
 </jb-modal>
 ```
 ## auto close on background click

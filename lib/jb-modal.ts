@@ -1,7 +1,7 @@
 import CSS from "./jb-modal.css";
 import VariablesCSS from "./variables.css";
 import { renderHTML } from "./render";
-import { ElementsObject } from "./types.js";
+import type { ElementsObject } from "./types.js";
 import {registerDefaultVariables} from "jb-core/theme";
 export * from "./types.js";
 
@@ -34,6 +34,9 @@ export class JBModalWebComponent extends HTMLElement {
     this.initProp();
     this.callOnInitEvent();
   }
+  disconnectedCallback(){
+    window.removeEventListener("popstate", this.#onBrowserBack);
+  }
   callOnLoadEvent() {
     const event = new CustomEvent("load", { bubbles: true, composed: true });
     this.dispatchEvent(event);
@@ -50,7 +53,7 @@ export class JBModalWebComponent extends HTMLElement {
     //indicate that this component is a modal
     this.#internals.ariaModal = "true";
     registerDefaultVariables();
-    const html = `<style>${CSS} ${VariablesCSS}</style>` + "\n" + renderHTML();
+    const html = `<style>${CSS} ${VariablesCSS}</style>\n${renderHTML()}`;
     const element = document.createElement("template");
     element.innerHTML = html;
     shadowRoot.appendChild(element.content.cloneNode(true));
@@ -64,8 +67,8 @@ export class JBModalWebComponent extends HTMLElement {
       "click",
       this.onBackgroundClick.bind(this)
     );
-    //TODO: remove listener on component unmount
-    window.addEventListener("popstate", this.#onBrowserBack.bind(this));
+    //will remove listener on component unmount
+    window.addEventListener("popstate", this.#onBrowserBack);
   }
   initProp() {
     this.registerEventListener();
@@ -86,7 +89,7 @@ export class JBModalWebComponent extends HTMLElement {
   static get observedAttributes() {
     return ["is-open", "id"];
   }
-  attributeChangedCallback(name:string, oldValue:string, newValue:string) {
+  attributeChangedCallback(name:string, _oldValue:string, newValue:string) {
     // do something when an attribute has changed
     this.onAttributeChange(name, newValue);
   }
@@ -151,7 +154,8 @@ export class JBModalWebComponent extends HTMLElement {
       }
     }
   }
-  #onBrowserBack() {
+  //because we have removeEventListener we cant use bind and we Declare it with arrow function
+  #onBrowserBack = ()=>{
     if (this.isOpen) {
       this.dispatchCloseEvent("HISTORY_BACK_EVENT");
       if (this.config.autoCloseOnBackgroundClick) {

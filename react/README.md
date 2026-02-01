@@ -1,15 +1,22 @@
 # JBModal
 
-a react component modal that open different in mobile and desktop
+React component modal
 this component is React.js wrapper for [jb-modal](https://www.npmjs.com/package/jb-modal) web component.
 
-- open like bottomsheet in mobile and open in center position in desktop
+- Responsive, open as Bottom-sheet in mobile device.
+- Framework free so you can use it anywhere.
+- Customizable content & style.
+- Pre-styled header and footer. 
+- Support typescript.
+- Auto close on background click.
+- You can add custom route history in browser.
+- Back button handler to just close the modal instead of real back.
+- Keep modal open in case of page refresh (by just provide an id).
 
-- customizable layout with css variable
+## Demo
 
-- support typescript
-
-- support custom url to adapt "back to close" on android and "auto open modal on refresh"
+- [github pages](https://javadbat.github.io/jb-modal)    
+- [storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
 
 ## installation 
 
@@ -60,11 +67,11 @@ you can set a specific id for each one of your modals,this way when the modal is
 when you set id modal will add `#your-id` to the url when open so when you refresh the page, modal will open automatically.
 
 ``` jsx
-    <JBModal id={MYMODAL}></JBModal>
+    <JBModal id={MyModal}></JBModal>
 ```
 
 - onUrlOpen
-when the react copmonent first renders the default state of isModalOpen is false.
+when the react component first renders the default state of isModalOpen is false.
 when the url contains the id of the modal the function passed to onUrlOpen will update the react state and set the isModalOpen state to true.
 example: 
 

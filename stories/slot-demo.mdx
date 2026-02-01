@@ -1,0 +1,17 @@
+import {Meta, Title, Story, Controls, Stories, Source} from '@storybook/blocks';
+import * as ModalStories from './JBModal.stories';
+
+<Meta title="Components/JBModal/Slot Demo"/>
+
+<Title>Slot Demo</Title>
+
+JB Modal trying to be simple as possible and not dictate any design to the component user.
+you can easily show any content by just put it inside the input
+
+```html
+<jb-input>hello world</jb-input>
+```
+but you can also separate header and footer segment like this:
+
+<Story of={ModalStories.WithHeaderAndFooter} inline={false} height="30rem"/>
+<Source of={ModalStories.WithHeaderAndFooter}/>
