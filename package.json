@@ -18,6 +18,7 @@
   ],
   "version": "1.10.0",
   "bugs": "https://github.com/javadbat/jb-modal/issues",
+  "homepage": "https://javadbat.github.io/design-system/?path=/docs/components-jbmodal",
   "license": "MIT",
   "files": [
     "LICENSE",
