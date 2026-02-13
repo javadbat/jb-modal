@@ -2,8 +2,8 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import 'jb-modal';
 // eslint-disable-next-line no-duplicate-imports
-import { JBModalWebComponent } from 'jb-modal';
-import { useEvents, EventProps } from './events-hook.js';
+import type { JBModalWebComponent } from 'jb-modal';
+import { useEvents, type EventProps } from './events-hook.js';
 
 export type Props = EventProps & React.PropsWithChildren<{
     className?:string,

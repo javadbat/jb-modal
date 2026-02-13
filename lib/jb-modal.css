@@ -1,4 +1,5 @@
 @custom-media --tablet-until (max-width: 768px);
+@custom-media --tablet-from (min-width: 769px);
 
 .jb-modal-web-component {
     position: fixed;
@@ -55,31 +56,38 @@
         align-items: center;
         justify-content: center;
         pointer-events: none;
-
         @media(--tablet-until) {
             bottom: 0;
             top: initial;
             align-items: flex-end;
         }
-
+        
         .modal-content {
             pointer-events: all;
             width: auto;
             height: auto;
             background-color: var(--bg-color);
             border-radius: var(--border-radius);
-
+            max-width: calc(100% - 2rem);
+            max-height: calc(100dvh - 4rem);
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: max-content minmax(0,1fr) max-content;
+            grid-template-areas: "header" "content" "footer";
+            overflow: hidden;
             @media(--tablet-until) {
                 width: 100%;
                 height: auto;
-                max-height: calc(100% - 80px);
-                min-height: 32px;
+                max-height: calc(100% - 5rem);
+                max-width: 100%;
+                min-height: 2rem;
                 border-radius: var(--border-radius) var(--border-radius) 0 0;
                 overflow-y: auto;
             }
         }
 
         slot[name="header"]::slotted(*) {
+            grid-area: header;
             font-weight: 700;
             padding: 1rem;
             display: flex;
@@ -91,10 +99,14 @@
 
         slot[name="content"]::slotted(*),
         slot:not([name])::slotted(*) {
+            grid-area: content;
             padding: 1rem;
+            max-height: 100%;
+            overflow: auto;
         }
 
         slot[name="footer"]::slotted(*) {
+            grid-area: footer;
             display: flex;
             gap: 0.5rem;
             padding: 1rem;

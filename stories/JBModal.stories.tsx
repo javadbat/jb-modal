@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { JBModal, type Props } from 'jb-modal/react';
 import type { JBModalEventType } from 'jb-modal';
 import { JBButton } from 'jb-button/react';
 import type { Meta, StoryObj } from '@storybook/react';
-
+import { faker } from '@faker-js/faker';
 import "./styles/styles.css";
-import type { } from '../dist/jb-modal';
+import {JBCheckbox} from 'jb-checkbox/react'
 
 const meta: Meta<Props> = {
   title: "Components/JBModal",
@@ -22,8 +22,8 @@ export const Normal: Story = {
   }
 };
 export const WithHeaderAndFooter: Story = {
-  render:()=>{
-    return(
+  render: () => {
+    return (
       <JBModal isOpen={true}>
         <div slot="content">Here we put content of the modal, mostly we put some information here to show to the user</div>
         <div slot="header"><div>Title of Header</div> <div>X</div></div>
@@ -38,6 +38,23 @@ export const WithLargeContent: Story = {
   args: {
     isOpen: true,
     children: <div className='modal-test-content'>{longString}</div>,
+  }
+};
+const users = faker.helpers.multiple(() => ({ name: faker.person.fullName() }), { count: 500 });
+export const WithOverflowY: Story = {
+  args: {
+    isOpen: true,
+    children: <Fragment>
+      <div slot="header">Header</div>
+      <div slot="footer" style={{justifyContent:"start"}}><JBCheckbox label="I Read and Accept All People on the list"></JBCheckbox></div>
+      <div slot='content'>
+        {
+          users.map((u) => {
+            return (<div>{u.name}</div>)
+          })
+        }
+      </div>
+    </Fragment>
   }
 };
 
@@ -60,7 +77,7 @@ export const ActionTest: Story = {
 
 export const MobileView: Story = {
   args: {
-    isOpen:true,
+    isOpen: true,
     children: <div className='modal-test-content'>Mobile View</div>
   },
   parameters: {
