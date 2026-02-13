@@ -1,9 +1,9 @@
 export function renderHTML(): string {
   return /* html */ `
   <div class="jb-modal-web-component --closed">
-    <div class="modal-background"></div>
+    <div class="modal-background" part="background"></div>
     <div class="modal-content-wrapper">
-        <div class="modal-content">
+        <div class="modal-content" part="content-box">
             <slot name="header"></slot>
             <slot name="content"><slot></slot></slot>
             <slot name="footer"></slot>
