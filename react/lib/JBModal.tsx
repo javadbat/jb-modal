@@ -1,61 +1,62 @@
 'use client';
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import 'jb-modal';
 // eslint-disable-next-line no-duplicate-imports
 import type { JBModalWebComponent } from 'jb-modal';
 import { useEvents, type EventProps } from './events-hook.js';
-
-export type Props = EventProps & React.PropsWithChildren<{
-    className?:string,
-    isOpen?: boolean,
-    id?: string,
-}>
-
+import type { JBElementStandardProps } from 'jb-core/react';
 declare module "react" {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace JSX {
-      interface IntrinsicElements {
-        'jb-modal': JBModalType;
-      }
-      interface JBModalType extends React.DetailedHTMLProps<React.HTMLAttributes<JBModalWebComponent>, JBModalWebComponent> {
-        class?:string,
-      }
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace JSX {
+    interface IntrinsicElements {
+      'jb-modal': JBModalType;
     }
+    interface JBModalType extends React.DetailedHTMLProps<React.HTMLAttributes<JBModalWebComponent>, JBModalWebComponent> {
+      class?: string,
+    }
+  }
 }
 
-export const JBModal = React.forwardRef((props:Props, ref) => {
+export const JBModal = React.forwardRef((props: Props, ref) => {
   const element = useRef<JBModalWebComponent>(null);
-  const [refChangeCount, refChangeCountSetter] = useState(0);
+
   useImperativeHandle(
     ref,
-    () => (element ? element.current : {}),
+    () => (element ? element.current : undefined),
     [element],
   );
-  useEffect(() => {
-    refChangeCountSetter(refChangeCount + 1);
-  }, [element.current]);
-  useEffect(() => {
-    if (element.current) {
-      if (props.isOpen == true) {
-        element.current.open();
-      } else {
-        element.current.close();
-      }
-    }
 
-  }, [props.isOpen]);
+  const { isOpen, onClose, onInit, onLoad, onUrlOpen, ...otherProps } = props;
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <we need to react to ref>
+  useEffect(() => {
+
+    if (isOpen == true) {
+      element.current?.open();
+    } else {
+      element.current?.close();
+    }
+  }, [isOpen, element.current]);
+
   useEffect(() => {
     if (element.current) {
       element.current.id = props.id;
     }
   }, [props.id]);
 
-  useEvents(element, props);
+  useEvents(element, { onClose, onInit, onLoad, onUrlOpen });
   return (
-    <jb-modal ref={element} class={props.className ? props.className : ''}>
-        {props.children}
+    <jb-modal ref={element} {...otherProps}>
+      {props.children}
     </jb-modal>
   );
 });
+
+type ModalProps = EventProps & React.PropsWithChildren<{
+  className?: string,
+  isOpen?: boolean,
+  id?: string,
+}>
+export type Props = ModalProps & JBElementStandardProps<JBModalWebComponent, keyof ModalProps>
 
 JBModal.displayName = "JBModal";

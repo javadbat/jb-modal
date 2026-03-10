@@ -1,5 +1,5 @@
 import { useEvent } from "jb-core/react";
-import { RefObject } from "react";
+import type { RefObject } from "react";
 import type {JBModalWebComponent, JBModalEventType} from 'jb-modal';
 
 export type EventProps = {
