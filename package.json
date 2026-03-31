@@ -35,7 +35,7 @@
 		"url": "git@github.com:javadbat/jb-modal.git"
   },
   "dependencies": {
-    "jb-core":">=0.14.0"
+    "jb-core":">=0.25.0"
   }
 
 }

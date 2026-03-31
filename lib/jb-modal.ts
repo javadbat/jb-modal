@@ -48,6 +48,8 @@ export class JBModalWebComponent extends HTMLElement {
   initWebComponent() {
     const shadowRoot = this.attachShadow({
       mode: "open",
+      clonable:true,
+      serializable:true,
     });
     this.#internals = this.attachInternals();
     //indicate that this component is a modal
