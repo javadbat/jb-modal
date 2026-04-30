@@ -7,7 +7,7 @@ export * from "./types.js";
 
 export class JBModalWebComponent extends HTMLElement {
   #isOpen = false;
-  #internals: ElementInternals;
+  #internals!: ElementInternals;
   #id = "";
   elements!: ElementsObject;
   config = {
