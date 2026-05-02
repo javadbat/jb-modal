@@ -17,7 +17,7 @@ export type EventProps = {
    */
   onUrlOpen?: (e: JBModalEventType<CustomEvent>) => void,
 }
-export function useEvents(element:RefObject<JBModalWebComponent>,props:EventProps){
+export function useEvents(element:RefObject<JBModalWebComponent|null>,props:EventProps){
   useEvent(element, 'load', props.onLoad, true);
   useEvent(element, 'init', props.onInit, true);
   useEvent(element, 'close', props.onClose);

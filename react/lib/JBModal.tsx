@@ -12,7 +12,6 @@ declare module "react" {
       'jb-modal': JBModalType;
     }
     interface JBModalType extends React.DetailedHTMLProps<React.HTMLAttributes<JBModalWebComponent>, JBModalWebComponent> {
-      class?: string,
     }
   }
 }
@@ -25,7 +24,7 @@ export const JBModal = React.forwardRef((props: Props, ref) => {
     () => (element ? element.current : undefined),
     [element],
   );
-
+  //id is in other props
   const { isOpen, onClose, onInit, onLoad, onUrlOpen, ...otherProps } = props;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <we need to react to ref>
@@ -38,12 +37,6 @@ export const JBModal = React.forwardRef((props: Props, ref) => {
     }
   }, [isOpen, element.current]);
 
-  useEffect(() => {
-    if (element.current) {
-      element.current.id = props.id;
-    }
-  }, [props.id]);
-
   useEvents(element, { onClose, onInit, onLoad, onUrlOpen });
   return (
     <jb-modal ref={element} {...otherProps}>
@@ -53,9 +46,7 @@ export const JBModal = React.forwardRef((props: Props, ref) => {
 });
 
 type ModalProps = EventProps & React.PropsWithChildren<{
-  className?: string,
   isOpen?: boolean,
-  id?: string,
 }>
 export type Props = ModalProps & JBElementStandardProps<JBModalWebComponent, keyof ModalProps>
 
