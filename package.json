@@ -16,7 +16,7 @@
     "web component",
     "react component"
   ],
-  "version": "1.12.0",
+  "version": "1.12.1",
   "bugs": "https://github.com/javadbat/jb-modal/issues",
   "homepage": "https://javadbat.github.io/design-system/?path=/docs/components-jbmodal",
   "license": "MIT",
@@ -29,6 +29,7 @@
     "react/dist/"
   ],
   "main": "index.js",
+  "module": "index.js",
   "types": "./dist/jb-modal.d.ts",
   "repository": {
 		"type": "git",

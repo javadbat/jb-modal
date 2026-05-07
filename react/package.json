@@ -27,6 +27,7 @@
     "dist/"
   ],
   "main": "index.js",
+  "module": "index.js",
   "types": "./dist/JBModal.d.ts",
   "repository": {
 		"type": "git",
