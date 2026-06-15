@@ -23,8 +23,7 @@ this component is React.js wrapper for [jb-modal](https://www.npmjs.com/package/
 - [github pages](https://javadbat.github.io/jb-modal)    
 - [storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
 
-## installation 
-
+## Installation
 ```sh
     npm i jb-modal
 ```
@@ -87,8 +86,12 @@ example:
 ## customize modal look
 
 you can customize modal look by following css properties
-| css variable name                  | description                                                                                   |
+| CSS variable name                  | description                                                                                   |
 | -------------                      | -------------                                                                                 |
 | --jb-modal-bg-color                | modal background color                                                                        |
 | --jb-modal-back-bg-color           | modal background background color                                                             |
 | --jb-modal-border-radius           | modal border-radius                                                                           |
+
+## Shared Documentation
+
+For web-component behavior, events, slots, and CSS variables, see [`jb-modal`](https://github.com/javadbat/jb-modal).

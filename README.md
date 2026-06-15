@@ -22,17 +22,28 @@ modal web component with features:
 - [github pages](https://javadbat.github.io/jb-modal)    
 - [storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
 
-## using with JS frameworks
-
+## Using With JS Frameworks
 - [<img src="https://img.shields.io/badge/React.js-jb--modal%2Freact-000.svg?logo=react&logoColor=%2361DAFB" height="30" />](https://github.com/javadbat/jb-modal/tree/main/react)
 
-## install
-
+## Installation
 ```sh
 npm i jb-modal
 ```
 
-## usage
+## Usage
+
+## Attributes/Properties
+
+| name | type | description |
+| --- | --- | --- |
+| `is-open` | attribute | Opens the modal from markup. |
+| `open` | property | Opens or closes the modal from JavaScript. |
+| `closeOnBackgroundClick` | property | Allows the modal to close when the backdrop is clicked. |
+| `keepState` | property | Keeps modal content mounted between open and close states. |
+| `close` | event | Fired when the modal closes. |
+| `header` | slot | Header content. |
+| `content` | slot | Main modal content. |
+| `footer` | slot | Footer content. |
 
 ```html
 <jb-modal is-open="true">
@@ -58,8 +69,7 @@ if you want your modal to keep open when user refresh the page or you want captu
 <jb-modal is-open="true" id="Something">
 </jb-modal>
 ```
-## events
-
+## Events
 ```js
 //when web-component load and you can access modal logic
 document.querySelector('jb-modal').addEventListener("load",(e)=>{/*your function*/});
@@ -79,14 +89,14 @@ document.querySelector('jb-modal').addEventListener("close",(e)=>{
 ## customize modal look
 
 you can customize modal look by following css properties
-| css variable name                  | description                                                                                   |
+| CSS variable name                  | description                                                                                   |
 | -------------                      | -------------                                                                                 |
 | --jb-modal-bg-color                | modal content background color default is black `#fff`                                        |
 | --jb-modal-back-bg-color           | modal back background color                                                                   |
 | --jb-modal-border-radius           | modal border-radius default `24px`                                                            |
+| --jb-modal-z-index | Customize z index. |
 
-## Other Related Docs:
-
+## Related Docs
 - see [`jb-modal/react`](https://github.com/javadbat/jb-modal/tree/main/react); if you want to use this component in react
 
 - see [All JB Design system Component List](https://javadbat.github.io/design-system/
