@@ -24,7 +24,7 @@ modal web component with features:
 
 ## using with JS frameworks
 
-to use this component in **react** see [`jb-modal/react`](https://github.com/javadbat/jb-modal/tree/main/react);
+- [<img src="https://img.shields.io/badge/React.js-jb--modal%2Freact-000.svg?logo=react&logoColor=%2361DAFB" height="30" />](https://github.com/javadbat/jb-modal/tree/main/react)
 
 ## install
 
