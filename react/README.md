@@ -1,5 +1,10 @@
 # JBModal
 
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/jb-modal)
+[![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://raw.githubusercontent.com/javadbat/jb-modal/main/LICENSE)
+[![NPM Version](https://img.shields.io/npm/v/jb-modal-react)](https://www.npmjs.com/package/jb-modal-react)
+![GitHub Created At](https://img.shields.io/github/created-at/javadbat/jb-modal)
+
 React component modal
 this component is React.js wrapper for [jb-modal](https://www.npmjs.com/package/jb-modal) web component.
 
