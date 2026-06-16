@@ -5,100 +5,207 @@
 [![NPM Version](https://img.shields.io/npm/v/jb-modal)](https://www.npmjs.com/package/jb-modal)
 ![GitHub Created At](https://img.shields.io/github/created-at/javadbat/jb-modal)
 
-modal web component with features:
+Responsive modal web component.
 
-- Responsive, open as Bottom-sheet in mobile device.
-- Framework free so you can use it anywhere.
-- Customizable content & style.
-- Pre-styled header and footer. 
-- Support typescript.
-- Auto close on background click.
-- You can add custom route history in browser.
-- Back button handler to just close the modal instead of real back.
-- Keep modal open in case of page refresh (by just provide an id).
+Benefits:
+
+- Responsive, opens as a centered dialog on desktop and a bottom sheet on mobile devices.
+- Framework free, so you can use it anywhere.
+- Customizable content and style.
+- Pre-styled header and footer slots.
+- TypeScript support.
+- Optional auto close on background click.
+- Optional route history with browser back handling.
+- Keeps modal open after page refresh when you provide an `id`.
+
+## When to use
+
+Use `jb-modal` for temporary blocking UI such as confirmations, forms, detail views, and mobile bottom sheets.
+
+Use an inline panel or page route when the content should remain part of the normal document flow or needs a shareable full-page URL.
 
 ## Demo
 
-- [github pages](https://javadbat.github.io/jb-modal)    
-- [storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
+- [GitHub Pages](https://javadbat.github.io/jb-modal)
+- [Storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
 
 ## Using With JS Frameworks
+
 - [<img src="https://img.shields.io/badge/React.js-jb--modal%2Freact-000.svg?logo=react&logoColor=%2361DAFB" height="30" />](https://github.com/javadbat/jb-modal/tree/main/react)
 
 ## Installation
+
 ```sh
 npm i jb-modal
 ```
 
-## Usage
+```js
+import 'jb-modal';
+```
 
-## Attributes/Properties
+```html
+<jb-modal>
+  <div>Modal content</div>
+</jb-modal>
+```
 
-| name | type | description |
+## API reference
+
+### Attributes
+
+| name | type | default | description |
+| --- | --- | --- | --- |
+| `is-open` | `boolean` | `false` | Opens the modal when set to `"true"`. Any other value closes it. |
+| `id` | `string` | `""` | Modal id used for URL hash state. |
+
+### Properties
+
+| name | type | readonly | description |
+| --- | --- | --- | --- |
+| `isOpen` | `boolean` | yes | Current `isOpen` state. |
+| `id` | `string` | no | Modal id used for URL hash state. |
+| `config` | `{ autoCloseOnBackgroundClick: boolean }` | no | Runtime configuration. |
+
+### Methods
+
+| name | returns | description |
 | --- | --- | --- |
-| `is-open` | attribute | Opens the modal from markup. |
-| `open` | property | Opens or closes the modal from JavaScript. |
-| `closeOnBackgroundClick` | property | Allows the modal to close when the backdrop is clicked. |
-| `keepState` | property | Keeps modal content mounted between open and close states. |
-| `close` | event | Fired when the modal closes. |
-| `header` | slot | Header content. |
-| `content` | slot | Main modal content. |
-| `footer` | slot | Footer content. |
+| `open()` | `void` | Opens the modal, sets `ariaHidden` to `false`, and pushes `#id` to browser history when `id` is set. |
+| `close()` | `void` | Closes the modal, sets `ariaHidden` to `true`, and navigates back when the current URL hash matches the modal id. |
+
+### Events
+
+| event | detail | description |
+| --- | --- | --- |
+| `load` | none | Dispatched from `connectedCallback` before initialization. |
+| `init` | none | Dispatched from `connectedCallback` after initialization. |
+| `urlOpen` | none | Dispatched when the modal opens itself because the current URL hash matches its id. |
+| `close` | `{ eventType }` | Dispatched for background click and browser-back close attempts. |
+
+`close` event `event.detail.eventType` can be:
+
+| value | meaning |
+| --- | --- |
+| `BACKGROUND_CLICK` | The backdrop was clicked. |
+| `HISTORY_BACK_EVENT` | Browser back/popstate was received while the modal was open. |
+| `CLOSE_BUTTON_CLICK` | Reserved close type for close button flows. |
+
+## isOpen and close
+
+```js
+const modal = document.querySelector('jb-modal');
+
+modal.open();
+modal.close();
+console.log(modal.isOpen);
+```
 
 ```html
 <jb-modal is-open="true">
-    <div>modal content</div>
-</jb-modal>
-<!-- OR -->
-<jb-modal is-open="true">
-    <div slot="header">modal header</div>
-    <div slot="content">modal content</div>
-    <div slot="footer">modal footer</div>
+  <div>Modal content</div>
 </jb-modal>
 ```
-## auto close on background click
-```js
-document.querySelector('jb-modal').config.autoCloseOnBackgroundClick = true;
-```
 
-## keep modal state
+## Slots
 
-if you want your modal to keep open when user refresh the page or you want capture back button in mobile when modal is open you just need to provide an `id` attribute.
+Use the default slot for simple content or named slots for structured modal sections.
 
 ```html
-<jb-modal is-open="true" id="Something">
+<jb-modal>
+  <div slot="header">Modal header</div>
+  <div slot="content">Modal content</div>
+  <div slot="footer">
+    <jb-button>Done</jb-button>
+  </div>
 </jb-modal>
 ```
-## Events
+
+| slot | description |
+| --- | --- |
+| default | Modal content rendered as the fallback of the `content` slot. |
+| `header` | Header area at the top of the content box. |
+| `content` | Main scrollable modal content area. |
+| `footer` | Footer area at the bottom of the content box. |
+
+## Background click
+
+The component always dispatches `close` with `eventType: "BACKGROUND_CLICK"` when the backdrop is clicked. It only closes automatically when `config.autoCloseOnBackgroundClick` is `true`.
+
 ```js
-//when web-component load and you can access modal logic
-document.querySelector('jb-modal').addEventListener("load",(e)=>{/*your function*/});
-// when modal load and initiated completely 
-document.querySelector('jb-modal').addEventListener("init",(e)=>{/*your function*/});
-// when page refresh and modal open by default because of url 
-document.querySelector('jb-modal').addEventListener("urlOpen",(e)=>{/*your function*/});
-// when modal closed
-document.querySelector('jb-modal').addEventListener("close",(e)=>{
-    // could be "BACKGROUND_CLICK"  "HISTORY_BACK_EVENT" "CLOSE_BUTTON_CLICK"
-    const closeType = e.detail.eventType 
-    /*your function*/
+const modal = document.querySelector('jb-modal');
+
+modal.config.autoCloseOnBackgroundClick = true;
+
+modal.addEventListener('close', (event) => {
+  if (event.detail.eventType === 'BACKGROUND_CLICK') {
+    console.log('Backdrop clicked');
+  }
 });
-
 ```
 
-## customize modal look
+## URL hash state
 
-you can customize modal look by following css properties
-| CSS variable name                  | description                                                                                   |
-| -------------                      | -------------                                                                                 |
-| --jb-modal-bg-color                | modal content background color default is black `#fff`                                        |
-| --jb-modal-back-bg-color           | modal back background color                                                                   |
-| --jb-modal-border-radius           | modal border-radius default `24px`                                                            |
-| --jb-modal-z-index | Customize z index. |
+Set `id` when the modal should update the URL hash while `isOpen` is true. When `open()` runs, the modal pushes `#id` to browser history. If the page loads with the same hash, the modal opens itself and dispatches `urlOpen`.
+
+```html
+<jb-modal id="profile-modal">
+  <div slot="content">Profile</div>
+</jb-modal>
+```
+
+```js
+const modal = document.querySelector('#profile-modal');
+
+modal.addEventListener('urlOpen', () => {
+  console.log('Opened from URL hash');
+});
+```
+
+Browser back dispatches a `close` event with `eventType: "HISTORY_BACK_EVENT"`. In the current implementation, browser-back auto close uses the same `config.autoCloseOnBackgroundClick` flag.
+
+## CSS parts and custom style
+
+| part | description |
+| --- | --- |
+| `background` | The modal backdrop/background. |
+| `content-box` | The modal content box that contains header, content, and footer slots. |
+
+| CSS variable name | description |
+| --- | --- |
+| `--jb-modal-bg-color` | Modal content background color. |
+| `--jb-modal-back-bg-color` | Modal backdrop background color. |
+| `--jb-modal-border-radius` | Modal content border radius. |
+| `--jb-modal-z-index` | Modal z-index. |
+
+```css
+jb-modal::part(content-box) {
+  min-width: 320px;
+}
+
+jb-modal {
+  --jb-modal-border-radius: 16px;
+  --jb-modal-z-index: 1000;
+}
+```
+
+## Accessibility notes
+
+- The component attaches `ElementInternals` and sets `ariaModal` to `true`.
+- `ariaHidden` is set to `false` when opened and `true` when closed.
 
 ## Related Docs
-- see [`jb-modal/react`](https://github.com/javadbat/jb-modal/tree/main/react); if you want to use this component in react
 
-- see [All JB Design system Component List](https://javadbat.github.io/design-system/
+- See [`jb-modal/react`](https://github.com/javadbat/jb-modal/tree/main/react) if you want to use this component in React.
+- See [All JB Design System Component List](https://javadbat.github.io/design-system/) for more components.
+- Use [Contribution Guide](https://github.com/javadbat/design-system/blob/main/docs/contribution-guide.md) if you want to contribute to this component.
 
-- use [Contribution Guide](https://github.com/javadbat/design-system/blob/main/docs/contribution-guide.md) if you want to contribute in this component.
+## AI agent notes
+
+- Import `jb-modal` once before using `<jb-modal>`.
+- Use `open()` and `close()` for imperative control; there is no public `open` property setter.
+- Use `is-open="true"` only for initial `isOpen` markup state.
+- Use `config.autoCloseOnBackgroundClick = true` when backdrop clicks should close the modal.
+- Listen to `close` and inspect `event.detail.eventType` to know why close was requested.
+- Use `id` only when URL hash/history integration is desired.
+- This package includes [`custom-elements.json`](./custom-elements.json) and points to it with the package.json `customElements` field. The field is documented by the Custom Elements Manifest project in [Referencing manifests from npm packages](https://github.com/webcomponents/custom-elements-manifest#referencing-manifests-from-npm-packages).
+- In `custom-elements.json`, `exports.kind: "js"` describes JavaScript/TypeScript exports and `exports.kind: "custom-element-definition"` maps the `jb-modal` tag name to `JBModalWebComponent`.

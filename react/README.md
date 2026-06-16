@@ -5,93 +5,131 @@
 [![NPM Version](https://img.shields.io/npm/v/jb-modal-react)](https://www.npmjs.com/package/jb-modal-react)
 ![GitHub Created At](https://img.shields.io/github/created-at/javadbat/jb-modal)
 
-React component modal
-this component is React.js wrapper for [jb-modal](https://www.npmjs.com/package/jb-modal) web component.
-
-- Responsive, open as Bottom-sheet in mobile device.
-- Framework free so you can use it anywhere.
-- Customizable content & style.
-- Pre-styled header and footer. 
-- Support typescript.
-- Auto close on background click.
-- You can add custom route history in browser.
-- Back button handler to just close the modal instead of real back.
-- Keep modal open in case of page refresh (by just provide an id).
+React wrapper for [`jb-modal`](https://www.npmjs.com/package/jb-modal).
 
 ## Demo
 
-- [github pages](https://javadbat.github.io/jb-modal)    
-- [storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
+- [GitHub Pages](https://javadbat.github.io/jb-modal)
+- [Storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
 
 ## Installation
+
 ```sh
-    npm i jb-modal
+npm i jb-modal
 ```
-
-in your jsx file
-
-```js
-    import {JBModal} from 'jb-modal/react'
-```
-``` jsx
-    <JBModal></JBModal>
-```
-
-## use
-
-you can place your modal content in ` <JBModal></JBModal>` like:
-```jsx
-    <JBModal>
-        <div>
-            <p>this is the modal content<p>
-        </div>
-    </JBModal>
- ```
-
- ### props
-- onClose
-you can pass a function to onClose props so that when a user click outside of the modal, the modal closes.
-
-``` jsx
-    const [isOpen, setIsOpen] = useState(false);
-    <JBModal onClose={() => setIsOpen(false)}></JBModal>
-
-```
-
-- isOpen
-you can pass true or false to this props,this way the modal will be open based on the isOpen props.
-
-``` jsx
-    <JBModal isOpen={isOpen}></JBModal>
-    // the modal is open
-```
-
-- id
-you can set a specific id for each one of your modals,this way when the modal is open the id of the modal will be in your url.    
-when you set id modal will add `#your-id` to the url when open so when you refresh the page, modal will open automatically.
-
-``` jsx
-    <JBModal id={MyModal}></JBModal>
-```
-
-- onUrlOpen
-when the react component first renders the default state of isModalOpen is false.
-when the url contains the id of the modal the function passed to onUrlOpen will update the react state and set the isModalOpen state to true.
-example: 
 
 ```jsx
-    [isModalOpen, setOpen] = useState(false);
-    <JBModal onUrlOpen={() => setOpen(true)}></JBModal>
-```
-## customize modal look
+import { JBModal } from 'jb-modal/react';
 
-you can customize modal look by following css properties
-| CSS variable name                  | description                                                                                   |
-| -------------                      | -------------                                                                                 |
-| --jb-modal-bg-color                | modal background color                                                                        |
-| --jb-modal-back-bg-color           | modal background background color                                                             |
-| --jb-modal-border-radius           | modal border-radius                                                                           |
+<JBModal>Modal content</JBModal>
+```
+
+## When to use
+
+Use `JBModal` for temporary blocking UI such as confirmations, forms, detail views, and mobile bottom sheets in React.
+
+## Props
+
+| prop | type | description |
+| --- | --- | --- |
+| `isOpen` | `boolean` | Opens or closes the modal by calling the underlying `open()`/`close()` methods. |
+| `id` | `string` | Modal id used for URL hash state. Forwarded to the web component. |
+| `onClose` | `(event) => void` | Fired for background click and browser-back close attempts. Read `event.detail.eventType`. |
+| `onUrlOpen` | `(event) => void` | Fired when the modal opens itself because the current URL hash matches its id. |
+| `onLoad` | `(event) => void` | Fired before initialization. |
+| `onInit` | `(event) => void` | Fired after initialization. |
+
+## Controlled isOpen state
+
+```jsx
+const [isOpen, setIsOpen] = useState(false);
+
+<JBModal
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+>
+  <div slot="content">Modal content</div>
+</JBModal>
+```
+
+The web component dispatches `close` when the user clicks the background or triggers browser back while `isOpen` is true. Keep React state in sync in `onClose`.
+
+## Slots
+
+```jsx
+<JBModal isOpen={isOpen}>
+  <div slot="header">Modal header</div>
+  <div slot="content">Modal content</div>
+  <div slot="footer">
+    <button onClick={() => setIsOpen(false)}>Close</button>
+  </div>
+</JBModal>
+```
+
+## URL hash state
+
+Set `id` when the modal should update the URL hash while `isOpen` is true. Use `onUrlOpen` to sync React state when the page loads with the modal hash.
+
+```jsx
+const [isModalOpen, setModalOpen] = useState(false);
+
+<JBModal
+  id="profile-modal"
+  isOpen={isModalOpen}
+  onUrlOpen={() => setModalOpen(true)}
+  onClose={() => setModalOpen(false)}
+>
+  <div slot="content">Profile</div>
+</JBModal>
+```
+
+## Imperative access
+
+```jsx
+const modalRef = useRef(null);
+
+<JBModal ref={modalRef}>
+  <div slot="content">Modal content</div>
+</JBModal>;
+
+modalRef.current?.open();
+modalRef.current?.close();
+```
+
+## Custom style
+
+The React component uses the same CSS variables and parts as the web component.
+
+| CSS variable name | description |
+| --- | --- |
+| `--jb-modal-bg-color` | Modal content background color. |
+| `--jb-modal-back-bg-color` | Modal backdrop background color. |
+| `--jb-modal-border-radius` | Modal content border radius. |
+| `--jb-modal-z-index` | Modal z-index. |
+
+```css
+.profile-modal::part(content-box) {
+  min-width: 320px;
+}
+
+.profile-modal {
+  --jb-modal-border-radius: 16px;
+}
+```
+
+```jsx
+<JBModal className="profile-modal" />
+```
 
 ## Shared Documentation
 
-For web-component behavior, events, slots, and CSS variables, see [`jb-modal`](https://github.com/javadbat/jb-modal).
+For web-component behavior, events, slots, CSS parts, URL hash behavior, and the full API, see [`jb-modal`](https://github.com/javadbat/jb-modal).
+
+## AI agent notes
+
+- Import `JBModal` from `jb-modal/react`; the wrapper imports and registers the underlying `jb-modal` web component.
+- Use `isOpen` as the controlled React state and update it in `onClose`.
+- Use `onUrlOpen` to sync state when the modal opens from a URL hash.
+- Use `ref.current.open()` and `ref.current.close()` only for imperative workflows.
+- Use `slot="header"`, `slot="content"`, and `slot="footer"` for structured modal content.
+- The web component does not currently implement focus trapping or Escape-key close behavior.

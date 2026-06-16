@@ -11,6 +11,7 @@
     "jb-modal",
     "dialog",
     "modal",
+    "responsive",
     "modal window",
     "pop up",
     "web component",
@@ -23,6 +24,7 @@
   "files": [
     "LICENSE",
     "README.md",
+    "custom-elements.json",
     "lib/",
     "dist/",
     "react/",
@@ -31,6 +33,7 @@
   "main": "index.js",
   "module": "index.js",
   "types": "./dist/jb-modal.d.ts",
+  "customElements": "custom-elements.json",
   "repository": {
 		"type": "git",
 		"url": "git@github.com:javadbat/jb-modal.git"

@@ -54,6 +54,7 @@ export class JBModalWebComponent extends HTMLElement {
     this.#internals = this.attachInternals();
     //indicate that this component is a modal
     this.#internals.ariaModal = "true";
+    // TODO: add focus trapping and Escape-key close behavior for modal accessibility.
     registerDefaultVariables();
     const html = `<style>${CSS} ${VariablesCSS}</style>\n${renderHTML()}`;
     const element = document.createElement("template");

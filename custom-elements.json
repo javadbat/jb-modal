@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "README.md",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "lib/jb-modal.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Responsive modal web component with desktop centered dialog, mobile bottom-sheet layout, header/content/footer slots, URL hash state, background-click close event, and browser-back handling.",
+          "name": "JBModalWebComponent",
+          "tagName": "jb-modal",
+          "customElement": true,
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "attributes": [
+            {
+              "name": "is-open",
+              "description": "Opens the modal when set to \"true\". Any other value closes it.",
+              "type": {
+                "text": "boolean"
+              }
+            },
+            {
+              "name": "id",
+              "description": "Modal id used for URL hash state. When isOpen is true, the modal pushes #id to browser history; when the page loads with #id, the modal opens itself.",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "description": "Read-only current isOpen state.",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "description": "Modal id used for URL hash state.",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "config",
+              "description": "Runtime configuration. Set config.autoCloseOnBackgroundClick to true to close on backdrop click and history back.",
+              "type": {
+                "text": "{ autoCloseOnBackgroundClick: boolean }"
+              }
+            }
+          ],
+          "methods": [
+            {
+              "name": "open",
+              "description": "Opens the modal, sets ariaHidden to false, and pushes #id to browser history when id is set."
+            },
+            {
+              "name": "close",
+              "description": "Closes the modal, sets ariaHidden to true, and navigates back when the current URL hash matches the modal id."
+            }
+          ],
+          "events": [
+            {
+              "name": "load",
+              "description": "Dispatched from connectedCallback before initProp."
+            },
+            {
+              "name": "init",
+              "description": "Dispatched from connectedCallback after initProp."
+            },
+            {
+              "name": "urlOpen",
+              "description": "Dispatched when the modal opens itself because the current URL hash matches its id."
+            },
+            {
+              "name": "close",
+              "description": "Dispatched for background click and browser back close attempts. event.detail.eventType can be BACKGROUND_CLICK, HISTORY_BACK_EVENT, or CLOSE_BUTTON_CLICK."
+            }
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "Default modal content. Rendered inside the content slot fallback."
+            },
+            {
+              "name": "header",
+              "description": "Header area at the top of the modal content box."
+            },
+            {
+              "name": "content",
+              "description": "Main scrollable modal content area."
+            },
+            {
+              "name": "footer",
+              "description": "Footer area at the bottom of the modal content box."
+            }
+          ],
+          "cssParts": [
+            {
+              "name": "background",
+              "description": "The modal backdrop/background."
+            },
+            {
+              "name": "content-box",
+              "description": "The modal content box that contains header, content, and footer slots."
+            }
+          ],
+          "cssProperties": [
+            {
+              "name": "--jb-modal-bg-color",
+              "description": "Modal content background color."
+            },
+            {
+              "name": "--jb-modal-back-bg-color",
+              "description": "Modal backdrop background color."
+            },
+            {
+              "name": "--jb-modal-border-radius",
+              "description": "Modal content border radius."
+            },
+            {
+              "name": "--jb-modal-z-index",
+              "description": "Modal z-index."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "JBModalWebComponent",
+          "declaration": {
+            "name": "JBModalWebComponent",
+            "module": "lib/jb-modal.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "jb-modal",
+          "declaration": {
+            "name": "JBModalWebComponent",
+            "module": "lib/jb-modal.ts"
+          }
+        }
+      ]
+    }
+  ]
+}
