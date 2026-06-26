@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { JBModal } from 'jb-modal/react';
-import type { JBModalEventType } from 'jb-modal';
+import type { JBModalEventType, JBModalWebComponent } from 'jb-modal';
 import { JBButton } from 'jb-button/react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { faker } from '@faker-js/faker';
@@ -110,6 +110,69 @@ export const CloseDetail: Story = {
             <p>to experience the second scenario with back button since we are in storybook and storybook load stories in a `iframe` tag you should open story in <a rel="noopener" target='_blank' href='./iframe.html?globals=&id=components-jbmodal--close-detail&viewMode=story'>isolated mode</a> then hit back button</p>
             <q>back button scenario only works if your modal has an `id` attribute</q>
             <JBButton onClick={() => { setIsOpen(false); }}>Close Modal</JBButton>
+          </div>
+        </JBModal>
+      </div>
+    )
+  }
+};
+
+export const HashIdAndAutoClose: Story = {
+  render: () => {
+    const modalRef = useRef<JBModalWebComponent>(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [autoClose, setAutoClose] = useState(true);
+    const [lastEvent, setLastEvent] = useState("No close event yet");
+    const [currentHash, setCurrentHash] = useState(window.location.hash || "(empty)");
+    const modalId = "HashLinkedModal";
+
+    useEffect(() => {
+      if (modalRef.current) {
+        modalRef.current.config.autoCloseOnBackgroundClick = autoClose;
+      }
+    }, [autoClose]);
+
+    const onModalClose = (e: JBModalEventType<CustomEvent>) => {
+      const eventType = e.detail.eventType;
+      setLastEvent(eventType);
+      window.setTimeout(() => setCurrentHash(window.location.hash || "(empty)"));
+      if (autoClose) {
+        setIsOpen(false);
+      }
+    };
+
+    const openModal = () => {
+      setIsOpen(true);
+      window.setTimeout(() => setCurrentHash(window.location.hash || "(empty)"));
+    };
+
+    return (
+      <div className='button-wrapper' style={{ alignItems: 'flex-start' }}>
+        <JBButton color='light' onClick={openModal}>Open modal and push #HashLinkedModal</JBButton>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <input
+            type="checkbox"
+            checked={autoClose}
+            onChange={(event) => setAutoClose(event.currentTarget.checked)}
+          />
+          autoCloseOnBackgroundClick
+        </label>
+        <a href={`./iframe.html?globals=&id=components-jbmodal--hash-id-and-auto-close&viewMode=story#${modalId}`} target="_blank" rel="noopener">Open isolated story with #HashLinkedModal</a>
+        <div>Current hash: {currentHash}</div>
+        <div>Last close event: {lastEvent}</div>
+        <JBModal
+          ref={modalRef}
+          id={modalId}
+          isOpen={isOpen}
+          onUrlOpen={() => setIsOpen(true)}
+          onClose={onModalClose}
+        >
+          <div className='modal-test-content' style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+            <h3>Hash linked modal</h3>
+            <p>Opening this modal writes <code>#HashLinkedModal</code> to the URL.</p>
+            <p>Click the backdrop or press browser back to see the close event detail.</p>
+            <p>When auto close is enabled, the demo also synchronizes React state back to closed.</p>
+            <JBButton onClick={() => setIsOpen(false)}>Close modal</JBButton>
           </div>
         </JBModal>
       </div>

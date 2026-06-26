@@ -63,7 +63,7 @@ import 'jb-modal';
 | name | type | readonly | description |
 | --- | --- | --- | --- |
 | `isOpen` | `boolean` | yes | Current `isOpen` state. |
-| `id` | `string` | no | Modal id used for URL hash state. |
+| `id` | `string` | no | Modal id used for URL hash state. See the [Hash Id Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-hash-id--docs). |
 | `config` | `{ autoCloseOnBackgroundClick: boolean }` | no | Runtime configuration. |
 
 ### Methods
@@ -146,6 +146,8 @@ modal.addEventListener('close', (event) => {
 ## URL hash state
 
 Set `id` when the modal should update the URL hash while `isOpen` is true. When `open()` runs, the modal pushes `#id` to browser history. If the page loads with the same hash, the modal opens itself and dispatches `urlOpen`.
+
+Demo: [Hash Id Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-hash-id--docs). To test the real browser hash and back-button behavior, open the [isolated hash demo](https://javadbat.github.io/design-system/iframe.html?globals=&id=components-jbmodal--hash-id-and-auto-close&viewMode=story#HashLinkedModal) in a new window.
 
 ```html
 <jb-modal id="profile-modal">

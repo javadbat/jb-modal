@@ -1,0 +1,114 @@
+import { Meta, Title, Story, Source } from '@storybook/addon-docs/blocks';
+import * as ModalStories from './JBModal.stories';
+
+<Meta title="Components/JBModal/Hash Id" />
+
+<Title>Hash Id</Title>
+
+`jb-modal` can be connected to the browser URL by giving it an `id`.
+When the modal opens, the component writes that id to `location.hash`.
+For example, a modal with `id="HashLinkedModal"` opens the URL hash `#HashLinkedModal`.
+
+<div style={{ border: '2px solid #f59e0b', background: '#fffbeb', color: '#78350f', borderRadius: '0.5rem', padding: '1rem', margin: '1rem 0 1.25rem' }}>
+  <strong style={{ display: 'block', marginBottom: '0.5rem' }}>Open the demo in a new window to test hash behavior</strong>
+  <p style={{ margin: '0 0 0.875rem' }}>
+    Storybook renders docs and stories inside its manager page, and the story itself runs in an iframe.
+    The modal reads <code>window.location.hash</code> from the iframe window, not from the Storybook manager URL, so the hash demo must be opened directly in <code>iframe.html</code>.
+  </p>
+  <a
+    href="./iframe.html?globals=&id=components-jbmodal--hash-id-and-auto-close&viewMode=story"
+    target="_blank"
+    rel="noopener"
+    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: '2.5rem', padding: '0 1rem', borderRadius: '0.375rem', background: '#d97706', color: '#ffffff', fontWeight: 700, textDecoration: 'none' }}
+  >
+    Open isolated hash demo
+  </a>
+</div>
+
+<Story of={ModalStories.HashIdAndAutoClose} inline={false} height="32rem" />
+
+<Source of={ModalStories.HashIdAndAutoClose} />
+
+## What the id does
+
+The `id` has three jobs:
+
+- When `open()` runs, the modal calls `history.pushState` and changes the URL to `#id`.
+- When the modal is initialized while `location.hash` already matches the modal id, the modal opens itself and dispatches `urlOpen`.
+- When `close()` runs while the current hash is `#id`, the modal calls `history.go(-1)` so the hash is removed by browser history.
+
+Without an `id`, the modal still opens and closes normally, but it does not create a URL hash and browser back cannot target that modal.
+
+## React state sync
+
+In React, keep `isOpen` in your own state and listen to `onUrlOpen`.
+This matters because the web component can open itself from the URL hash before your React state knows about it.
+
+```tsx
+const [isOpen, setIsOpen] = useState(false);
+
+<JBModal
+  id="HashLinkedModal"
+  isOpen={isOpen}
+  onUrlOpen={() => setIsOpen(true)}
+  onClose={(event) => {
+    console.log(event.detail.eventType);
+  }}
+>
+  Modal content
+</JBModal>
+```
+
+## Close event types
+
+The modal dispatches `close` with `event.detail.eventType`.
+
+`BACKGROUND_CLICK` means the user clicked the modal backdrop.
+
+`HISTORY_BACK_EVENT` means the user pressed the browser or Android back button while the modal was open.
+
+`CLOSE_BUTTON_CLICK` is reserved for close-button driven closing.
+
+## Auto close
+
+Auto close is configured on the web component instance:
+
+```tsx
+const modalRef = useRef<JBModalWebComponent>(null);
+
+useEffect(() => {
+  if (modalRef.current) {
+    modalRef.current.config.autoCloseOnBackgroundClick = true;
+  }
+}, []);
+
+<JBModal
+  ref={modalRef}
+  id="HashLinkedModal"
+  isOpen={isOpen}
+  onUrlOpen={() => setIsOpen(true)}
+  onClose={() => setIsOpen(false)}
+>
+  Modal content
+</JBModal>
+```
+
+When `autoCloseOnBackgroundClick` is `true`, backdrop clicks close the modal after the `close` event is dispatched.
+The same flag is also used for browser back handling: when the modal receives a `HISTORY_BACK_EVENT`, it closes itself if this config is enabled.
+
+Even with auto close enabled, React users should still update `isOpen` in `onClose`.
+That keeps React state and the web component state aligned.
+
+## Direct hash URLs
+
+The modal checks the hash during initialization.
+That means this kind of URL can open the modal as the page or isolated Storybook iframe loads:
+
+```html
+https://example.com/page#HashLinkedModal
+```
+
+A hash-only link clicked after the modal is already mounted does not reopen the modal by itself.
+For normal in-page buttons, use React state or the modal instance API to open the modal.
+
+In Storybook, browser-back behavior is easiest to test in the isolated iframe view because the story is normally nested inside Storybook's manager UI.

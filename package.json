@@ -17,7 +17,7 @@
     "web component",
     "react component"
   ],
-  "version": "1.12.1",
+  "version": "1.12.2",
   "bugs": "https://github.com/javadbat/jb-modal/issues",
   "homepage": "https://javadbat.github.io/design-system/?path=/docs/components-jbmodal",
   "license": "MIT",
@@ -39,7 +39,7 @@
 		"url": "git@github.com:javadbat/jb-modal.git"
   },
   "dependencies": {
-    "jb-core":">=0.27.0"
+    "jb-core":">=0.29.0"
   }
 
 }
