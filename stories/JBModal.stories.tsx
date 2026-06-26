@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { JBModal, type Props } from 'jb-modal/react';
+import { JBModal } from 'jb-modal/react';
 import type { JBModalEventType } from 'jb-modal';
 import { JBButton } from 'jb-button/react';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -7,13 +7,13 @@ import { faker } from '@faker-js/faker';
 import "./styles/styles.css";
 import {JBCheckbox} from 'jb-checkbox/react'
 
-const meta: Meta<Props> = {
+const meta = {
   title: "Components/JBModal",
   component: JBModal,
   decorators: [(Story) => <div className='jb-modal-sample-background'><Story /></div>],
-};
+} satisfies Meta<typeof JBModal>;
 export default meta;
-type Story = StoryObj<typeof JBModal>;
+type Story = StoryObj<typeof meta>;
 
 export const Normal: Story = {
   args: {
