@@ -1,6 +1,29 @@
 @custom-media --tablet-until (max-width: 768px);
 @custom-media --tablet-from (min-width: 769px);
 
+:host {
+    display: none;
+    .modal-content-wrapper {
+        @media(--tablet-until) {
+            transform: translateY(100%);
+        }
+    }
+}
+
+:host(:state(open)) {
+    display: block;
+
+    .modal-content-wrapper {
+        @media(--tablet-until) {
+            animation-name: swipe-up;
+            animation-duration: 0.3s;
+            animation-delay: 0s;
+            animation-iteration-count: 1;
+            animation-timing-function: ease;
+        }
+    }
+}
+
 .jb-modal-web-component {
     position: fixed;
     top: 0;
@@ -8,31 +31,6 @@
     z-index: var(--z-index);
     width: 100%;
     height: 100%;
-
-    &.--closed {
-        display: none;
-
-        .modal-content-wrapper {
-            @media(--tablet-until) {
-                transform: translateY(100%);
-            }
-        }
-    }
-
-    &.--opened {
-        display: block;
-
-        .modal-content-wrapper {
-            @media(--tablet-until) {
-                animation-name: swipe-up;
-                animation-duration: 0.3s;
-                animation-delay: 0s;
-                animation-iteration-count: 1;
-                animation-timing-function: ease;
-            }
-        }
-
-    }
 
     .modal-background {
         position: absolute;
@@ -56,12 +54,13 @@
         align-items: center;
         justify-content: center;
         pointer-events: none;
+
         @media(--tablet-until) {
             bottom: 0;
             top: initial;
             align-items: flex-end;
         }
-        
+
         .modal-content {
             pointer-events: all;
             width: auto;
@@ -72,9 +71,10 @@
             max-height: calc(100dvh - 4rem);
             display: grid;
             grid-template-columns: 1fr;
-            grid-template-rows: max-content minmax(0,1fr) max-content;
+            grid-template-rows: max-content minmax(0, 1fr) max-content;
             grid-template-areas: "header" "content" "footer";
             overflow: hidden;
+
             @media(--tablet-until) {
                 width: 100%;
                 height: auto;

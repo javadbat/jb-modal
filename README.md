@@ -171,6 +171,7 @@ Browser back dispatches a `close` event with `eventType: "HISTORY_BACK_EVENT"`. 
 | --- | --- |
 | `background` | The modal backdrop/background. |
 | `content-box` | The modal content box that contains header, content, and footer slots. |
+| `component-wrapper` | div that wrap whole component |
 
 | CSS variable name | description |
 | --- | --- |
@@ -189,6 +190,46 @@ jb-modal {
   --jb-modal-z-index: 1000;
 }
 ```
+
+## Animation
+
+`jb-modal` does not ship with a default desktop open or close animation. Modal animation is usually tied to each project's visual language, motion duration, easing, and interaction style, so the component keeps the behavior simple and lets you add animation from your own CSS.
+
+You can animate each exposed part independently. For example, fade the `background`, scale or slide the `content-box`, or use different durations for each part.
+
+```css
+@media (min-width: 769px) {
+  .profile-modal::part(background) {
+    opacity: 1;
+    transition: opacity 300ms ease;
+  }
+
+  .profile-modal::part(content-box) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition:
+      opacity 300ms ease,
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .profile-modal:state(open)::part(background) {
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  .profile-modal:state(open)::part(content-box) {
+    @starting-style {
+      opacity: 0;
+      transform: translateY(1rem) scale(0.96);
+    }
+  }
+}
+```
+
+For close animations, include a discrete `display` transition on the modal host so the element remains rendered while its parts animate back to their closed styles.
+
+See the [Animation Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-animation--docs) for open-only and open-close examples.
 
 ## Accessibility notes
 

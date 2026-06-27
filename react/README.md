@@ -121,6 +121,52 @@ The React component uses the same CSS variables and parts as the web component.
 <JBModal className="profile-modal" />
 ```
 
+## Animation
+
+`JBModal` does not provide a default desktop open or close animation. Different products usually need different motion styles, durations, and easing, so the wrapper leaves animation to your project CSS.
+
+Use `className` on `JBModal` and animate the exposed web-component parts. You can animate each part differently: fade the `background`, scale the `content-box`, slide it from any direction, or give each part its own timing.
+
+```css
+@media (min-width: 769px) {
+  .profile-modal::part(background) {
+    opacity: 1;
+    transition: opacity 300ms ease;
+  }
+
+  .profile-modal::part(content-box) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition:
+      opacity 300ms ease,
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .profile-modal:state(open)::part(background) {
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  .profile-modal:state(open)::part(content-box) {
+    @starting-style {
+      opacity: 0;
+      transform: translateY(1rem) scale(0.96);
+    }
+  }
+}
+```
+
+```jsx
+<JBModal className="profile-modal" isOpen={isOpen}>
+  <div slot="content">Profile</div>
+</JBModal>
+```
+
+For close animations, add a discrete `display` transition to the modal host and define closed styles for the parts.
+
+See the [Animation Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-animation--docs) for open-only and open-close examples.
+
 ## Shared Documentation
 
 For web-component behavior, events, slots, CSS parts, URL hash behavior, and the full API, see [`jb-modal`](https://github.com/javadbat/jb-modal).

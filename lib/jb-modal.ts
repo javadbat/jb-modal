@@ -132,8 +132,7 @@ export class JBModalWebComponent extends HTMLElement {
   close() {
     this.#isOpen = false;
     this.#internals.ariaHidden = "true"
-    this.elements.componentWrapper.classList.remove("--opened");
-    this.elements.componentWrapper.classList.add("--closed");
+    this.#internals.states.delete("open");
     const history = window.history;
     const location = window.location;
     if (location.hash == `#${this.id}`) {
@@ -147,8 +146,7 @@ export class JBModalWebComponent extends HTMLElement {
   open() {
     this.#isOpen = true;
     this.#internals.ariaHidden = "false"
-    this.elements.componentWrapper.classList.remove("--closed");
-    this.elements.componentWrapper.classList.add("--opened");
+    this.#internals.states.add("open");
     if (this.id) {
       const history = window.history;
       const location = window.location;

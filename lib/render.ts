@@ -1,6 +1,6 @@
 export function renderHTML(): string {
   return /* html */ `
-  <div class="jb-modal-web-component --closed">
+  <div class="jb-modal-web-component" part="component-wrapper">
     <div class="modal-background" part="background"></div>
     <div class="modal-content-wrapper">
         <div class="modal-content" part="content-box">

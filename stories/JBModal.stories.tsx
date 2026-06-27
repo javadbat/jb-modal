@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { JBModal } from 'jb-modal/react';
 import type { JBModalEventType, JBModalWebComponent } from 'jb-modal';
 import { JBButton } from 'jb-button/react';
@@ -73,6 +73,72 @@ export const ActionTest: Story = {
       </div>
     )
   }
+};
+
+export const DesktopEnterAnimation: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <div className='button-wrapper'>
+        <JBButton color='light' onClick={() => setIsOpen(true)}>Open enter animated modal</JBButton>
+        <JBModal
+          className='desktop-enter-animation-modal'
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        >
+          <div slot="header">
+            <span>Enter animation</span>
+          </div>
+          <div slot="content" className='starting-style-demo-content'>
+            This example only animates the modal while it opens.
+          </div>
+          <div slot="footer">
+            <JBButton color='light' onClick={() => setIsOpen(false)}>Close</JBButton>
+          </div>
+        </JBModal>
+      </div>
+    )
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'responsive',
+    },
+  },
+};
+
+export const DesktopAnimation: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <div className='button-wrapper'>
+        <JBButton color='light' onClick={() => setIsOpen(true)}>Open animated modal</JBButton>
+        <JBModal
+          className='desktop-starting-style-modal'
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        >
+          <div slot="header">
+            <span>Desktop animation</span>
+          </div>
+          <div slot="content" className='starting-style-demo-content'>
+            This story uses CSS <code>@starting-style</code> with the modal shadow parts to animate
+            the backdrop and content box as soon as the modal enters the open state on desktop.
+          </div>
+          <div slot="footer">
+            <JBButton color='light' onClick={() => setIsOpen(false)}>Close</JBButton>
+            <JBButton onClick={() => setIsOpen(false)}>Done</JBButton>
+          </div>
+        </JBModal>
+      </div>
+    )
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'responsive',
+    },
+  },
 };
 
 export const MobileView: Story = {

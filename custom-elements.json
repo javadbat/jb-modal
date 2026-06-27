@@ -112,6 +112,10 @@
             {
               "name": "content-box",
               "description": "The modal content box that contains header, content, and footer slots."
+            },
+            {
+              "name": "component-wrapper",
+              "description": "The modal whole component wrapper"
             }
           ],
           "cssProperties": [
