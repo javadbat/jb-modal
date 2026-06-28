@@ -20,6 +20,7 @@
             animation-delay: 0s;
             animation-iteration-count: 1;
             animation-timing-function: ease;
+            animation-fill-mode: forwards;
         }
     }
 }
