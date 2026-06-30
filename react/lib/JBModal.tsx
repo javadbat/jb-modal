@@ -5,16 +5,7 @@ import 'jb-modal';
 import type { JBModalWebComponent } from 'jb-modal';
 import { useEvents, type EventProps } from './events-hook.js';
 import type { JBElementStandardProps } from 'jb-core/react';
-declare module "react" {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace JSX {
-    interface IntrinsicElements {
-      'jb-modal': JBModalType;
-    }
-    interface JBModalType extends React.DetailedHTMLProps<React.HTMLAttributes<JBModalWebComponent>, JBModalWebComponent> {
-    }
-  }
-}
+import './module-declaration.js';
 
 export const JBModal = React.forwardRef((props: Props, ref) => {
   const element = useRef<JBModalWebComponent>(null);
