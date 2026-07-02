@@ -4,8 +4,17 @@ import type { JBModalEventType, JBModalWebComponent } from 'jb-modal';
 import { JBButton } from 'jb-button/react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { faker } from '@faker-js/faker';
+import { expect, userEvent, waitFor } from 'storybook/test';
 import "./styles/styles.css";
 import {JBCheckbox} from 'jb-checkbox/react'
+import {
+  getBackground,
+  getContentBox,
+  getContentWrapper,
+  getJBButton,
+  getJBButtonNativeButton,
+  getModal,
+} from './test-utils';
 
 const meta = {
   title: "Components/JBModal",
@@ -38,6 +47,18 @@ export const WithLargeContent: Story = {
   args: {
     isOpen: true,
     children: <div className='modal-test-content'>{longString}</div>,
+  },
+  play: async ({ canvasElement }) => {
+    const modal = getModal(canvasElement);
+    const contentBox = getContentBox(modal);
+
+    await waitFor(() => {
+      const boxRect = contentBox.getBoundingClientRect();
+      expect(modal.isOpen).toBe(true);
+      expect(boxRect.width).toBeLessThanOrEqual(window.innerWidth);
+      expect(boxRect.left).toBeGreaterThanOrEqual(0);
+      expect(boxRect.right).toBeLessThanOrEqual(window.innerWidth);
+    });
   }
 };
 const users = faker.helpers.multiple(() => ({ name: faker.person.fullName() }), { count: 500 });
@@ -50,11 +71,24 @@ export const WithOverflowY: Story = {
       <div slot='content'>
         {
           users.map((u) => {
-            return (<div>{u.name}</div>)
+            return (<div key={u.name}>{u.name}</div>)
           })
         }
       </div>
     </Fragment>
+  },
+  play: async ({ canvasElement }) => {
+    const modal = getModal(canvasElement);
+    const contentBox = getContentBox(modal);
+
+    await waitFor(() => {
+      const boxRect = contentBox.getBoundingClientRect();
+      expect(modal.isOpen).toBe(true);
+      expect(boxRect.height).toBeLessThanOrEqual(window.innerHeight);
+      expect(boxRect.top).toBeGreaterThanOrEqual(0);
+      expect(boxRect.bottom).toBeLessThanOrEqual(window.innerHeight);
+      expect(getComputedStyle(contentBox).maxHeight).not.toBe('none');
+    });
   }
 };
 
@@ -72,6 +106,20 @@ export const ActionTest: Story = {
         </div>
       </div>
     )
+  },
+  play: async ({ canvasElement }) => {
+    const modal = getModal(canvasElement);
+    const openButton = getJBButton(canvasElement, 'Open Modal');
+
+    expect(modal.isOpen).toBe(false);
+
+    await userEvent.click(getJBButtonNativeButton(openButton));
+
+    await waitFor(() => {
+      expect(modal.isOpen).toBe(true);
+      expect(getComputedStyle(modal).display).toBe('block');
+      expect(canvasElement).toHaveTextContent('Hello World');
+    });
   }
 };
 
@@ -104,6 +152,19 @@ export const DesktopEnterAnimation: Story = {
     viewport: {
       defaultViewport: 'responsive',
     },
+  },
+  play: async ({ canvasElement }) => {
+    const modal = getModal(canvasElement);
+    const openButton = getJBButton(canvasElement, 'Open enter animated modal');
+    const contentBox = getContentBox(modal);
+
+    await userEvent.click(getJBButtonNativeButton(openButton));
+
+    await waitFor(() => {
+      expect(modal.isOpen).toBe(true);
+      expect(contentBox.getBoundingClientRect().width).toBeGreaterThan(0);
+      expect(canvasElement).toHaveTextContent('This example only animates the modal while it opens.');
+    });
   },
 };
 
@@ -139,6 +200,23 @@ export const DesktopAnimation: Story = {
       defaultViewport: 'responsive',
     },
   },
+  play: async ({ canvasElement }) => {
+    const modal = getModal(canvasElement);
+    const openButton = getJBButton(canvasElement, 'Open animated modal');
+    const doneButton = getJBButton(canvasElement, 'Done');
+
+    await userEvent.click(getJBButtonNativeButton(openButton));
+
+    await waitFor(() => {
+      expect(modal.isOpen).toBe(true);
+    });
+
+    await userEvent.click(getJBButtonNativeButton(doneButton));
+
+    await waitFor(() => {
+      expect(modal.isOpen).toBe(false);
+    });
+  },
 };
 
 export const MobileView: Story = {
@@ -150,8 +228,21 @@ export const MobileView: Story = {
     viewport: {
       defaultViewport: 'mobile2', // Set default to mobile viewport
     },
-  }
+  },
+  play: async ({ canvasElement }) => {
+    const modal = getModal(canvasElement);
+    const contentWrapper = getContentWrapper(modal);
+    const contentBox = getContentBox(modal);
 
+    await waitFor(() => {
+      const wrapperStyle = getComputedStyle(contentWrapper);
+      const boxRect = contentBox.getBoundingClientRect();
+      expect(modal.isOpen).toBe(true);
+      expect(wrapperStyle.alignItems).toBe('flex-end');
+      expect(Math.abs(boxRect.bottom - window.innerHeight)).toBeLessThanOrEqual(2);
+      expect(boxRect.width).toBeLessThanOrEqual(window.innerWidth);
+    });
+  }
 }
 export const CloseDetail: Story = {
   render: (story) => {
@@ -165,13 +256,13 @@ export const CloseDetail: Story = {
         <JBButton color='light' onClick={(e) => setIsOpen(true)}>Open Modal</JBButton>
         <JBModal isOpen={isOpen} onClose={onModalClose} onUrlOpen={() => setIsOpen(true)} id="MyModal">
           <div className='modal-test-content' style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-            <p>
+            <div>
               `onClose` event of the modal called for 2 reason:
               <ul>
                 <li>when user click on modal background</li>
                 <li>when user hit back button in android or back button of the browser</li>
               </ul>
-            </p>
+            </div>
             <p>to simulate the first one you just have to click on modal background and you can see developer tools console that shows `BACKGROUND_CLICK`</p>
             <p>to experience the second scenario with back button since we are in storybook and storybook load stories in a `iframe` tag you should open story in <a rel="noopener" target='_blank' href='./iframe.html?globals=&id=components-jbmodal--close-detail&viewMode=story'>isolated mode</a> then hit back button</p>
             <q>back button scenario only works if your modal has an `id` attribute</q>
@@ -180,6 +271,29 @@ export const CloseDetail: Story = {
         </JBModal>
       </div>
     )
+  },
+  play: async ({ canvasElement }) => {
+    const modal = getModal(canvasElement);
+    const openButton = getJBButton(canvasElement, 'Open Modal');
+    const background = getBackground(modal);
+    let closeEventType = '';
+
+    modal.addEventListener('close', (event) => {
+      closeEventType = (event as JBModalEventType<CustomEvent>).detail.eventType;
+    });
+
+    await userEvent.click(getJBButtonNativeButton(openButton));
+
+    await waitFor(() => {
+      expect(modal.isOpen).toBe(true);
+    });
+
+    await userEvent.click(background);
+
+    await waitFor(() => {
+      expect(closeEventType).toBe('BACKGROUND_CLICK');
+      expect(modal.isOpen).toBe(false);
+    });
   }
 };
 
@@ -243,6 +357,38 @@ export const HashIdAndAutoClose: Story = {
         </JBModal>
       </div>
     )
+  },
+  play: async ({ canvasElement }) => {
+    const originalUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    const urlWithoutHash = `${window.location.pathname}${window.location.search}`;
+    const originalHistoryGo = window.history.go.bind(window.history);
+    const modal = getModal(canvasElement);
+    const openButton = getJBButton(canvasElement, 'Open modal and push #HashLinkedModal');
+    const background = getBackground(modal);
+
+    try {
+      window.history.go = (() => {
+        window.history.replaceState({}, '', urlWithoutHash);
+      }) as typeof window.history.go;
+
+      await userEvent.click(getJBButtonNativeButton(openButton));
+
+      await waitFor(() => {
+        expect(modal.isOpen).toBe(true);
+        expect(window.location.hash).toBe('#HashLinkedModal');
+        expect(canvasElement).toHaveTextContent('Current hash: #HashLinkedModal');
+      });
+
+      await userEvent.click(background);
+
+      await waitFor(() => {
+        expect(modal.isOpen).toBe(false);
+        expect(canvasElement).toHaveTextContent('Last close event: BACKGROUND_CLICK');
+      });
+    } finally {
+      window.history.go = originalHistoryGo;
+      window.history.replaceState({}, '', originalUrl);
+    }
   }
 };
 
