@@ -117,11 +117,11 @@ The React component uses the same CSS variables and parts as the web component.
 
 ```css
 .profile-modal::part(content-box) {
-  min-width: 320px;
+  min-width: 20rem;
 }
 
 .profile-modal {
-  --jb-modal-border-radius: 16px;
+  --jb-modal-border-radius: 1rem;
 }
 ```
 
@@ -140,7 +140,7 @@ The wrapper exposes the same CSS parts and variables as the web component, inclu
 Use `className` on `JBModal` and animate the exposed web-component parts. You can animate each part differently: fade the `background`, scale the `content-box`, slide it from any direction, or give each part its own timing.
 
 ```css
-@media (min-width: 769px) {
+@media (min-width: 48.0625rem) {
   .profile-modal::part(background) {
     opacity: 1;
     transition: opacity 300ms ease;

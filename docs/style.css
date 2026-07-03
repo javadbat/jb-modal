@@ -3,34 +3,34 @@
 .page-wrapper{
     display:flex;
     flex-direction:column;
-    padding-top:64px;
-    width:calc(100% - 64px);
-    max-width:1200px;
+    padding-top:4rem;
+    width:calc(100% - 4rem);
+    max-width:75rem;
     margin: 0 auto;
     height:100vh;
     font-family: 'Vazir',tahoma, arial;
     direction:ltr;
   }
-  @media (max-width:768px) {
+  @media (max-width:48rem) {
     .page-wrapper{
       text-align: center;
       align-items:center;
     }
   }
   .component-wrapper{
-    width:500px;
-    max-width: calc(100% - 64px);
+    width:31.25rem;
+    max-width: calc(100% - 4rem);
     direction: rtl;
   }
   .hello-modal .modal-content{
-    width: 400px;
-    height: 400px;
+    width: 25rem;
+    height: 25rem;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .desc{
-    margin-top:16px;
+    margin-top:1rem;
     font-size:0.7em;
     color:#888;
   }

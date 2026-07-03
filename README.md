@@ -182,11 +182,11 @@ Browser back dispatches a `close` event with `eventType: "HISTORY_BACK_EVENT"`. 
 
 ```css
 jb-modal::part(content-box) {
-  min-width: 320px;
+  min-width: 20rem;
 }
 
 jb-modal {
-  --jb-modal-border-radius: 16px;
+  --jb-modal-border-radius: 1rem;
   --jb-modal-z-index: 1000;
 }
 ```
@@ -198,7 +198,7 @@ jb-modal {
 You can animate each exposed part independently. For example, fade the `background`, scale or slide the `content-box`, or use different durations for each part.
 
 ```css
-@media (min-width: 769px) {
+@media (min-width: 48.0625rem) {
   .profile-modal::part(background) {
     opacity: 1;
     transition: opacity 300ms ease;

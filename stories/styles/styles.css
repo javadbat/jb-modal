@@ -32,7 +32,7 @@
     padding: 0.125rem 0.25rem;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 48.0625rem) {
     .desktop-enter-animation-modal::part(background) {
         opacity: 1;
         transition: opacity 300ms ease;
