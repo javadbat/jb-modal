@@ -54,6 +54,10 @@ const [isOpen, setIsOpen] = useState(false);
 
 The web component dispatches `close` when the user clicks the background or triggers browser back while `isOpen` is true. Keep React state in sync in `onClose`.
 
+## isOpen and close
+
+Use `isOpen` as controlled React state. Use `onClose` to update that state when the underlying modal requests close from background click or browser history.
+
 ## Slots
 
 ```jsx
@@ -82,6 +86,10 @@ const [isModalOpen, setModalOpen] = useState(false);
   <div slot="content">Profile</div>
 </JBModal>
 ```
+
+## Background click
+
+Background clicks dispatch the underlying `close` event. Read `event.detail.eventType` in `onClose` when your app needs to distinguish background clicks from URL-history close requests.
 
 ## Imperative access
 
@@ -120,6 +128,10 @@ The React component uses the same CSS variables and parts as the web component.
 ```jsx
 <JBModal className="profile-modal" />
 ```
+
+## CSS parts and custom style
+
+The wrapper exposes the same CSS parts and variables as the web component, including content and background parts used by the animation examples.
 
 ## Animation
 
@@ -166,6 +178,10 @@ Use `className` on `JBModal` and animate the exposed web-component parts. You ca
 For close animations, add a discrete `display` transition to the modal host and define closed styles for the parts.
 
 See the [Animation Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-animation--docs) for open-only and open-close examples.
+
+## Accessibility notes
+
+`JBModal` provides modal structure and backdrop behavior, but the current web component does not implement focus trapping or Escape-key close behavior. Add those behaviors in your app when the modal contains keyboard-interactive workflows.
 
 ## Shared Documentation
 
