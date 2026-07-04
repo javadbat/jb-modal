@@ -3,8 +3,9 @@ import type { ReactComponentBuildConfig, WebComponentBuildConfig } from "../../t
 export const webComponentList: WebComponentBuildConfig[] = [
   {
     name: "jb-modal",
-    path: "./lib/jb-modal.ts",
-    outputPath: "./dist/jb-modal.js",
+    path: "./web-component/lib/jb-modal.ts",
+    outputPath: "./web-component/dist/jb-modal.js",
+    tsConfigPath: "./web-component/tsconfig.json",
     umdName: "JBModal",
     external:["jb-core", "jb-core/theme"],
     globals:{
