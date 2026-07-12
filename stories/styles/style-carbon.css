@@ -1,0 +1,27 @@
+jb-modal.carbon-style {
+  --jb-modal-bg-color: var(--jb-surface);
+  --jb-modal-back-bg-color: rgb(22 22 22 / 0.72);
+  --jb-modal-border-radius: 0.25rem;
+  --jb-modal-z-index: 1000;
+  color: var(--jb-text-primary);
+}
+
+jb-modal.carbon-style::part(background) {
+  backdrop-filter: blur(0.625rem);
+}
+
+jb-modal.carbon-style::part(content-box) {
+  border: 1px solid var(--jb-border-color);
+  box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 0.38);
+}
+
+jb-modal.carbon-style:state(open)::part(content-box) {
+  animation: carbon-modal-in 180ms ease-out;
+}
+
+@keyframes carbon-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}

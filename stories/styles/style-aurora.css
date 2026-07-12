@@ -1,0 +1,27 @@
+jb-modal.aurora-style {
+  --jb-modal-bg-color: #111827;
+  --jb-modal-back-bg-color: rgb(15 23 42 / 0.68);
+  --jb-modal-border-radius: 1.25rem;
+  --jb-modal-z-index: 1000;
+  color: #eff6ff;
+}
+
+jb-modal.aurora-style::part(background) {
+  backdrop-filter: blur(1rem) saturate(1.25);
+}
+
+jb-modal.aurora-style::part(content-box) {
+  border: 1px solid rgb(125 211 252 / 0.42);
+  box-shadow: 0 1.5rem 3rem rgb(79 70 229 / 0.28);
+}
+
+jb-modal.aurora-style:state(open)::part(content-box) {
+  animation: aurora-modal-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes aurora-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.98);
+  }
+}

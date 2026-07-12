@@ -167,6 +167,8 @@ Browser back dispatches a `close` event with `eventType: "HISTORY_BACK_EVENT"`. 
 
 ## CSS parts and custom style
 
+For complete styling guidance, live examples, and copyable style recipes, see [Styling](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-styling).
+
 | part | description |
 | --- | --- |
 | `background` | The modal backdrop/background. |

@@ -1,0 +1,27 @@
+jb-modal.cupertino-style {
+  --jb-modal-bg-color: rgb(255 255 255 / 0.94);
+  --jb-modal-back-bg-color: rgb(28 28 30 / 0.36);
+  --jb-modal-border-radius: 1rem;
+  --jb-modal-z-index: 1000;
+  color: #1c1c1e;
+}
+
+jb-modal.cupertino-style::part(background) {
+  backdrop-filter: blur(1.25rem);
+}
+
+jb-modal.cupertino-style::part(content-box) {
+  border: 1px solid rgb(60 60 67 / 0.14);
+  box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.18);
+}
+
+jb-modal.cupertino-style:state(open)::part(content-box) {
+  animation: cupertino-modal-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes cupertino-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}

@@ -1,0 +1,28 @@
+jb-modal.terminal-style {
+  --jb-modal-bg-color: #020617;
+  --jb-modal-back-bg-color: rgb(2 6 23 / 0.74);
+  --jb-modal-border-radius: 0;
+  --jb-modal-z-index: 1000;
+  color: #bbf7d0;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+jb-modal.terminal-style::part(background) {
+  backdrop-filter: none;
+}
+
+jb-modal.terminal-style::part(content-box) {
+  border: 1px solid #22c55e;
+  box-shadow: 0 0 0 1px #22c55e, 0 1rem 2rem rgb(0 0 0 / 0.4);
+}
+
+jb-modal.terminal-style:state(open)::part(content-box) {
+  animation: terminal-modal-in 120ms steps(2, end);
+}
+
+@keyframes terminal-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}

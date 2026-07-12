@@ -1,0 +1,27 @@
+jb-modal.candy-style {
+  --jb-modal-bg-color: #fff7ed;
+  --jb-modal-back-bg-color: rgb(244 114 182 / 0.28);
+  --jb-modal-border-radius: 1.5rem;
+  --jb-modal-z-index: 1000;
+  color: #831843;
+}
+
+jb-modal.candy-style::part(background) {
+  backdrop-filter: blur(0.875rem);
+}
+
+jb-modal.candy-style::part(content-box) {
+  border: 2px solid #f9a8d4;
+  box-shadow: 0 1.25rem 2.5rem rgb(244 114 182 / 0.28);
+}
+
+jb-modal.candy-style:state(open)::part(content-box) {
+  animation: candy-modal-in 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes candy-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.94);
+  }
+}

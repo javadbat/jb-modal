@@ -1,0 +1,27 @@
+jb-modal.bootstrap-style {
+  --jb-modal-bg-color: var(--jb-surface);
+  --jb-modal-back-bg-color: rgb(33 37 41 / 0.55);
+  --jb-modal-border-radius: 0.5rem;
+  --jb-modal-z-index: 1055;
+  color: var(--jb-text-primary);
+}
+
+jb-modal.bootstrap-style::part(background) {
+  backdrop-filter: blur(0.125rem);
+}
+
+jb-modal.bootstrap-style::part(content-box) {
+  border: 1px solid rgb(0 0 0 / 0.18);
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 0.15);
+}
+
+jb-modal.bootstrap-style:state(open)::part(content-box) {
+  animation: bootstrap-modal-in 180ms ease-out;
+}
+
+@keyframes bootstrap-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+}

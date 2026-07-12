@@ -1,0 +1,27 @@
+jb-modal.forest-style {
+  --jb-modal-bg-color: #173725;
+  --jb-modal-back-bg-color: rgb(20 83 45 / 0.5);
+  --jb-modal-border-radius: 1rem;
+  --jb-modal-z-index: 1000;
+  color: #f1f5df;
+}
+
+jb-modal.forest-style::part(background) {
+  backdrop-filter: blur(0.875rem);
+}
+
+jb-modal.forest-style::part(content-box) {
+  border: 1px solid rgb(246 211 101 / 0.34);
+  box-shadow: 0 1.25rem 2.5rem rgb(20 83 45 / 0.32);
+}
+
+jb-modal.forest-style:state(open)::part(content-box) {
+  animation: forest-modal-in 220ms ease-out;
+}
+
+@keyframes forest-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}

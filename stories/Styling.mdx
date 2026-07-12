@@ -1,0 +1,360 @@
+import { Meta, Source, Story, Title } from '@storybook/addon-docs/blocks';
+import * as StyleStories from './Styles.stories';
+import antDesignThemeCss from '../../../docs/styles/ant-design.css?raw';
+import auroraThemeCss from '../../../docs/styles/aurora.css?raw';
+import bootstrapThemeCss from '../../../docs/styles/bootstrap.css?raw';
+import candyThemeCss from '../../../docs/styles/candy.css?raw';
+import carbonThemeCss from '../../../docs/styles/carbon.css?raw';
+import cupertinoThemeCss from '../../../docs/styles/cupertino.css?raw';
+import fluentThemeCss from '../../../docs/styles/fluent.css?raw';
+import forestThemeCss from '../../../docs/styles/forest.css?raw';
+import materialThemeCss from '../../../docs/styles/material.css?raw';
+import porcelainThemeCss from '../../../docs/styles/porcelain.css?raw';
+import sunsetThemeCss from '../../../docs/styles/sunset.css?raw';
+import terminalThemeCss from '../../../docs/styles/terminal.css?raw';
+import antDesignModalCss from './styles/style-ant-design.css?raw';
+import auroraModalCss from './styles/style-aurora.css?raw';
+import bootstrapModalCss from './styles/style-bootstrap.css?raw';
+import candyModalCss from './styles/style-candy.css?raw';
+import carbonModalCss from './styles/style-carbon.css?raw';
+import cupertinoModalCss from './styles/style-cupertino.css?raw';
+import fluentModalCss from './styles/style-fluent.css?raw';
+import forestModalCss from './styles/style-forest.css?raw';
+import materialModalCss from './styles/style-material.css?raw';
+import porcelainModalCss from './styles/style-porcelain.css?raw';
+import sunsetModalCss from './styles/style-sunset.css?raw';
+import terminalModalCss from './styles/style-terminal.css?raw';
+
+<Meta title="Components/JBModal/Styling" />
+
+<Title>Styling</Title>
+
+`JBModal` styling is split between host variables, official shadow parts, slotted content, and the `open` custom state. Use variables for the core shell first, then use parts for backdrop, content box, and animation.
+
+## Live Gallery
+
+<Story of={StyleStories.Gallery} />
+
+<Source of={StyleStories.Gallery} />
+
+## Common Design Tokens
+
+Use the core theme docs as the source of truth for shared design-system variables:
+
+- [Theme Colors](../../jb-core/theme/stories/colors.mdx) explains the general color palette variables, default colors, customization approaches, and color generation helpers.
+- [Theme Sizes](../../jb-core/theme/stories/sizes.mdx) explains shared size and radius variables.
+- [Theme Custom Galleries](https://javadbat.github.io/design-system/?path=/docs/theme-custom-material--docs) gathers the shared custom style recipes across components.
+
+Modal recipes should use those common tokens where possible, then map them into `--jb-modal-*` variables and official parts where the modal needs component-specific values.
+
+## Styling Model
+
+Use four layers when styling modal examples:
+
+- Common design tokens are documented in [Theme Colors](../../jb-core/theme/stories/colors.mdx) and [Theme Sizes](../../jb-core/theme/stories/sizes.mdx).
+- Reusable example theme packs live in [`docs/styles`](https://github.com/javadbat/design-system/tree/main/docs/styles) and can be shared across components.
+- Component recipe files live in [`modules/jb-modal/stories/styles`](https://github.com/javadbat/design-system/tree/main/modules/jb-modal/stories/styles).
+- Public component variables use `--jb-modal-*` on `jb-modal`; official parts use `::part(component-wrapper)`, `::part(background)`, and `::part(content-box)`.
+- Trigger and action buttons reuse the existing [JBButton Styling](../../jb-button/stories/Styling.mdx) recipe classes instead of redefining button variables in modal CSS.
+
+Each example uses one shared example theme pack from [`docs/styles`](https://github.com/javadbat/design-system/tree/main/docs/styles) and one modal-specific recipe from [`modules/jb-modal/stories/styles`](https://github.com/javadbat/design-system/tree/main/modules/jb-modal/stories/styles). The gallery uses `style-preview.css` only to render fixed modals as local previews inside the documentation grid.
+
+## Recommended Customization Path
+
+1. Use `--jb-modal-*` variables first for backdrop color, content background, content radius, and modal stack level.
+2. Use `::part(background)` for backdrop blur, opacity, and entrance motion.
+3. Use `::part(content-box)` for border, shadow, content-box sizing, and entrance motion.
+4. Use the `open` custom state for motion selectors such as `jb-modal:state(open)::part(content-box)`.
+5. Style header, content, and footer by styling the slotted elements passed to `slot="header"`, `slot="content"`, and `slot="footer"`. See [Slot Demo](./slot-demo.mdx).
+6. Use [Animation](./animation.mdx) for deeper enter and close animation patterns.
+7. Reuse [JBButton Styling](../../jb-button/stories/Styling.mdx) classes for modal trigger, cancel, and submit buttons.
+8. Use common theme variables from [Theme Colors](../../jb-core/theme/stories/colors.mdx) and [Theme Sizes](../../jb-core/theme/stories/sizes.mdx) when the style should align with the design system.
+9. Put reusable theme-pack values in [`docs/styles`](https://github.com/javadbat/design-system/tree/main/docs/styles) only when they should be shared by multiple component demos.
+10. Add a new modal variable or official part only when a needed internal surface cannot be customized with current public variables or official parts.
+
+## Parts And States
+
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>Element</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>component-wrapper</code></td><td>Fullscreen modal wrapper.</td><td>Use carefully for advanced layout, preview rendering, or whole-modal effects.</td></tr>
+    <tr><td><code>background</code></td><td>Backdrop element.</td><td>Use for backdrop color, blur, opacity, and backdrop animation.</td></tr>
+    <tr><td><code>content-box</code></td><td>Modal content box.</td><td>Use for border, shadow, content box sizing, and content-box animation.</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Custom State</th>
+      <th>Meaning</th>
+      <th>Example Selector</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>open</code></td><td>Applied while the modal is open.</td><td><code>jb-modal:state(open)::part(content-box)</code></td></tr>
+  </tbody>
+</table>
+
+## CSS Variables
+
+These variables belong to `JBModal`.
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Category</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--jb-modal-border-radius</code></td><td>Size</td><td>Modal content box border radius.</td></tr>
+    <tr><td><code>--jb-modal-bg-color</code></td><td>Theme/Color</td><td>Modal content box background color.</td></tr>
+    <tr><td><code>--jb-modal-back-bg-color</code></td><td>Theme/Color</td><td>Modal backdrop background color.</td></tr>
+    <tr><td><code>--jb-modal-z-index</code></td><td>Other</td><td>Modal wrapper z-index.</td></tr>
+  </tbody>
+</table>
+
+## Starter Recipe
+
+Use this minimal recipe when a product only needs brand alignment and simple motion.
+
+```css
+jb-modal.brand-modal {
+  --jb-modal-bg-color: #ffffff;
+  --jb-modal-back-bg-color: rgb(15 23 42 / 0.48);
+  --jb-modal-border-radius: 1rem;
+  --jb-modal-z-index: 1000;
+}
+
+jb-modal.brand-modal::part(background) {
+  backdrop-filter: blur(0.5rem);
+}
+
+jb-modal.brand-modal::part(content-box) {
+  border: 1px solid #dbeafe;
+  box-shadow: 0 1.25rem 2.5rem rgb(15 23 42 / 0.16);
+}
+
+jb-modal.brand-modal:state(open)::part(content-box) {
+  animation: brand-modal-in 180ms ease-out;
+}
+
+@keyframes brand-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+```
+
+## Style Recipes
+
+### Carbon
+
+<Story of={StyleStories.Carbon} />
+
+<Source of={StyleStories.Carbon} />
+
+#### Shared Tokens
+
+<Source code={carbonThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={carbonModalCss} language="css" />
+
+### Aurora
+
+<Story of={StyleStories.Aurora} />
+
+<Source of={StyleStories.Aurora} />
+
+#### Shared Tokens
+
+<Source code={auroraThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={auroraModalCss} language="css" />
+
+### Forest
+
+<Story of={StyleStories.Forest} />
+
+<Source of={StyleStories.Forest} />
+
+#### Shared Tokens
+
+<Source code={forestThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={forestModalCss} language="css" />
+
+### Sunset
+
+<Story of={StyleStories.Sunset} />
+
+<Source of={StyleStories.Sunset} />
+
+#### Shared Tokens
+
+<Source code={sunsetThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={sunsetModalCss} language="css" />
+
+### Porcelain
+
+<Story of={StyleStories.Porcelain} />
+
+<Source of={StyleStories.Porcelain} />
+
+#### Shared Tokens
+
+<Source code={porcelainThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={porcelainModalCss} language="css" />
+
+### Candy
+
+<Story of={StyleStories.Candy} />
+
+<Source of={StyleStories.Candy} />
+
+#### Shared Tokens
+
+<Source code={candyThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={candyModalCss} language="css" />
+
+### Terminal
+
+<Story of={StyleStories.Terminal} />
+
+<Source of={StyleStories.Terminal} />
+
+#### Shared Tokens
+
+<Source code={terminalThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={terminalModalCss} language="css" />
+
+### Material
+
+<Story of={StyleStories.Material} />
+
+<Source of={StyleStories.Material} />
+
+#### Shared Tokens
+
+<Source code={materialThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={materialModalCss} language="css" />
+
+### Fluent
+
+<Story of={StyleStories.Fluent} />
+
+<Source of={StyleStories.Fluent} />
+
+#### Shared Tokens
+
+<Source code={fluentThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={fluentModalCss} language="css" />
+
+### Bootstrap
+
+<Story of={StyleStories.Bootstrap} />
+
+<Source of={StyleStories.Bootstrap} />
+
+#### Shared Tokens
+
+<Source code={bootstrapThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={bootstrapModalCss} language="css" />
+
+### Cupertino
+
+<Story of={StyleStories.Cupertino} />
+
+<Source of={StyleStories.Cupertino} />
+
+#### Shared Tokens
+
+<Source code={cupertinoThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={cupertinoModalCss} language="css" />
+
+### Ant Design
+
+<Story of={StyleStories.AntDesign} />
+
+<Source of={StyleStories.AntDesign} />
+
+#### Shared Tokens
+
+<Source code={antDesignThemeCss} language="css" />
+
+#### Modal CSS
+
+<Source code={antDesignModalCss} language="css" />
+
+## Theme File Pattern
+
+Use [Theme Colors](../../jb-core/theme/stories/colors.mdx) and [Theme Sizes](../../jb-core/theme/stories/sizes.mdx) as the common design-token guides. Theme-pack files should keep reusable demo variables in [`docs/styles`](https://github.com/javadbat/design-system/tree/main/docs/styles), then each component should keep its own style CSS in its story [`styles`](https://github.com/javadbat/design-system/tree/main/modules/jb-modal/stories/styles) folder.
+
+```css
+/* https://github.com/javadbat/design-system/blob/main/docs/styles/carbon.css */
+.theme-name-style {
+  /* shared design-system variables */
+}
+
+/* https://github.com/javadbat/design-system/blob/main/modules/jb-modal/stories/styles/style-carbon.css */
+jb-modal.theme-name-modal {
+  /* modal host variables */
+}
+
+jb-modal.theme-name-modal::part(background) {
+  /* backdrop treatment */
+}
+
+jb-modal.theme-name-modal::part(content-box) {
+  /* modal surface treatment */
+}
+
+jb-modal.theme-name-modal:state(open)::part(content-box) {
+  /* open-state motion */
+}
+
+jb-button.theme-name-button {
+  /* imported from the JBButton recipe, not duplicated here */
+}
+```
+
+This keeps common theme tokens reusable while making the `JBModal` styling API visible in one page.

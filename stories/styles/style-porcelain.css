@@ -1,0 +1,27 @@
+jb-modal.porcelain-style {
+  --jb-modal-bg-color: var(--jb-surface);
+  --jb-modal-back-bg-color: rgb(47 128 237 / 0.16);
+  --jb-modal-border-radius: 0.875rem;
+  --jb-modal-z-index: 1000;
+  color: #12304f;
+}
+
+jb-modal.porcelain-style::part(background) {
+  backdrop-filter: blur(0.875rem);
+}
+
+jb-modal.porcelain-style::part(content-box) {
+  border: 1px solid #d6e4f0;
+  box-shadow: 0 1.25rem 2.5rem rgb(47 128 237 / 0.16);
+}
+
+jb-modal.porcelain-style:state(open)::part(content-box) {
+  animation: porcelain-modal-in 200ms ease-out;
+}
+
+@keyframes porcelain-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}

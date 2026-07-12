@@ -2,7 +2,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { JBModal } from 'jb-modal/react';
 import type { JBModalEventType, JBModalWebComponent } from 'jb-modal';
 import { JBButton } from 'jb-button/react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
 import { expect, userEvent, waitFor } from 'storybook/test';
 import "./styles/styles.css";

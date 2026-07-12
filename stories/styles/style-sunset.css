@@ -1,0 +1,27 @@
+jb-modal.sunset-style {
+  --jb-modal-bg-color: #963f5a;
+  --jb-modal-back-bg-color: rgb(127 29 29 / 0.42);
+  --jb-modal-border-radius: 1.125rem;
+  --jb-modal-z-index: 1000;
+  color: #fff7ed;
+}
+
+jb-modal.sunset-style::part(background) {
+  backdrop-filter: blur(0.875rem);
+}
+
+jb-modal.sunset-style::part(content-box) {
+  border: 1px solid rgb(255 209 102 / 0.34);
+  box-shadow: 0 1.25rem 2.5rem rgb(127 29 29 / 0.28);
+}
+
+jb-modal.sunset-style:state(open)::part(content-box) {
+  animation: sunset-modal-in 220ms ease-out;
+}
+
+@keyframes sunset-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+}
