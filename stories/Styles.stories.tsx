@@ -152,6 +152,11 @@ function FullscreenModalStory({ buttonClassName, className }: { buttonClassName:
   );
 }
 
+export const Default: Story = {
+  name: "Default",
+  render: () => <FullscreenModalStory buttonClassName="" className="" />,
+};
+
 export const Carbon: Story = {
   name: "Carbon",
   render: () => <FullscreenModalStory buttonClassName="carbon-style carbon-style" className="carbon-style carbon-style" />,
