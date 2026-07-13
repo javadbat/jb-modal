@@ -3,6 +3,8 @@ import VariablesCSS from "./variables.css";
 import { renderHTML } from "./render";
 import type { ElementsObject } from "./types.js";
 import {registerDefaultVariables} from "jb-core/theme";
+import { i18n } from "jb-core/i18n";
+import { dictionary } from "./i18n";
 export * from "./types.js";
 
 export class JBModalWebComponent extends HTMLElement {
@@ -53,7 +55,10 @@ export class JBModalWebComponent extends HTMLElement {
     });
     this.#internals = this.attachInternals();
     //indicate that this component is a modal
+    this.#internals.role = "dialog";
     this.#internals.ariaModal = "true";
+    this.#internals.ariaHidden = "true";
+    this.#internals.ariaLabel = dictionary.get(i18n, "dialog");
     // TODO: add focus trapping and Escape-key close behavior for modal accessibility.
     registerDefaultVariables();
     const html = `<style>${CSS} ${VariablesCSS}</style>\n${renderHTML()}`;
@@ -90,7 +95,7 @@ export class JBModalWebComponent extends HTMLElement {
     this.dispatchEvent(event);
   }
   static get observedAttributes() {
-    return ["is-open", "id"];
+    return ["is-open", "id", "label", "description"];
   }
   attributeChangedCallback(name:string, _oldValue:string, newValue:string) {
     // do something when an attribute has changed
@@ -108,6 +113,12 @@ export class JBModalWebComponent extends HTMLElement {
             this.close();
           }
         }
+        break;
+      case "label":
+        this.#internals.ariaLabel = value;
+        break;
+      case "description":
+        this.#internals.ariaDescription = value;
         break;
       case "id":
         this.id = value;
