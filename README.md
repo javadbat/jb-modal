@@ -57,6 +57,8 @@ import 'jb-modal';
 | --- | --- | --- | --- |
 | `is-open` | `boolean` | `false` | Opens the modal when set to `"true"`. Any other value closes it. |
 | `id` | `string` | `""` | Modal id used for URL hash state. |
+| `label` | `string` | header text or localized `"Dialog"` | Accessible name announced by assistive technology. Use this when the visible header does not provide a useful name. |
+| `description` | `string` | `""` | Optional accessible description announced after the modal name. |
 
 ### Properties
 
@@ -64,14 +66,16 @@ import 'jb-modal';
 | --- | --- | --- | --- |
 | `isOpen` | `boolean` | yes | Current `isOpen` state. |
 | `id` | `string` | no | Modal id used for URL hash state. See the [Hash Id Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-hash-id--docs). |
-| `config` | `{ autoCloseOnBackgroundClick: boolean }` | no | Runtime configuration. |
+| `JBID` | `symbol` | yes | Internal unique symbol for this modal instance. |
+| `autoCloseOnBackgroundClick` | `boolean` | no | Automatically closes after an uncanceled backdrop close request. Defaults to `false`. |
+| `autoCloseOnEscape` | `boolean` | no | Automatically closes after an uncanceled Escape close request. Defaults to `true`. |
 
 ### Methods
 
 | name | returns | description |
 | --- | --- | --- |
-| `open()` | `void` | Opens the modal, sets `ariaHidden` to `false`, and pushes `#id` to browser history when `id` is set. |
-| `close()` | `void` | Closes the modal, sets `ariaHidden` to `true`, and navigates back when the current URL hash matches the modal id. |
+| `open()` | `void` | Opens the modal, moves focus into it, and pushes `#id` to browser history when `id` is set. |
+| `close()` | `void` | Closes the modal, restores focus to its opener, and navigates back when it owns the current hash entry. |
 
 ### Events
 
@@ -80,7 +84,7 @@ import 'jb-modal';
 | `load` | none | Dispatched from `connectedCallback` before initialization. |
 | `init` | none | Dispatched from `connectedCallback` after initialization. |
 | `urlOpen` | none | Dispatched when the modal opens itself because the current URL hash matches its id. |
-| `close` | `{ eventType }` | Dispatched for background click and browser-back close attempts. |
+| `close` | `{ eventType }` | Cancelable, bubbling event dispatched for user close requests. Call `preventDefault()` to reject the request. |
 
 `close` event `event.detail.eventType` can be:
 
@@ -89,6 +93,9 @@ import 'jb-modal';
 | `BACKGROUND_CLICK` | The backdrop was clicked. |
 | `HISTORY_BACK_EVENT` | Browser back/popstate was received while the modal was open. |
 | `CLOSE_BUTTON_CLICK` | Reserved close type for close button flows. |
+| `ESCAPE_KEY` | The user pressed Escape while this was the topmost modal. |
+
+Programmatic calls to `close()` do not dispatch a `close` event.
 
 ## isOpen and close
 
@@ -129,12 +136,12 @@ Use the default slot for simple content or named slots for structured modal sect
 
 ## Background click
 
-The component always dispatches `close` with `eventType: "BACKGROUND_CLICK"` when the backdrop is clicked. It only closes automatically when `config.autoCloseOnBackgroundClick` is `true`.
+The component always dispatches `close` with `eventType: "BACKGROUND_CLICK"` when the backdrop is clicked. It only closes automatically when `autoCloseOnBackgroundClick` is `true`.
 
 ```js
 const modal = document.querySelector('jb-modal');
 
-modal.config.autoCloseOnBackgroundClick = true;
+modal.autoCloseOnBackgroundClick = true;
 
 modal.addEventListener('close', (event) => {
   if (event.detail.eventType === 'BACKGROUND_CLICK') {
@@ -163,7 +170,21 @@ modal.addEventListener('urlOpen', () => {
 });
 ```
 
-Browser back dispatches a `close` event with `eventType: "HISTORY_BACK_EVENT"`. In the current implementation, browser-back auto close uses the same `config.autoCloseOnBackgroundClick` flag.
+Browser back dispatches `close` with `eventType: "HISTORY_BACK_EVENT"` and closes the topmost matching modal. This is independent of `autoCloseOnBackgroundClick`. Preventing the event restores that modal's history entry so the visible modal and URL remain synchronized.
+
+### Multiple and nested modals
+
+Open modals are recorded by `JBModalManager`. Only the topmost modal traps focus, handles Escape, responds to browser history, and restores focus. Closing a child modal makes its parent topmost again and returns focus to the control that opened the child.
+
+Give every history-linked modal a unique `id`. The hash represents only the current topmost modal, while browser history preserves the stack:
+
+```text
+/page -> #account-modal -> #delete-confirmation-modal
+```
+
+Opening the confirmation from the account modal pushes `#delete-confirmation-modal`. Browser Back closes only the confirmation and restores `#account-modal`; another Back closes the account modal.
+
+A fresh page load at `#delete-confirmation-modal` can open that modal, but a single hash cannot reconstruct its parent modal stack. If the child requires parent context, the application must restore that context itself before opening the child.
 
 ## CSS parts and custom style
 
@@ -235,8 +256,23 @@ See the [Animation Storybook docs](https://javadbat.github.io/design-system/?pat
 
 ## Accessibility notes
 
-- The component attaches `ElementInternals` and sets `ariaModal` to `true`.
-- `ariaHidden` is set to `false` when opened and `true` when closed.
+- The component exposes `role="dialog"` and `aria-modal="true"` through `ElementInternals`.
+- Set `label` to provide a stable accessible name. Without it, the component uses text from the `header` slot, then the localized word “Dialog”.
+- `description` provides an optional accessible description.
+- Opening focuses `[autofocus]`, otherwise the first focusable control, otherwise the modal content container.
+- Tab and Shift+Tab stay inside the topmost modal. Escape closes the topmost modal by default.
+- Closing restores focus to the element that opened the modal when that element still exists and can receive focus.
+- Closed modal content is `inert`, preventing keyboard and assistive-technology access.
+- The built-in mobile animation is disabled when the user requests reduced motion.
+
+```html
+<button id="open-settings">Open settings</button>
+<jb-modal label="Account settings" description="Update your profile and notification preferences">
+  <form slot="content">
+    <input autofocus aria-label="Display name" />
+  </form>
+</jb-modal>
+```
 
 ## Related Docs
 
@@ -249,8 +285,10 @@ See the [Animation Storybook docs](https://javadbat.github.io/design-system/?pat
 - Import `jb-modal` once before using `<jb-modal>`.
 - Use `open()` and `close()` for imperative control; there is no public `open` property setter.
 - Use `is-open="true"` only for initial `isOpen` markup state.
-- Use `config.autoCloseOnBackgroundClick = true` when backdrop clicks should close the modal.
+- Use `autoCloseOnBackgroundClick = true` when backdrop clicks should close the modal.
 - Listen to `close` and inspect `event.detail.eventType` to know why close was requested.
+- Escape closes automatically by default. Set `autoCloseOnEscape = false` to emit only the close request.
+- Call `event.preventDefault()` from a `close` listener when validation or unsaved work must keep the modal open.
 - Use `id` only when URL hash/history integration is desired.
 - This package includes [`custom-elements.json`](./custom-elements.json) and points to it with the package.json `customElements` field. The field is documented by the Custom Elements Manifest project in [Referencing manifests from npm packages](https://github.com/webcomponents/custom-elements-manifest#referencing-manifests-from-npm-packages).
 - In `custom-elements.json`, `exports.kind: "js"` describes JavaScript/TypeScript exports and `exports.kind: "custom-element-definition"` maps the `jb-modal` tag name to `JBModalWebComponent`.

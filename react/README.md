@@ -34,7 +34,11 @@ Use `JBModal` for temporary blocking UI such as confirmations, forms, detail vie
 | --- | --- | --- |
 | `isOpen` | `boolean` | Opens or closes the modal by calling the underlying `open()`/`close()` methods. |
 | `id` | `string` | Modal id used for URL hash state. Forwarded to the web component. |
-| `onClose` | `(event) => void` | Fired for background click and browser-back close attempts. Read `event.detail.eventType`. |
+| `label` | `string` | Accessible name announced for the dialog. Header slot text is used as a fallback. |
+| `description` | `string` | Optional accessible description announced after the dialog name. |
+| `autoCloseOnBackgroundClick` | `boolean` | Automatically closes after an uncanceled backdrop close request. Defaults to `false`. |
+| `autoCloseOnEscape` | `boolean` | Automatically closes after an uncanceled Escape close request. Defaults to `true`. |
+| `onClose` | `(event) => void` | Fired for backdrop, Escape, and browser-back close requests. Read `event.detail.eventType`; call `preventDefault()` to reject the request. |
 | `onUrlOpen` | `(event) => void` | Fired when the modal opens itself because the current URL hash matches its id. |
 | `onLoad` | `(event) => void` | Fired before initialization. |
 | `onInit` | `(event) => void` | Fired after initialization. |
@@ -52,7 +56,7 @@ const [isOpen, setIsOpen] = useState(false);
 </JBModal>
 ```
 
-The web component dispatches `close` when the user clicks the background or triggers browser back while `isOpen` is true. Keep React state in sync in `onClose`.
+The web component dispatches `close` when the user clicks the background, presses Escape, or triggers browser back while `isOpen` is true. Keep React state in sync in `onClose`.
 
 ## isOpen and close
 
@@ -61,7 +65,7 @@ Use `isOpen` as controlled React state. Use `onClose` to update that state when 
 ## Slots
 
 ```jsx
-<JBModal isOpen={isOpen}>
+<JBModal isOpen={isOpen} label="Review changes">
   <div slot="header">Modal header</div>
   <div slot="content">Modal content</div>
   <div slot="footer">
@@ -89,7 +93,28 @@ const [isModalOpen, setModalOpen] = useState(false);
 
 ## Background click
 
-Background clicks dispatch the underlying `close` event. Read `event.detail.eventType` in `onClose` when your app needs to distinguish background clicks from URL-history close requests.
+Background clicks dispatch the underlying `close` event. Set `autoCloseOnBackgroundClick` to close automatically after an uncanceled request. Read `event.detail.eventType` in `onClose` when your app needs to distinguish background clicks from URL-history close requests.
+
+```jsx
+<JBModal isOpen={isOpen} autoCloseOnBackgroundClick onClose={() => setIsOpen(false)}>
+  Modal content
+</JBModal>
+```
+
+Escape closes the web component by default and reports `ESCAPE_KEY`. If a form must remain open, prevent the close request:
+
+```jsx
+<JBModal
+  isOpen={isOpen}
+  label="Edit profile"
+  onClose={(event) => {
+    if (hasUnsavedChanges) event.preventDefault();
+    else setIsOpen(false);
+  }}
+>
+  <ProfileForm />
+</JBModal>
+```
 
 ## Imperative access
 
@@ -181,7 +206,7 @@ See the [Animation Storybook docs](https://javadbat.github.io/design-system/?pat
 
 ## Accessibility notes
 
-`JBModal` provides modal structure and backdrop behavior, but the current web component does not implement focus trapping or Escape-key close behavior. Add those behaviors in your app when the modal contains keyboard-interactive workflows.
+`JBModal` moves focus into the dialog, traps Tab navigation in the topmost modal, closes on Escape, restores focus to the opener, hides closed content with `inert`, and respects reduced-motion preferences. Provide `label` whenever header text is absent or not descriptive. `description` can supply additional context.
 
 ## Shared Documentation
 
@@ -194,4 +219,4 @@ For web-component behavior, events, slots, CSS parts, URL hash behavior, and the
 - Use `onUrlOpen` to sync state when the modal opens from a URL hash.
 - Use `ref.current.open()` and `ref.current.close()` only for imperative workflows.
 - Use `slot="header"`, `slot="content"`, and `slot="footer"` for structured modal content.
-- The web component does not currently implement focus trapping or Escape-key close behavior.
+- Use a unique `id` for every history-linked modal. For nested modals, browser history records each hash and Back closes only the topmost modal.

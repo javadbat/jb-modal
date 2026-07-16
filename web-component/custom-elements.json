@@ -29,6 +29,20 @@
               "type": {
                 "text": "string"
               }
+            },
+            {
+              "name": "label",
+              "description": "Accessible name announced for the dialog. Header slot text and then a localized Dialog label are used as fallbacks.",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "description",
+              "description": "Optional accessible description announced after the dialog name.",
+              "type": {
+                "text": "string"
+              }
             }
           ],
           "members": [
@@ -51,21 +65,38 @@
             },
             {
               "kind": "field",
-              "name": "config",
-              "description": "Runtime configuration. Set config.autoCloseOnBackgroundClick to true to close on backdrop click and history back.",
+              "name": "JBID",
+              "description": "Internal unique symbol for this modal instance.",
               "type": {
-                "text": "{ autoCloseOnBackgroundClick: boolean }"
+                "text": "symbol"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "autoCloseOnBackgroundClick",
+              "description": "Automatically closes the modal after an uncanceled backdrop close request. Disabled by default.",
+              "type": {
+                "text": "boolean"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "autoCloseOnEscape",
+              "description": "Automatically closes the modal after an uncanceled Escape close request. Enabled by default.",
+              "type": {
+                "text": "boolean"
               }
             }
           ],
           "methods": [
             {
               "name": "open",
-              "description": "Opens the modal, sets ariaHidden to false, and pushes #id to browser history when id is set."
+              "description": "Opens the modal, moves focus into it, and pushes #id to browser history when id is set."
             },
             {
               "name": "close",
-              "description": "Closes the modal, sets ariaHidden to true, and navigates back when the current URL hash matches the modal id."
+              "description": "Closes the modal, restores focus to its opener, and navigates back when it owns the current URL hash entry."
             }
           ],
           "events": [
@@ -83,7 +114,7 @@
             },
             {
               "name": "close",
-              "description": "Dispatched for background click and browser back close attempts. event.detail.eventType can be BACKGROUND_CLICK, HISTORY_BACK_EVENT, or CLOSE_BUTTON_CLICK."
+              "description": "Cancelable, bubbling close request. event.detail.eventType can be BACKGROUND_CLICK, HISTORY_BACK_EVENT, CLOSE_BUTTON_CLICK, or ESCAPE_KEY."
             }
           ],
           "slots": [

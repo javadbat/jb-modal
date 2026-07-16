@@ -29,7 +29,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: var(--z-index);
+    z-index: calc(var(--z-index) + var(--stack-index, 0));
     width: 100%;
     height: 100%;
 
@@ -126,5 +126,12 @@
 
     100% {
         transform: translateY(0%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :host(:state(open)) .modal-content-wrapper {
+        animation: none;
+        transform: translateY(0);
     }
 }

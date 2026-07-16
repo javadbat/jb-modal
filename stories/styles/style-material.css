@@ -1,17 +1,18 @@
 jb-modal.material-style {
   --jb-modal-bg-color: var(--jb-surface);
-  --jb-modal-back-bg-color: rgb(29 27 32 / 0.46);
-  --jb-modal-border-radius: 1.75rem;
+  --jb-modal-back-bg-color: rgb(31 31 31 / 0.42);
+  --jb-modal-border-radius: var(--jb-radius-xl);
   --jb-modal-z-index: 1000;
   color: var(--jb-text-primary);
 }
 
 jb-modal.material-style::part(background) {
-  backdrop-filter: blur(0.25rem);
+  backdrop-filter: none;
 }
 
 jb-modal.material-style::part(content-box) {
-  box-shadow: 0 1.5rem 3rem rgb(29 27 32 / 0.22);
+  border: 1px solid var(--jb-outline-variant);
+  box-shadow: var(--jb-elevation-3);
 }
 
 jb-modal.material-style:state(open)::part(content-box) {

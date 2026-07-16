@@ -1,6 +1,10 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { JBModal } from 'jb-modal/react';
-import type { JBModalEventType, JBModalWebComponent } from 'jb-modal';
+import {
+  jbModalManager,
+  type JBModalCloseEvent,
+  type JBModalEventType,
+} from 'jb-modal';
 import { JBButton } from 'jb-button/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
@@ -121,6 +125,252 @@ export const ActionTest: Story = {
       expect(canvasElement).toHaveTextContent('Hello World');
     });
   }
+};
+
+export const AccessibilityBehavior: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [lastCloseType, setLastCloseType] = useState("none");
+    const onClose = (event: JBModalEventType<JBModalCloseEvent>) => {
+      setLastCloseType(event.detail.eventType);
+      setIsOpen(false);
+    };
+
+    return (
+      <div className='button-wrapper'>
+        <button type="button" data-testid="a11y-modal-opener" onClick={() => setIsOpen(true)}>Open accessible modal</button>
+        <div>Last close type: {lastCloseType}</div>
+        <JBModal
+          isOpen={isOpen}
+          label="Edit account"
+          description="Update your public account information"
+          onClose={onClose}
+        >
+          <div slot="content">
+            <label>
+              Display name
+              {/* biome-ignore lint/a11y/noAutofocus: this story verifies the modal's documented initial-focus priority. */}
+              <input data-testid="initial-focus" autoFocus />
+            </label>
+            <button type="button" data-testid="last-modal-control">Save changes</button>
+          </div>
+        </JBModal>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const modal = getModal(canvasElement);
+    const opener = canvasElement.querySelector<HTMLButtonElement>('[data-testid="a11y-modal-opener"]')!;
+    const initialFocus = canvasElement.querySelector<HTMLInputElement>('[data-testid="initial-focus"]')!;
+    const lastControl = canvasElement.querySelector<HTMLButtonElement>('[data-testid="last-modal-control"]')!;
+
+    expect(modal.inert).toBe(true);
+    await userEvent.click(opener);
+
+    await waitFor(() => {
+      expect(modal.isOpen).toBe(true);
+      expect(modal.inert).toBe(false);
+      expect(document.activeElement).toBe(initialFocus);
+    });
+
+    lastControl.focus();
+    await userEvent.tab();
+    expect(document.activeElement).toBe(initialFocus);
+
+    initialFocus.focus();
+    await userEvent.tab({ shift: true });
+    expect(document.activeElement).toBe(lastControl);
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(modal.isOpen).toBe(false);
+      expect(modal.inert).toBe(true);
+      expect(document.activeElement).toBe(opener);
+      expect(canvasElement).toHaveTextContent('Last close type: ESCAPE_KEY');
+    });
+  },
+};
+
+export const CancelableCloseRequest: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [lastCloseType, setLastCloseType] = useState("none");
+
+    return (
+      <div>
+        <button type="button" data-testid="cancelable-opener" onClick={() => setIsOpen(true)}>
+          Open guarded modal
+        </button>
+        <div>Rejected close type: {lastCloseType}</div>
+        <JBModal
+          label="Unsaved profile"
+          isOpen={isOpen}
+          autoCloseOnBackgroundClick
+          onClose={(event) => {
+            event.preventDefault();
+            setLastCloseType(event.detail.eventType);
+          }}
+        >
+          <button type="button">Keep editing</button>
+        </JBModal>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const modal = getModal(canvasElement);
+    const opener = canvasElement.querySelector<HTMLButtonElement>('[data-testid="cancelable-opener"]')!;
+    await userEvent.click(opener);
+    await waitFor(() => expect(modal.isOpen).toBe(true));
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(modal.isOpen).toBe(true);
+      expect(canvasElement).toHaveTextContent('Rejected close type: ESCAPE_KEY');
+    });
+
+    await userEvent.click(getBackground(modal));
+    await waitFor(() => {
+      expect(modal.isOpen).toBe(true);
+      expect(canvasElement).toHaveTextContent('Rejected close type: BACKGROUND_CLICK');
+    });
+  },
+};
+
+export const NestedModalAccessibility: Story = {
+  render: () => {
+    const [parentOpen, setParentOpen] = useState(false);
+    const [childOpen, setChildOpen] = useState(false);
+    return (
+      <div>
+        <button type="button" data-testid="parent-opener" onClick={() => setParentOpen(true)}>Open parent modal</button>
+        <JBModal label="Parent dialog" isOpen={parentOpen} onClose={() => setParentOpen(false)}>
+          <div slot="content">
+            <button type="button" data-testid="child-opener" onClick={() => setChildOpen(true)}>Open child modal</button>
+            <JBModal label="Child dialog" isOpen={childOpen} onClose={() => setChildOpen(false)}>
+              <div slot="content">
+                {/* biome-ignore lint/a11y/noAutofocus: this story verifies nested modal initial focus. */}
+                <input data-testid="child-initial-focus" autoFocus aria-label="Child value" />
+                <button type="button">Confirm child</button>
+              </div>
+            </JBModal>
+            <button type="button">Parent action</button>
+          </div>
+        </JBModal>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const parentModal = getModal(canvasElement, 0);
+    const childModal = getModal(canvasElement, 1);
+    const parentOpener = canvasElement.querySelector<HTMLButtonElement>('[data-testid="parent-opener"]')!;
+    const childOpener = canvasElement.querySelector<HTMLButtonElement>('[data-testid="child-opener"]')!;
+    const childInitialFocus = canvasElement.querySelector<HTMLInputElement>('[data-testid="child-initial-focus"]')!;
+
+    await userEvent.click(parentOpener);
+    await waitFor(() => {
+      expect(jbModalManager.isTopmostModal(parentModal)).toBe(true);
+      expect(document.activeElement).toBe(childOpener);
+    });
+
+    await userEvent.click(childOpener);
+    await waitFor(() => {
+      expect(jbModalManager.isTopmostModal(childModal)).toBe(true);
+      expect(document.activeElement).toBe(childInitialFocus);
+    });
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(childModal.isOpen).toBe(false);
+      expect(parentModal.isOpen).toBe(true);
+      expect(jbModalManager.isTopmostModal(parentModal)).toBe(true);
+      expect(document.activeElement).toBe(childOpener);
+    });
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(parentModal.isOpen).toBe(false);
+      expect(document.activeElement).toBe(parentOpener);
+    });
+  },
+};
+
+export const NestedModalHistory: Story = {
+  render: () => {
+    const [parentOpen, setParentOpen] = useState(false);
+    const [childOpen, setChildOpen] = useState(false);
+    const [lastCloseType, setLastCloseType] = useState("none");
+    const handleClose = (
+      event: JBModalEventType<JBModalCloseEvent>,
+      setOpen: (value: boolean) => void,
+    ) => {
+      setLastCloseType(event.detail.eventType);
+      setOpen(false);
+    };
+
+    return (
+      <div>
+        <button type="button" data-testid="history-parent-opener" onClick={() => setParentOpen(true)}>
+          Open history parent
+        </button>
+        <div>Last history close type: {lastCloseType}</div>
+        <JBModal
+          id="history-parent-modal"
+          label="History parent"
+          isOpen={parentOpen}
+          onClose={(event) => handleClose(event, setParentOpen)}
+        >
+          <div slot="content">
+            <button type="button" data-testid="history-child-opener" onClick={() => setChildOpen(true)}>
+              Open history child
+            </button>
+            <JBModal
+              id="history-child-modal"
+              label="History child"
+              isOpen={childOpen}
+              onClose={(event) => handleClose(event, setChildOpen)}
+            >
+              <button type="button">Child action</button>
+            </JBModal>
+          </div>
+        </JBModal>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const originalUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    const originalState = window.history.state;
+    const baseUrl = `${window.location.pathname}${window.location.search}`;
+    const parentModal = getModal(canvasElement, 0);
+    const childModal = getModal(canvasElement, 1);
+    const parentOpener = canvasElement.querySelector<HTMLButtonElement>('[data-testid="history-parent-opener"]')!;
+    const childOpener = canvasElement.querySelector<HTMLButtonElement>('[data-testid="history-child-opener"]')!;
+
+    try {
+      await userEvent.click(parentOpener);
+      await waitFor(() => expect(window.location.hash).toBe('#history-parent-modal'));
+
+      await userEvent.click(childOpener);
+      await waitFor(() => expect(window.location.hash).toBe('#history-child-modal'));
+
+      window.history.replaceState({}, '', `${baseUrl}#history-parent-modal`);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      await waitFor(() => {
+        expect(childModal.isOpen).toBe(false);
+        expect(parentModal.isOpen).toBe(true);
+        expect(window.location.hash).toBe('#history-parent-modal');
+        expect(canvasElement).toHaveTextContent('Last history close type: HISTORY_BACK_EVENT');
+      });
+
+      window.history.replaceState({}, '', baseUrl);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      await waitFor(() => {
+        expect(parentModal.isOpen).toBe(false);
+        expect(window.location.hash).toBe('');
+      });
+    } finally {
+      window.history.replaceState(originalState, '', originalUrl);
+    }
+  },
 };
 
 export const DesktopEnterAnimation: Story = {
@@ -245,21 +495,22 @@ export const MobileView: Story = {
   }
 }
 export const CloseDetail: Story = {
-  render: (story) => {
+  render: () => {
     const [isOpen, setIsOpen] = useState(false);
-    const onModalClose = (e: JBModalEventType<CustomEvent<any>>) => {
+    const onModalClose = (e: JBModalEventType<JBModalCloseEvent>) => {
       console.log("modal close event type:", e.detail.eventType);
       setIsOpen(false);
     }
     return (
       <div className='button-wrapper'>
-        <JBButton color='light' onClick={(e) => setIsOpen(true)}>Open Modal</JBButton>
+        <JBButton color='light' onClick={() => setIsOpen(true)}>Open Modal</JBButton>
         <JBModal isOpen={isOpen} onClose={onModalClose} onUrlOpen={() => setIsOpen(true)} id="MyModal">
           <div className='modal-test-content' style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
             <div>
-              `onClose` event of the modal called for 2 reason:
+              `onClose` is called for three user close requests:
               <ul>
                 <li>when user click on modal background</li>
+                <li>when user press Escape</li>
                 <li>when user hit back button in android or back button of the browser</li>
               </ul>
             </div>
@@ -279,7 +530,7 @@ export const CloseDetail: Story = {
     let closeEventType = '';
 
     modal.addEventListener('close', (event) => {
-      closeEventType = (event as JBModalEventType<CustomEvent>).detail.eventType;
+      closeEventType = (event as JBModalEventType<JBModalCloseEvent>).detail.eventType;
     });
 
     await userEvent.click(getJBButtonNativeButton(openButton));
@@ -299,24 +550,17 @@ export const CloseDetail: Story = {
 
 export const HashIdAndAutoClose: Story = {
   render: () => {
-    const modalRef = useRef<JBModalWebComponent>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [autoClose, setAutoClose] = useState(true);
     const [lastEvent, setLastEvent] = useState("No close event yet");
     const [currentHash, setCurrentHash] = useState(window.location.hash || "(empty)");
     const modalId = "HashLinkedModal";
 
-    useEffect(() => {
-      if (modalRef.current) {
-        modalRef.current.config.autoCloseOnBackgroundClick = autoClose;
-      }
-    }, [autoClose]);
-
-    const onModalClose = (e: JBModalEventType<CustomEvent>) => {
+    const onModalClose = (e: JBModalEventType<JBModalCloseEvent>) => {
       const eventType = e.detail.eventType;
       setLastEvent(eventType);
       window.setTimeout(() => setCurrentHash(window.location.hash || "(empty)"));
-      if (autoClose) {
+      if (autoClose || eventType === "HISTORY_BACK_EVENT" || eventType === "ESCAPE_KEY") {
         setIsOpen(false);
       }
     };
@@ -341,9 +585,9 @@ export const HashIdAndAutoClose: Story = {
         <div>Current hash: {currentHash}</div>
         <div>Last close event: {lastEvent}</div>
         <JBModal
-          ref={modalRef}
           id={modalId}
           isOpen={isOpen}
+          autoCloseOnBackgroundClick={autoClose}
           onUrlOpen={() => setIsOpen(true)}
           onClose={onModalClose}
         >
@@ -361,15 +605,15 @@ export const HashIdAndAutoClose: Story = {
   play: async ({ canvasElement }) => {
     const originalUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
     const urlWithoutHash = `${window.location.pathname}${window.location.search}`;
-    const originalHistoryGo = window.history.go.bind(window.history);
+    const originalHistoryBack = window.history.back.bind(window.history);
     const modal = getModal(canvasElement);
     const openButton = getJBButton(canvasElement, 'Open modal and push #HashLinkedModal');
     const background = getBackground(modal);
 
     try {
-      window.history.go = (() => {
+      window.history.back = (() => {
         window.history.replaceState({}, '', urlWithoutHash);
-      }) as typeof window.history.go;
+      }) as typeof window.history.back;
 
       await userEvent.click(getJBButtonNativeButton(openButton));
 
@@ -386,7 +630,7 @@ export const HashIdAndAutoClose: Story = {
         expect(canvasElement).toHaveTextContent('Last close event: BACKGROUND_CLICK');
       });
     } finally {
-      window.history.go = originalHistoryGo;
+      window.history.back = originalHistoryBack;
       window.history.replaceState({}, '', originalUrl);
     }
   }

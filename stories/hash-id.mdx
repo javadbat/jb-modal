@@ -35,7 +35,7 @@ The `id` has three jobs:
 
 - When `open()` runs, the modal calls `history.pushState` and changes the URL to `#id`.
 - When the modal is initialized while `location.hash` already matches the modal id, the modal opens itself and dispatches `urlOpen`.
-- When `close()` runs while the current hash is `#id`, the modal calls `history.go(-1)` so the hash is removed by browser history.
+- When `close()` runs while the current hash is `#id`, the modal navigates back when it owns that history entry, so the previous hash is restored.
 
 Without an `id`, the modal still opens and closes normally, but it does not create a URL hash and browser back cannot target that modal.
 
@@ -69,23 +69,17 @@ The modal dispatches `close` with `event.detail.eventType`.
 
 `CLOSE_BUTTON_CLICK` is reserved for close-button driven closing.
 
+`ESCAPE_KEY` means the user pressed Escape while the modal was topmost.
+
 ## Auto close
 
-Auto close is configured on the web component instance:
+Auto close is a direct property on the web component and a direct prop on the React wrapper:
 
 ```tsx
-const modalRef = useRef<JBModalWebComponent>(null);
-
-useEffect(() => {
-  if (modalRef.current) {
-    modalRef.current.config.autoCloseOnBackgroundClick = true;
-  }
-}, []);
-
 <JBModal
-  ref={modalRef}
   id="HashLinkedModal"
   isOpen={isOpen}
+  autoCloseOnBackgroundClick
   onUrlOpen={() => setIsOpen(true)}
   onClose={() => setIsOpen(false)}
 >
@@ -94,7 +88,7 @@ useEffect(() => {
 ```
 
 When `autoCloseOnBackgroundClick` is `true`, backdrop clicks close the modal after the `close` event is dispatched.
-The same flag is also used for browser back handling: when the modal receives a `HISTORY_BACK_EVENT`, it closes itself if this config is enabled.
+Browser back closes the topmost matching modal independently of the backdrop setting.
 
 Even with auto close enabled, React users should still update `isOpen` in `onClose`.
 That keeps React state and the web component state aligned.
@@ -112,3 +106,15 @@ A hash-only link clicked after the modal is already mounted does not reopen the 
 For normal in-page buttons, use React state or the modal instance API to open the modal.
 
 In Storybook, browser-back behavior is easiest to test in the isolated iframe view because the story is normally nested inside Storybook's manager UI.
+
+## Nested modal history
+
+Give each history-linked modal a unique `id`. If modal A opens modal B, the browser entries are:
+
+```text
+/page -> #modal-a -> #modal-b
+```
+
+Back closes B and restores `#modal-a`; another Back closes A. Only the topmost modal reacts to each history change.
+
+A direct load at `#modal-b` can open B, but the hash does not contain enough information to reconstruct modal A. Applications that require parent context must restore it themselves.
