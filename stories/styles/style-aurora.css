@@ -1,7 +1,7 @@
 jb-modal.aurora-style {
   --jb-modal-bg-color: #111827;
   --jb-modal-back-bg-color: rgb(15 23 42 / 0.68);
-  --jb-modal-border-radius: 1.25rem;
+  --jb-modal-border-radius: 1rem;
   --jb-modal-z-index: 1000;
   color: #eff6ff;
 }
@@ -11,8 +11,16 @@ jb-modal.aurora-style::part(background) {
 }
 
 jb-modal.aurora-style::part(content-box) {
-  border: 1px solid rgb(125 211 252 / 0.42);
-  box-shadow: 0 1.5rem 3rem rgb(79 70 229 / 0.28);
+  border: 1px solid rgb(125 211 252 / 0.28);
+  box-shadow: 0 1.25rem 2.75rem rgb(0 0 0 / 0.32), 0 0 2rem rgb(79 70 229 / 0.12);
+}
+
+jb-modal.aurora-style jb-button.aurora-style[color="light"] {
+  --jb-button-color: var(--jb-text-secondary);
+  --jb-button-color-hover: var(--jb-text-primary);
+  --jb-button-color-pressed: var(--jb-focus-color);
+  --jb-button-bg-color-text-hover: rgb(125 228 211 / 0.12);
+  --jb-button-bg-color-text-pressed: rgb(125 228 211 / 0.2);
 }
 
 jb-modal.aurora-style:state(open)::part(content-box) {

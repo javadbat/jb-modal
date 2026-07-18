@@ -1,18 +1,27 @@
 jb-modal.carbon-style {
   --jb-modal-bg-color: var(--jb-surface);
   --jb-modal-back-bg-color: rgb(22 22 22 / 0.72);
-  --jb-modal-border-radius: 0.25rem;
+  --jb-modal-border-radius: 0;
   --jb-modal-z-index: 1000;
   color: var(--jb-text-primary);
 }
 
-jb-modal.carbon-style::part(background) {
-  backdrop-filter: blur(0.625rem);
-}
-
 jb-modal.carbon-style::part(content-box) {
   border: 1px solid var(--jb-border-color);
-  box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 0.38);
+  box-shadow: 0 0.75rem 1.5rem rgb(0 0 0 / 0.36);
+}
+
+jb-modal.carbon-style jb-button[color="light"] {
+  --jb-button-color: var(--jb-text-primary);
+  --jb-button-color-hover: var(--jb-text-contrast);
+  --jb-button-color-pressed: var(--jb-text-contrast);
+  --jb-button-border-color: var(--jb-border-color);
+  --jb-button-bg-color-hover: var(--jb-surface-hover);
+  --jb-button-bg-color-pressed: var(--jb-border-color);
+}
+
+jb-modal.carbon-style jb-button[color="secondary"] {
+  --jb-button-secondary: var(--jb-text-primary);
 }
 
 jb-modal.carbon-style:state(open)::part(content-box) {

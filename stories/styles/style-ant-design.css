@@ -7,7 +7,7 @@ jb-modal.ant-design-style {
 }
 
 jb-modal.ant-design-style::part(background) {
-  backdrop-filter: blur(0.125rem);
+  backdrop-filter: none;
 }
 
 jb-modal.ant-design-style::part(content-box) {
