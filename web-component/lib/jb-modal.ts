@@ -1,4 +1,5 @@
 import { i18n } from "jb-core/i18n";
+import { parseBooleanAttribute } from "jb-core";
 import { registerDefaultVariables } from "jb-core/theme";
 import { canRestoreFocus, getDeepActiveElement, getFocusableElements } from "./focus.js";
 import CSS from "./jb-modal.css";
@@ -141,7 +142,7 @@ export class JBModalWebComponent extends HTMLElement {
   onAttributeChange(name: string, value: string | null) {
     switch (name) {
       case "is-open":
-        if (value === "true") {
+        if (parseBooleanAttribute(value)) {
           this.open();
         } else {
           this.close();
