@@ -1,9 +1,10 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { JBModal } from 'jb-modal/react';
 import {
   jbModalManager,
   type JBModalCloseEvent,
   type JBModalEventType,
+  type JBModalWebComponent,
 } from 'jb-modal';
 import { JBButton } from 'jb-button/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -34,6 +35,43 @@ export const Normal: Story = {
     children: <div >Hello World</div>,
   }
 };
+
+export const LifecycleEvents: Story = {
+  render: () => {
+    const modalRef = useRef<JBModalWebComponent>(null);
+    const [events, setEvents] = useState<string[]>([]);
+
+    useEffect(() => {
+      const timer = window.setTimeout(() => {
+        modalRef.current?.dispatchEvent(new CustomEvent('load', { bubbles: true, composed: true }));
+        modalRef.current?.dispatchEvent(new CustomEvent('init', { bubbles: true, composed: true }));
+      }, 0);
+
+      return () => window.clearTimeout(timer);
+    }, []);
+
+    return (
+      <div>
+        <JBModal
+          ref={modalRef}
+          isOpen
+          label="Lifecycle events"
+          onLoad={() => setEvents((current) => [...current, 'load'])}
+          onInit={() => setEvents((current) => [...current, 'init'])}
+        >
+          <div slot="content">The modal lifecycle events are shown below.</div>
+        </JBModal>
+        <output data-testid="modal-lifecycle-events">{events.join(', ')}</output>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    await waitFor(() => {
+      expect(canvasElement).toHaveTextContent('load, init');
+    });
+  },
+};
+
 export const WithHeaderAndFooter: Story = {
   render: () => {
     return (

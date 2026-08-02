@@ -20,18 +20,19 @@ Benefits:
 
 ## When to use
 
-Use `jb-modal` for temporary blocking UI such as confirmations, forms, detail views, and mobile bottom sheets.
+Use `jb-modal` for temporary blocking UI such as confirmations, forms, detail views, and mobile bottom sheets. [See the basic modal demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--normal).
 
 Use an inline panel or page route when the content should remain part of the normal document flow or needs a shareable full-page URL.
 
 ## Demo
 
-- [GitHub Pages](https://javadbat.github.io/jb-modal)
-- [Storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
+[Try the interactive modal examples](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--overview) or [open the GitHub Pages demo](https://javadbat.github.io/jb-modal).
 
 ## Using With JS Frameworks
 
 <a href="https://github.com/javadbat/jb-modal/tree/main/react" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/React.js-jb--modal%2Freact-000.svg?logo=react&logoColor=%2361DAFB" height="30" /></a>
+
+See the [React API and examples](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-react-readme--docs).
 
 Other integrations: <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#angular" target="_blank" rel="noopener noreferrer">Angular</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#vue" target="_blank" rel="noopener noreferrer">Vue</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#nuxt" target="_blank" rel="noopener noreferrer">Nuxt</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#svelte" target="_blank" rel="noopener noreferrer">Svelte</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#sveltekit" target="_blank" rel="noopener noreferrer">SvelteKit</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#solidjs" target="_blank" rel="noopener noreferrer">SolidJS</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#lit" target="_blank" rel="noopener noreferrer">Lit</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#nextjs" target="_blank" rel="noopener noreferrer">Next.js</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#astro" target="_blank" rel="noopener noreferrer">Astro</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#blazor" target="_blank" rel="noopener noreferrer">Blazor</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#server-rendered-templates" target="_blank" rel="noopener noreferrer">Server-rendered templates</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#wordpress" target="_blank" rel="noopener noreferrer">WordPress</a> · <a href="https://javadbat.github.io/design-system/?path=/docs/getting-started-framework-integration--docs#alpinejs-and-htmx" target="_blank" rel="noopener noreferrer">Alpine.js and HTMX</a>
 
@@ -57,36 +58,38 @@ import 'jb-modal';
 
 | name | type | default | description |
 | --- | --- | --- | --- |
-| `is-open` | `boolean` | `false` | Opens the modal when set to `"true"`. Any other value closes it. |
-| `id` | `string` | `""` | Modal id used for URL hash state. |
-| `label` | `string` | header text or localized `"Dialog"` | Accessible name announced by assistive technology. Use this when the visible header does not provide a useful name. |
-| `description` | `string` | `""` | Optional accessible description announced after the modal name. |
+| `is-open` | `boolean` | `false` | Opens the modal when set to `"true"`. Any other value closes it. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--normal) |
+| `id` | `string` | `""` | Modal id used for URL hash state. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--hash-id-and-auto-close) |
+| `label` | `string` | header text or localized `"Dialog"` | Accessible name announced by assistive technology. Use this when the visible header does not provide a useful name. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--accessibility-behavior) |
+| `description` | `string` | `""` | Optional accessible description announced after the modal name. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--accessibility-behavior) |
 
 ### Properties
 
 | name | type | readonly | description |
 | --- | --- | --- | --- |
-| `isOpen` | `boolean` | yes | Current `isOpen` state. |
-| `id` | `string` | no | Modal id used for URL hash state. See the [Hash Id Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-hash-id--docs). |
+| `isOpen` | `boolean` | yes | Current `isOpen` state. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--action-test) |
+| `id` | `string` | no | Modal id used for URL hash state. See the [hash-state demo](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-hash-id--docs). |
 | `JBID` | `symbol` | yes | Internal unique symbol for this modal instance. |
-| `autoCloseOnBackgroundClick` | `boolean` | no | Automatically closes after an uncanceled backdrop close request. Defaults to `false`. |
-| `autoCloseOnEscape` | `boolean` | no | Automatically closes after an uncanceled Escape close request. Defaults to `true`. |
+| `autoCloseOnBackgroundClick` | `boolean` | no | Automatically closes after an uncanceled backdrop close request. Defaults to `false`. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--close-detail) |
+| `autoCloseOnEscape` | `boolean` | no | Automatically closes after an uncanceled Escape close request. Defaults to `true`. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--accessibility-behavior) |
 
 ### Methods
 
 | name | returns | description |
 | --- | --- | --- |
-| `open()` | `void` | Opens the modal, moves focus into it, and pushes `#id` to browser history when `id` is set. |
-| `close()` | `void` | Closes the modal, restores focus to its opener, and navigates back when it owns the current hash entry. |
+| `open()` | `void` | Opens the modal, moves focus into it, and pushes `#id` to browser history when `id` is set. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--action-test) |
+| `close()` | `void` | Closes the modal, restores focus to its opener, and navigates back when it owns the current hash entry. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--action-test) |
 
 ### Events
+
+The lifecycle story demonstrates `load` and `init`; close and URL events are covered by the linked interaction examples. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--lifecycle-events)
 
 | event | detail | description |
 | --- | --- | --- |
 | `load` | none | Dispatched from `connectedCallback` before initialization. |
 | `init` | none | Dispatched from `connectedCallback` after initialization. |
-| `urlOpen` | none | Dispatched when the modal opens itself because the current URL hash matches its id. |
-| `close` | `{ eventType }` | Cancelable, bubbling event dispatched for user close requests. Call `preventDefault()` to reject the request. |
+| `urlOpen` | none | Dispatched when the modal opens itself because the current URL hash matches its id. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--hash-id-and-auto-close) |
+| `close` | `{ eventType }` | Cancelable, bubbling event dispatched for user close requests. Call `preventDefault()` to reject the request. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--cancelable-close-request) |
 
 `close` event `event.detail.eventType` can be:
 
@@ -100,6 +103,8 @@ import 'jb-modal';
 Programmatic calls to `close()` do not dispatch a `close` event.
 
 ## isOpen and close
+
+The open/close methods and controlled `isOpen` state are exercised in the [action demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--action-test).
 
 ```js
 const modal = document.querySelector('jb-modal');
@@ -116,6 +121,8 @@ console.log(modal.isOpen);
 ```
 
 ## Slots
+
+See the [header and footer slot demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--with-header-and-footer) and the [slot documentation](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-slot-demo--docs).
 
 Use the default slot for simple content or named slots for structured modal sections.
 
@@ -138,6 +145,8 @@ Use the default slot for simple content or named slots for structured modal sect
 
 ## Background click
 
+The [close-detail demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--close-detail) shows the emitted `BACKGROUND_CLICK` detail and auto-close behavior.
+
 The component always dispatches `close` with `eventType: "BACKGROUND_CLICK"` when the backdrop is clicked. It only closes automatically when `autoCloseOnBackgroundClick` is `true`.
 
 ```js
@@ -156,7 +165,7 @@ modal.addEventListener('close', (event) => {
 
 Set `id` when the modal should update the URL hash while `isOpen` is true. When `open()` runs, the modal pushes `#id` to browser history. If the page loads with the same hash, the modal opens itself and dispatches `urlOpen`.
 
-Demo: [Hash Id Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-hash-id--docs). To test the real browser hash and back-button behavior, open the [isolated hash demo](https://javadbat.github.io/design-system/iframe.html?globals=&id=components-jbmodal--hash-id-and-auto-close&viewMode=story#HashLinkedModal) in a new window.
+Try the [hash-state demo](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-hash-id--docs). To test the real browser hash and back-button behavior, open the [isolated hash demo](https://javadbat.github.io/design-system/iframe.html?globals=&id=components-jbmodal--hash-id-and-auto-close&viewMode=story#HashLinkedModal) in a new window.
 
 ```html
 <jb-modal id="profile-modal">
@@ -190,7 +199,7 @@ A fresh page load at `#delete-confirmation-modal` can open that modal, but a sin
 
 ## CSS parts and custom style
 
-For complete styling guidance, live examples, and copyable style recipes, see [Styling](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-styling).
+For complete styling guidance, live examples, and copyable style recipes, see the [Styling guide](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-styling) and [style gallery](https://javadbat.github.io/design-system/?path=/story/components-jbmodal-style--gallery).
 
 | part | description |
 | --- | --- |
@@ -254,11 +263,11 @@ You can animate each exposed part independently. For example, fade the `backgrou
 
 For close animations, include a discrete `display` transition on the modal host so the element remains rendered while its parts animate back to their closed styles.
 
-See the [Animation Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-animation--docs) for open-only and open-close examples.
+See the [animation demo](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-animation--docs) for open-only and open-close examples.
 
 ## Accessibility notes
 
-- The component exposes `role="dialog"` and `aria-modal="true"` through `ElementInternals`.
+- The component exposes `role="dialog"` and `aria-modal="true"` through `ElementInternals`. [Accessibility demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--accessibility-behavior)
 - Set `label` to provide a stable accessible name. Without it, the component uses text from the `header` slot, then the localized word “Dialog”.
 - `description` provides an optional accessible description.
 - Opening focuses `[autofocus]`, otherwise the first focusable control, otherwise the modal content container.

@@ -9,8 +9,7 @@ React wrapper for [`jb-modal`](https://www.npmjs.com/package/jb-modal).
 
 ## Demo
 
-- [GitHub Pages](https://javadbat.github.io/jb-modal)
-- [Storybook](https://javadbat.github.io/design-system/?path=/story/components-jbmodal)
+[Try the interactive modal examples](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--overview), read the [React API docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-react-readme--docs), or [open the GitHub Pages demo](https://javadbat.github.io/jb-modal).
 
 ## Installation
 
@@ -26,24 +25,26 @@ import { JBModal } from 'jb-modal/react';
 
 ## When to use
 
-Use `JBModal` for temporary blocking UI such as confirmations, forms, detail views, and mobile bottom sheets in React.
+Use `JBModal` for temporary blocking UI such as confirmations, forms, detail views, and mobile bottom sheets in React. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--normal)
 
 ## Props
 
 | prop | type | description |
 | --- | --- | --- |
-| `isOpen` | `boolean` | Opens or closes the modal by calling the underlying `open()`/`close()` methods. |
-| `id` | `string` | Modal id used for URL hash state. Forwarded to the web component. |
-| `label` | `string` | Accessible name announced for the dialog. Header slot text is used as a fallback. |
-| `description` | `string` | Optional accessible description announced after the dialog name. |
-| `autoCloseOnBackgroundClick` | `boolean` | Automatically closes after an uncanceled backdrop close request. Defaults to `false`. |
-| `autoCloseOnEscape` | `boolean` | Automatically closes after an uncanceled Escape close request. Defaults to `true`. |
-| `onClose` | `(event) => void` | Fired for backdrop, Escape, and browser-back close requests. Read `event.detail.eventType`; call `preventDefault()` to reject the request. |
-| `onUrlOpen` | `(event) => void` | Fired when the modal opens itself because the current URL hash matches its id. |
-| `onLoad` | `(event) => void` | Fired before initialization. |
-| `onInit` | `(event) => void` | Fired after initialization. |
+| `isOpen` | `boolean` | Opens or closes the modal by calling the underlying `open()`/`close()` methods. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--action-test) |
+| `id` | `string` | Modal id used for URL hash state. Forwarded to the web component. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--hash-id-and-auto-close) |
+| `label` | `string` | Accessible name announced for the dialog. Header slot text is used as a fallback. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--accessibility-behavior) |
+| `description` | `string` | Optional accessible description announced after the dialog name. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--accessibility-behavior) |
+| `autoCloseOnBackgroundClick` | `boolean` | Automatically closes after an uncanceled backdrop close request. Defaults to `false`. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--close-detail) |
+| `autoCloseOnEscape` | `boolean` | Automatically closes after an uncanceled Escape close request. Defaults to `true`. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--accessibility-behavior) |
+| `onClose` | `(event) => void` | Fired for backdrop, Escape, and browser-back close requests. Read `event.detail.eventType`; call `preventDefault()` to reject the request. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--cancelable-close-request) |
+| `onUrlOpen` | `(event) => void` | Fired when the modal opens itself because the current URL hash matches its id. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--hash-id-and-auto-close) |
+| `onLoad` | `(event) => void` | Fired before initialization. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--lifecycle-events) |
+| `onInit` | `(event) => void` | Fired after initialization. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--lifecycle-events) |
 
 ## Controlled isOpen state
+
+The controlled-state interaction is covered by the [action demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--action-test).
 
 ```jsx
 const [isOpen, setIsOpen] = useState(false);
@@ -60,9 +61,11 @@ The web component dispatches `close` when the user clicks the background, presse
 
 ## isOpen and close
 
-Use `isOpen` as controlled React state. Use `onClose` to update that state when the underlying modal requests close from background click or browser history.
+Use `isOpen` as controlled React state. Use `onClose` to update that state when the underlying modal requests close from background click or browser history. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--action-test)
 
 ## Slots
+
+The [header and footer demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--with-header-and-footer) shows the `header`, `content`, and `footer` slots.
 
 ```jsx
 <JBModal isOpen={isOpen} label="Review changes">
@@ -76,7 +79,7 @@ Use `isOpen` as controlled React state. Use `onClose` to update that state when 
 
 ## URL hash state
 
-Set `id` when the modal should update the URL hash while `isOpen` is true. Use `onUrlOpen` to sync React state when the page loads with the modal hash.
+Set `id` when the modal should update the URL hash while `isOpen` is true. Use `onUrlOpen` to sync React state when the page loads with the modal hash. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--hash-id-and-auto-close)
 
 ```jsx
 const [isModalOpen, setModalOpen] = useState(false);
@@ -93,7 +96,7 @@ const [isModalOpen, setModalOpen] = useState(false);
 
 ## Background click
 
-Background clicks dispatch the underlying `close` event. Set `autoCloseOnBackgroundClick` to close automatically after an uncanceled request. Read `event.detail.eventType` in `onClose` when your app needs to distinguish background clicks from URL-history close requests.
+Background clicks dispatch the underlying `close` event. Set `autoCloseOnBackgroundClick` to close automatically after an uncanceled request. Read `event.detail.eventType` in `onClose` when your app needs to distinguish background clicks from URL-history close requests. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--close-detail)
 
 ```jsx
 <JBModal isOpen={isOpen} autoCloseOnBackgroundClick onClose={() => setIsOpen(false)}>
@@ -118,6 +121,8 @@ Escape closes the web component by default and reports `ESCAPE_KEY`. If a form m
 
 ## Imperative access
 
+Use a ref for imperative `open()` and `close()` calls. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--action-test)
+
 ```jsx
 const modalRef = useRef(null);
 
@@ -131,7 +136,7 @@ modalRef.current?.close();
 
 ## Custom style
 
-The React component uses the same CSS variables and parts as the web component.
+The React component uses the same CSS variables and parts as the web component. See the shared [web-component styling guidance](../README.md#css-parts-and-custom-style) and [style gallery](https://javadbat.github.io/design-system/?path=/story/components-jbmodal-style--gallery).
 
 | CSS variable name | description |
 | --- | --- |
@@ -156,7 +161,7 @@ The React component uses the same CSS variables and parts as the web component.
 
 ## CSS parts and custom style
 
-The wrapper exposes the same CSS parts and variables as the web component, including content and background parts used by the animation examples.
+The wrapper exposes the same CSS parts and variables as the web component, including content and background parts used by the [style gallery](https://javadbat.github.io/design-system/?path=/story/components-jbmodal-style--gallery).
 
 ## Animation
 
@@ -202,15 +207,15 @@ Use `className` on `JBModal` and animate the exposed web-component parts. You ca
 
 For close animations, add a discrete `display` transition to the modal host and define closed styles for the parts.
 
-See the [Animation Storybook docs](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-animation--docs) for open-only and open-close examples.
+See the [animation demo](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-animation--docs) for open-only and open-close examples.
 
 ## Accessibility notes
 
-`JBModal` moves focus into the dialog, traps Tab navigation in the topmost modal, closes on Escape, restores focus to the opener, hides closed content with `inert`, and respects reduced-motion preferences. Provide `label` whenever header text is absent or not descriptive. `description` can supply additional context.
+`JBModal` moves focus into the dialog, traps Tab navigation in the topmost modal, closes on Escape, restores focus to the opener, hides closed content with `inert`, and respects reduced-motion preferences. Provide `label` whenever header text is absent or not descriptive. `description` can supply additional context. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--accessibility-behavior)
 
 ## Shared Documentation
 
-For web-component behavior, events, slots, CSS parts, URL hash behavior, and the full API, see [`jb-modal`](https://github.com/javadbat/jb-modal).
+For web-component behavior, events, slots, CSS parts, URL hash behavior, and the full API, see the shared [`jb-modal` documentation](../README.md).
 
 ## AI agent notes
 
