@@ -13,8 +13,8 @@ jb-modal.carbon-style::part(content-box) {
 
 jb-modal.carbon-style jb-button[color="light"] {
   --jb-button-color: var(--jb-text-primary);
-  --jb-button-color-hover: var(--jb-text-contrast);
-  --jb-button-color-pressed: var(--jb-text-contrast);
+  --jb-button-color-hover: var(--jb-text-inverse);
+  --jb-button-color-pressed: var(--jb-text-inverse);
   --jb-button-border-color: var(--jb-border-color);
   --jb-button-bg-color-hover: var(--jb-surface-hover);
   --jb-button-bg-color-pressed: var(--jb-border-color);

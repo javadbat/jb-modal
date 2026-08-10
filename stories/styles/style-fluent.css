@@ -1,5 +1,5 @@
 jb-modal.fluent-style {
-  --jb-modal-bg-color: var(--jb-text-contrast);
+  --jb-modal-bg-color: var(--jb-text-inverse);
   --jb-modal-back-bg-color: rgb(32 31 30 / 0.44);
   --jb-modal-border-radius: 0.25rem;
   --jb-modal-z-index: 1000;
