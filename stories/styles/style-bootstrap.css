@@ -1,9 +1,9 @@
 jb-modal.bootstrap-style {
-  --jb-modal-bg-color: var(--jb-surface);
+  --jb-modal-bg-color: var(--jb-surface-primary);
   --jb-modal-back-bg-color: rgb(33 37 41 / 0.55);
   --jb-modal-border-radius: 0.5rem;
   --jb-modal-z-index: 1055;
-  color: var(--jb-text-primary);
+  color: var(--jb-content-primary);
 }
 
 jb-modal.bootstrap-style::part(background) {

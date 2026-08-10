@@ -1,9 +1,9 @@
 jb-modal.ant-design-style {
-  --jb-modal-bg-color: var(--jb-surface);
+  --jb-modal-bg-color: var(--jb-surface-primary);
   --jb-modal-back-bg-color: rgb(0 0 0 / 0.45);
   --jb-modal-border-radius: 0.5rem;
   --jb-modal-z-index: 1000;
-  color: var(--jb-text-primary);
+  color: var(--jb-content-primary);
 }
 
 jb-modal.ant-design-style::part(background) {

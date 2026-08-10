@@ -1,9 +1,9 @@
 jb-modal.fluent-style {
-  --jb-modal-bg-color: var(--jb-text-inverse);
+  --jb-modal-bg-color: var(--jb-content-inverse);
   --jb-modal-back-bg-color: rgb(32 31 30 / 0.44);
   --jb-modal-border-radius: 0.25rem;
   --jb-modal-z-index: 1000;
-  color: var(--jb-text-secondary);
+  color: var(--jb-content-secondary);
 }
 
 jb-modal.fluent-style::part(background) {

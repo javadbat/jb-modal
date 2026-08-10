@@ -1,5 +1,5 @@
 jb-modal.porcelain-style {
-  --jb-modal-bg-color: var(--jb-surface);
+  --jb-modal-bg-color: var(--jb-surface-primary);
   --jb-modal-back-bg-color: rgb(47 128 237 / 0.16);
   --jb-modal-border-radius: 0.875rem;
   --jb-modal-z-index: 1000;

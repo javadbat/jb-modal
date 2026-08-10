@@ -16,8 +16,8 @@ jb-modal.aurora-style::part(content-box) {
 }
 
 jb-modal.aurora-style jb-button.aurora-style[color="light"] {
-  --jb-button-color: var(--jb-text-secondary);
-  --jb-button-color-hover: var(--jb-text-primary);
+  --jb-button-color: var(--jb-content-secondary);
+  --jb-button-color-hover: var(--jb-content-primary);
   --jb-button-color-pressed: var(--jb-focus-color);
   --jb-button-bg-color-text-hover: rgb(125 228 211 / 0.12);
   --jb-button-bg-color-text-pressed: rgb(125 228 211 / 0.2);
