@@ -366,3 +366,9 @@ export class JBModalWebComponent extends JBBaseComponent {
 }
 
 defineWebComponent("jb-modal", JBModalWebComponent);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "jb-modal": JBModalWebComponent;
+  }
+}
