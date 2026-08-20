@@ -1,5 +1,5 @@
+import { defineWebComponent, JBBaseComponent, parseBooleanAttribute } from "jb-core";
 import { i18n } from "jb-core/i18n";
-import { parseBooleanAttribute } from "jb-core";
 import { registerDefaultVariables } from "jb-core/theme";
 import { canRestoreFocus, getDeepActiveElement, getFocusableElements } from "./focus.js";
 import CSS from "./jb-modal.css";
@@ -16,7 +16,7 @@ type ModalHistoryState = {
   previousHash: string;
 };
 
-export class JBModalWebComponent extends HTMLElement {
+export class JBModalWebComponent extends JBBaseComponent {
   #isOpen = false;
   #internals!: ElementInternals;
   #JBID = Symbol("JBID");
@@ -365,6 +365,4 @@ export class JBModalWebComponent extends HTMLElement {
   };
 }
 
-if (!customElements.get("jb-modal")) {
-  window.customElements.define("jb-modal", JBModalWebComponent);
-}
+defineWebComponent("jb-modal", JBModalWebComponent);
