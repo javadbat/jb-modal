@@ -10,11 +10,11 @@ jb-modal.ant-design-style::part(background) {
   backdrop-filter: none;
 }
 
-jb-modal.ant-design-style::part(content-box) {
+jb-modal.ant-design-style::part(content) {
   box-shadow: 0 0.375rem 1rem rgb(0 0 0 / 0.14);
 }
 
-jb-modal.ant-design-style:state(open)::part(content-box) {
+jb-modal.ant-design-style:state(open)::part(content) {
   animation: ant-modal-in 180ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 

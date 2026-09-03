@@ -88,7 +88,7 @@ The lifecycle story demonstrates `load` and `init`; close and URL events are cov
 | --- | --- | --- |
 | `load` | none | Dispatched from `connectedCallback` before initialization. |
 | `init` | none | Dispatched from `connectedCallback` after initialization. |
-| `urlOpen` | none | Dispatched when the modal opens itself because the current URL hash matches its id. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--hash-id-and-auto-close) |
+| `url-open` | none | Dispatched when the modal opens itself because the current URL hash matches its id. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--hash-id-and-auto-close) |
 | `close` | `{ eventType }` | Cancelable, bubbling event dispatched for user close requests. Call `preventDefault()` to reject the request. [Demo](https://javadbat.github.io/design-system/?path=/story/components-jbmodal--cancelable-close-request) |
 
 `close` event `event.detail.eventType` can be:
@@ -163,7 +163,7 @@ modal.addEventListener('close', (event) => {
 
 ## URL hash state
 
-Set `id` when the modal should update the URL hash while `isOpen` is true. When `open()` runs, the modal pushes `#id` to browser history. If the page loads with the same hash, the modal opens itself and dispatches `urlOpen`.
+Set `id` when the modal should update the URL hash while `isOpen` is true. When `open()` runs, the modal pushes `#id` to browser history. If the page loads with the same hash, the modal opens itself and dispatches `url-open`.
 
 Try the [hash-state demo](https://javadbat.github.io/design-system/?path=/docs/components-jbmodal-hash-id--docs). To test the real browser hash and back-button behavior, open the [isolated hash demo](https://javadbat.github.io/design-system/iframe.html?globals=&id=components-jbmodal--hash-id-and-auto-close&viewMode=story#HashLinkedModal) in a new window.
 
@@ -176,7 +176,7 @@ Try the [hash-state demo](https://javadbat.github.io/design-system/?path=/docs/c
 ```js
 const modal = document.querySelector('#profile-modal');
 
-modal.addEventListener('urlOpen', () => {
+modal.addEventListener('url-open', () => {
   console.log('Opened from URL hash');
 });
 ```
@@ -204,8 +204,8 @@ For complete styling guidance, live examples, and copyable style recipes, see th
 | part | description |
 | --- | --- |
 | `background` | The modal backdrop/background. |
-| `content-box` | The modal content box that contains header, content, and footer slots. |
-| `component-wrapper` | div that wrap whole component |
+| `content` | The modal content box that contains header, content, and footer slots. |
+| `root` | div that wraps the whole component |
 
 | CSS variable name | description |
 | --- | --- |
@@ -215,7 +215,7 @@ For complete styling guidance, live examples, and copyable style recipes, see th
 | `--jb-modal-z-index` | Modal z-index. |
 
 ```css
-jb-modal::part(content-box) {
+jb-modal::part(content) {
   min-width: 20rem;
 }
 
@@ -229,7 +229,7 @@ jb-modal {
 
 `jb-modal` does not ship with a default desktop open or close animation. Modal animation is usually tied to each project's visual language, motion duration, easing, and interaction style, so the component keeps the behavior simple and lets you add animation from your own CSS.
 
-You can animate each exposed part independently. For example, fade the `background`, scale or slide the `content-box`, or use different durations for each part.
+You can animate each exposed part independently. For example, fade the `background`, scale or slide the `content`, or use different durations for each part.
 
 ```css
 @media (min-width: 48.0625rem) {
@@ -238,7 +238,7 @@ You can animate each exposed part independently. For example, fade the `backgrou
     transition: opacity 300ms ease;
   }
 
-  .profile-modal::part(content-box) {
+  .profile-modal::part(content) {
     opacity: 1;
     transform: translateY(0) scale(1);
     transition:
@@ -252,7 +252,7 @@ You can animate each exposed part independently. For example, fade the `backgrou
     }
   }
 
-  .profile-modal:state(open)::part(content-box) {
+  .profile-modal:state(open)::part(content) {
     @starting-style {
       opacity: 0;
       transform: translateY(1rem) scale(0.96);

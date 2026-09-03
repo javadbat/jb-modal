@@ -38,7 +38,7 @@
         transition: opacity 300ms ease;
     }
 
-    .desktop-enter-animation-modal::part(content-box) {
+    .desktop-enter-animation-modal::part(content) {
         opacity: 1;
         transform: translateY(0) scale(1);
         transition:
@@ -52,7 +52,7 @@
         }
     }
 
-    .desktop-enter-animation-modal:state(open)::part(content-box) {
+    .desktop-enter-animation-modal:state(open)::part(content) {
         @starting-style {
             opacity: 0;
             transform: translateY(1rem) scale(0.5);
@@ -83,7 +83,7 @@
         }
     }
 
-    .desktop-starting-style-modal::part(content-box) {
+    .desktop-starting-style-modal::part(content) {
         opacity: 0;
         transform: translateY(1rem) scale(0.5);
         transition:
@@ -92,7 +92,7 @@
         will-change: opacity, transform;
     }
 
-    .desktop-starting-style-modal:state(open)::part(content-box) {
+    .desktop-starting-style-modal:state(open)::part(content) {
         opacity: 1;
         transform: translateY(0) scale(1);
 

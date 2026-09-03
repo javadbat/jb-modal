@@ -21,5 +21,5 @@ export function useEvents(element: RefObject<JBModalWebComponent | null>, props:
   useEvent(element, "load", props.onLoad, true);
   useEvent(element, "init", props.onInit, true);
   useEvent(element, "close", props.onClose);
-  useEvent(element, "urlOpen", props.onUrlOpen);
+  useEvent(element, "url-open", props.onUrlOpen);
 }

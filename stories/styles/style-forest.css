@@ -10,12 +10,12 @@ jb-modal.forest-style::part(background) {
   backdrop-filter: blur(0.875rem);
 }
 
-jb-modal.forest-style::part(content-box) {
+jb-modal.forest-style::part(content) {
   border: 1px solid rgb(246 211 101 / 0.34);
   box-shadow: 0 1.25rem 2.5rem rgb(20 83 45 / 0.32);
 }
 
-jb-modal.forest-style:state(open)::part(content-box) {
+jb-modal.forest-style:state(open)::part(content) {
   animation: forest-modal-in 220ms ease-out;
 }
 

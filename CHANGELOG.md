@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0] - 2026-09-03
+
+### Changed
+
+- Breaking: renamed the modal content part to `content`.
+- Breaking: renamed the public `urlOpen` event to `url-open`; the old event name is removed. The React handler remains `onUrlOpen`.
+
 ## [1.15.0] - 2026-08-23
 
 ### Changed

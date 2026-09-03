@@ -109,7 +109,7 @@
               "description": "Dispatched from connectedCallback after initProp."
             },
             {
-              "name": "urlOpen",
+              "name": "url-open",
               "description": "Dispatched when the modal opens itself because the current URL hash matches its id."
             },
             {
@@ -141,12 +141,12 @@
               "description": "The modal backdrop/background."
             },
             {
-              "name": "content-box",
+              "name": "content",
               "description": "The modal content box that contains header, content, and footer slots."
             },
             {
-              "name": "component-wrapper",
-              "description": "The modal whole component wrapper"
+              "name": "root",
+              "description": "The modal root element."
             }
           ],
           "cssProperties": [

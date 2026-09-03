@@ -34,7 +34,7 @@ For example, a modal with `id="HashLinkedModal"` opens the URL hash `#HashLinked
 The `id` has three jobs:
 
 - When `open()` runs, the modal calls `history.pushState` and changes the URL to `#id`.
-- When the modal is initialized while `location.hash` already matches the modal id, the modal opens itself and dispatches `urlOpen`.
+- When the modal is initialized while `location.hash` already matches the modal id, the modal opens itself and dispatches `url-open`.
 - When `close()` runs while the current hash is `#id`, the modal navigates back when it owns that history entry, so the previous hash is restored.
 
 Without an `id`, the modal still opens and closes normally, but it does not create a URL hash and browser back cannot target that modal.

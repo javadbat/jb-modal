@@ -15,7 +15,7 @@ export function getBackground(modal: JBModalWebComponent) {
 }
 
 export function getContentWrapper(modal: JBModalWebComponent) {
-  const contentWrapper = modal.shadowRoot?.querySelector<HTMLDivElement>('.modal-content-wrapper');
+  const contentWrapper = modal.shadowRoot?.querySelector<HTMLDivElement>('.modal-content');
   expect(contentWrapper).toBeTruthy();
   return contentWrapper!;
 }

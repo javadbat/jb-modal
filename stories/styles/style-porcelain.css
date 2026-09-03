@@ -10,12 +10,12 @@ jb-modal.porcelain-style::part(background) {
   backdrop-filter: blur(0.875rem);
 }
 
-jb-modal.porcelain-style::part(content-box) {
+jb-modal.porcelain-style::part(content) {
   border: 1px solid #d6e4f0;
   box-shadow: 0 1.25rem 2.5rem rgb(47 128 237 / 0.16);
 }
 
-jb-modal.porcelain-style:state(open)::part(content-box) {
+jb-modal.porcelain-style:state(open)::part(content) {
   animation: porcelain-modal-in 200ms ease-out;
 }
 

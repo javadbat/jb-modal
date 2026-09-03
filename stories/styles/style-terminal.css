@@ -11,12 +11,12 @@ jb-modal.terminal-style::part(background) {
   backdrop-filter: none;
 }
 
-jb-modal.terminal-style::part(content-box) {
+jb-modal.terminal-style::part(content) {
   border: 1px solid #22c55e;
   box-shadow: 0 0 0 1px #22c55e, 0 1rem 2rem rgb(0 0 0 / 0.4);
 }
 
-jb-modal.terminal-style:state(open)::part(content-box) {
+jb-modal.terminal-style:state(open)::part(content) {
   animation: terminal-modal-in 120ms steps(2, end);
 }
 

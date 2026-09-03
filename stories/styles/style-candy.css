@@ -10,12 +10,12 @@ jb-modal.candy-style::part(background) {
   backdrop-filter: blur(0.875rem);
 }
 
-jb-modal.candy-style::part(content-box) {
+jb-modal.candy-style::part(content) {
   border: 1px solid #f9a8d4;
   box-shadow: 0 1rem 2.25rem rgb(244 114 182 / 0.22);
 }
 
-jb-modal.candy-style:state(open)::part(content-box) {
+jb-modal.candy-style:state(open)::part(content) {
   animation: candy-modal-in 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 

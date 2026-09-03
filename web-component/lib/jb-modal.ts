@@ -128,7 +128,7 @@ export class JBModalWebComponent extends JBBaseComponent {
   }
 
   triggerUrlOpenEvent() {
-    this.dispatchEvent(new CustomEvent("urlOpen", { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent("url-open", { bubbles: true, composed: true }));
   }
 
   static get observedAttributes() {

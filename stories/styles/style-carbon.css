@@ -6,7 +6,7 @@ jb-modal.carbon-style {
   color: var(--jb-content-primary);
 }
 
-jb-modal.carbon-style::part(content-box) {
+jb-modal.carbon-style::part(content) {
   border: 1px solid var(--jb-border-color);
   box-shadow: 0 0.75rem 1.5rem rgb(0 0 0 / 0.36);
 }
@@ -24,7 +24,7 @@ jb-modal.carbon-style jb-button[color="secondary"] {
   --jb-button-secondary: var(--jb-content-primary);
 }
 
-jb-modal.carbon-style:state(open)::part(content-box) {
+jb-modal.carbon-style:state(open)::part(content) {
   animation: carbon-modal-in 180ms ease-out;
 }
 

@@ -10,12 +10,12 @@ jb-modal.cupertino-style::part(background) {
   backdrop-filter: blur(1.25rem);
 }
 
-jb-modal.cupertino-style::part(content-box) {
+jb-modal.cupertino-style::part(content) {
   border: 1px solid rgb(60 60 67 / 0.14);
   box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.18);
 }
 
-jb-modal.cupertino-style:state(open)::part(content-box) {
+jb-modal.cupertino-style:state(open)::part(content) {
   animation: cupertino-modal-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 

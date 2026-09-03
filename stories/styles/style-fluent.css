@@ -10,12 +10,12 @@ jb-modal.fluent-style::part(background) {
   backdrop-filter: blur(0.25rem);
 }
 
-jb-modal.fluent-style::part(content-box) {
+jb-modal.fluent-style::part(content) {
   border: 1px solid var(--jb-surface-hover);
   box-shadow: 0 0.75rem 1.5rem rgb(0 0 0 / 0.18);
 }
 
-jb-modal.fluent-style:state(open)::part(content-box) {
+jb-modal.fluent-style:state(open)::part(content) {
   animation: fluent-modal-in 180ms cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 

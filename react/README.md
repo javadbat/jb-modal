@@ -146,7 +146,7 @@ The React component uses the same CSS variables and parts as the web component. 
 | `--jb-modal-z-index` | Modal z-index. |
 
 ```css
-.profile-modal::part(content-box) {
+.profile-modal::part(content) {
   min-width: 20rem;
 }
 
@@ -167,7 +167,7 @@ The wrapper exposes the same CSS parts and variables as the web component, inclu
 
 `JBModal` does not provide a default desktop open or close animation. Different products usually need different motion styles, durations, and easing, so the wrapper leaves animation to your project CSS.
 
-Use `className` on `JBModal` and animate the exposed web-component parts. You can animate each part differently: fade the `background`, scale the `content-box`, slide it from any direction, or give each part its own timing.
+Use `className` on `JBModal` and animate the exposed web-component parts. You can animate each part differently: fade the `background`, scale the `content`, slide it from any direction, or give each part its own timing.
 
 ```css
 @media (min-width: 48.0625rem) {
@@ -176,7 +176,7 @@ Use `className` on `JBModal` and animate the exposed web-component parts. You ca
     transition: opacity 300ms ease;
   }
 
-  .profile-modal::part(content-box) {
+  .profile-modal::part(content) {
     opacity: 1;
     transform: translateY(0) scale(1);
     transition:
@@ -190,7 +190,7 @@ Use `className` on `JBModal` and animate the exposed web-component parts. You ca
     }
   }
 
-  .profile-modal:state(open)::part(content-box) {
+  .profile-modal:state(open)::part(content) {
     @starting-style {
       opacity: 0;
       transform: translateY(1rem) scale(0.96);

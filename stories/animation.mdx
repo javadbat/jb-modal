@@ -5,7 +5,7 @@ import * as ModalStories from './JBModal.stories';
 
 <Title>Animation</Title>
 
-`jb-modal` exposes `background` and `content-box` parts, so desktop animations can be added from outside the component.
+`jb-modal` exposes `background` and `content` parts, so desktop animations can be added from outside the component.
 
 ## Open animation only
 
@@ -22,7 +22,7 @@ This is the shortest version. It uses `@starting-style` to define the first rend
         transition: opacity 300ms ease;
     }
 
-    .desktop-enter-animation-modal::part(content-box) {
+    .desktop-enter-animation-modal::part(content) {
         opacity: 1;
         transform: translateY(0) scale(1);
         transition:
@@ -36,7 +36,7 @@ This is the shortest version. It uses `@starting-style` to define the first rend
         }
     }
 
-    .desktop-enter-animation-modal:state(open)::part(content-box) {
+    .desktop-enter-animation-modal:state(open)::part(content) {
         @starting-style {
             opacity: 0;
             transform: translateY(1rem) scale(0.5);
@@ -81,7 +81,7 @@ This version adds a discrete `display` transition to the modal host. That keeps 
         }
     }
 
-    .desktop-starting-style-modal::part(content-box) {
+    .desktop-starting-style-modal::part(content) {
         opacity: 0;
         transform: translateY(1rem) scale(0.5);
         transition:
@@ -90,7 +90,7 @@ This version adds a discrete `display` transition to the modal host. That keeps 
         will-change: opacity, transform;
     }
 
-    .desktop-starting-style-modal:state(open)::part(content-box) {
+    .desktop-starting-style-modal:state(open)::part(content) {
         opacity: 1;
         transform: translateY(0) scale(1);
 

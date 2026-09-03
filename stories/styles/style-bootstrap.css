@@ -10,12 +10,12 @@ jb-modal.bootstrap-style::part(background) {
   backdrop-filter: blur(0.125rem);
 }
 
-jb-modal.bootstrap-style::part(content-box) {
+jb-modal.bootstrap-style::part(content) {
   border: 1px solid rgb(0 0 0 / 0.18);
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 0.15);
 }
 
-jb-modal.bootstrap-style:state(open)::part(content-box) {
+jb-modal.bootstrap-style:state(open)::part(content) {
   animation: bootstrap-modal-in 180ms ease-out;
 }
 

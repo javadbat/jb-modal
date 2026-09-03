@@ -54,7 +54,7 @@ Use four layers when styling modal examples:
 - Common design tokens are documented in [Theme Colors](../../jb-core/theme/stories/colors.mdx) and [Theme Sizes](../../jb-core/theme/stories/sizes.mdx).
 - Reusable example theme packs live in [`docs/styles`](https://github.com/javadbat/design-system/tree/main/docs/styles) and can be shared across components.
 - Component recipe files live in [`modules/jb-modal/stories/styles`](https://github.com/javadbat/design-system/tree/main/modules/jb-modal/stories/styles).
-- Public component variables use `--jb-modal-*` on `jb-modal`; official parts use `::part(component-wrapper)`, `::part(background)`, and `::part(content-box)`.
+- Public component variables use `--jb-modal-*` on `jb-modal`; official parts use `::part(root)`, `::part(background)`, and `::part(content)`.
 - Trigger and action buttons reuse the existing [JBButton Styling](../../jb-button/stories/Styling.mdx) recipe classes instead of redefining button variables in modal CSS.
 
 Each example uses one shared example theme pack from [`docs/styles`](https://github.com/javadbat/design-system/tree/main/docs/styles) and one modal-specific recipe from [`modules/jb-modal/stories/styles`](https://github.com/javadbat/design-system/tree/main/modules/jb-modal/stories/styles). The gallery uses `style-preview.css` only to render fixed modals as local previews inside the documentation grid.
@@ -63,8 +63,8 @@ Each example uses one shared example theme pack from [`docs/styles`](https://git
 
 1. Use `--jb-modal-*` variables first for backdrop color, content background, content radius, and modal stack level.
 2. Use `::part(background)` for backdrop blur, opacity, and entrance motion.
-3. Use `::part(content-box)` for border, shadow, content-box sizing, and entrance motion.
-4. Use the `open` custom state for motion selectors such as `jb-modal:state(open)::part(content-box)`.
+3. Use `::part(content)` for border, shadow, content sizing, and entrance motion.
+4. Use the `open` custom state for motion selectors such as `jb-modal:state(open)::part(content)`.
 5. Style header, content, and footer by styling the slotted elements passed to `slot="header"`, `slot="content"`, and `slot="footer"`. See [Slot Demo](./slot-demo.mdx).
 6. Use [Animation](./animation.mdx) for deeper enter and close animation patterns.
 7. Reuse [JBButton Styling](../../jb-button/stories/Styling.mdx) classes for modal trigger, cancel, and submit buttons.
@@ -83,9 +83,9 @@ Each example uses one shared example theme pack from [`docs/styles`](https://git
     </tr>
   </thead>
   <tbody>
-    <tr><td><code>component-wrapper</code></td><td>Fullscreen modal wrapper.</td><td>Use carefully for advanced layout, preview rendering, or whole-modal effects.</td></tr>
+    <tr><td><code>root</code></td><td>Fullscreen modal root.</td><td>Use carefully for advanced layout, preview rendering, or whole-modal effects.</td></tr>
     <tr><td><code>background</code></td><td>Backdrop element.</td><td>Use for backdrop color, blur, opacity, and backdrop animation.</td></tr>
-    <tr><td><code>content-box</code></td><td>Modal content box.</td><td>Use for border, shadow, content box sizing, and content-box animation.</td></tr>
+    <tr><td><code>content</code></td><td>Modal content box.</td><td>Use for border, shadow, content box sizing, and content animation.</td></tr>
   </tbody>
 </table>
 
@@ -98,7 +98,7 @@ Each example uses one shared example theme pack from [`docs/styles`](https://git
     </tr>
   </thead>
   <tbody>
-    <tr><td><code>open</code></td><td>Applied while the modal is open.</td><td><code>jb-modal:state(open)::part(content-box)</code></td></tr>
+    <tr><td><code>open</code></td><td>Applied while the modal is open.</td><td><code>jb-modal:state(open)::part(content)</code></td></tr>
   </tbody>
 </table>
 
@@ -138,12 +138,12 @@ jb-modal.brand-modal::part(background) {
   backdrop-filter: blur(0.5rem);
 }
 
-jb-modal.brand-modal::part(content-box) {
+jb-modal.brand-modal::part(content) {
   border: 1px solid #dbeafe;
   box-shadow: 0 1.25rem 2.5rem rgb(15 23 42 / 0.16);
 }
 
-jb-modal.brand-modal:state(open)::part(content-box) {
+jb-modal.brand-modal:state(open)::part(content) {
   animation: brand-modal-in 180ms ease-out;
 }
 
@@ -344,11 +344,11 @@ jb-modal.theme-name-modal::part(background) {
   /* backdrop treatment */
 }
 
-jb-modal.theme-name-modal::part(content-box) {
+jb-modal.theme-name-modal::part(content) {
   /* modal surface treatment */
 }
 
-jb-modal.theme-name-modal:state(open)::part(content-box) {
+jb-modal.theme-name-modal:state(open)::part(content) {
   /* open-state motion */
 }
 

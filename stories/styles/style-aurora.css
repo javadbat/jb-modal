@@ -10,7 +10,7 @@ jb-modal.aurora-style::part(background) {
   backdrop-filter: blur(1rem) saturate(1.25);
 }
 
-jb-modal.aurora-style::part(content-box) {
+jb-modal.aurora-style::part(content) {
   border: 1px solid rgb(125 211 252 / 0.28);
   box-shadow: 0 1.25rem 2.75rem rgb(0 0 0 / 0.32), 0 0 2rem rgb(79 70 229 / 0.12);
 }
@@ -23,7 +23,7 @@ jb-modal.aurora-style jb-button.aurora-style[color="light"] {
   --jb-button-bg-color-text-pressed: rgb(125 228 211 / 0.2);
 }
 
-jb-modal.aurora-style:state(open)::part(content-box) {
+jb-modal.aurora-style:state(open)::part(content) {
   animation: aurora-modal-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 

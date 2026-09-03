@@ -3,7 +3,7 @@
 
 :host {
     display: none;
-    .modal-content-wrapper {
+    .modal-content {
         @media(--tablet-until) {
             transform: translateY(100%);
         }
@@ -13,7 +13,7 @@
 :host(:state(open)) {
     display: block;
 
-    .modal-content-wrapper {
+    .modal-content {
         @media(--tablet-until) {
             animation-name: swipe-up;
             animation-duration: 0.3s;
@@ -44,7 +44,7 @@
         height: 100%;
     }
 
-    .modal-content-wrapper {
+    .modal-content {
         position: absolute;
         top: 0;
         left: 0;
@@ -130,7 +130,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    :host(:state(open)) .modal-content-wrapper {
+    :host(:state(open)) .modal-content {
         animation: none;
         transform: translateY(0);
     }
