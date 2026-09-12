@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1] - 2026-09-12
+
+### Fixed
+
+- fix modal position
+
+
 ## [2.0.0] - 2026-09-03
 
 ### Changed

@@ -62,7 +62,7 @@
             align-items: flex-end;
         }
 
-        .modal-content {
+        .content-wrapper {
             pointer-events: all;
             width: auto;
             height: auto;

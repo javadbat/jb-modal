@@ -97,7 +97,7 @@ export class JBModalWebComponent extends JBBaseComponent {
     this.elements = {
       componentWrapper: shadowRoot.querySelector(".jb-modal-web-component")!,
       background: shadowRoot.querySelector(".modal-background")!,
-      content: shadowRoot.querySelector(".modal-content")!,
+      content: shadowRoot.querySelector(".content-wrapper")!,
       headerSlot: shadowRoot.querySelector('slot[name="header"]')!,
     };
     this.#updateAccessibleName();
