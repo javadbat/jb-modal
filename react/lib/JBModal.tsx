@@ -13,7 +13,6 @@ export const JBModal = React.forwardRef((props: Props, ref) => {
   useImperativeHandle(ref, () => element.current ?? undefined, []);
   //id is in other props
   const {
-    isOpen,
     autoCloseOnBackgroundClick,
     autoCloseOnEscape,
     onClose,
@@ -34,14 +33,6 @@ export const JBModal = React.forwardRef((props: Props, ref) => {
       element.current.autoCloseOnEscape = autoCloseOnEscape ?? true;
     }
   }, [autoCloseOnEscape]);
-
-  useEffect(() => {
-    if (isOpen == true) {
-      element.current?.open();
-    } else if(element.current?.isOpen) {
-      element.current?.close();
-    }
-  }, [isOpen]);
 
   useEvents(element, { onClose, onInit, onLoad, onUrlOpen });
   return (

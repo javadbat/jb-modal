@@ -47,21 +47,26 @@ export class JBModalWebComponent extends JBBaseComponent {
     return this.#isOpen;
   }
 
+  set isOpen(value: boolean) {
+    value ? this.open() : this.close();
+  }
+
   constructor() {
     super();
     this.initWebComponent();
   }
 
   connectedCallback() {
+    this.callOnLoadEvent();
+    this.initProp();
+
+    this.checkInitialOpenness();
+    this.callOnInitEvent();
     if (!this.#isOpen) {
       // A11y: set inert after construction because it reflects an attribute;
       // custom-element constructors must not add attributes to their host.
       this.inert = true;
     }
-    this.callOnLoadEvent();
-    this.initProp();
-    this.checkInitialOpenness();
-    this.callOnInitEvent();
   }
 
   disconnectedCallback() {
