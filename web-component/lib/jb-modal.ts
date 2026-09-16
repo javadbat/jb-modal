@@ -81,7 +81,7 @@ export class JBModalWebComponent extends JBBaseComponent {
   }
 
   callOnInitEvent() {
-    this.dispatchEvent(new CustomEvent("init", { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent("init", { bubbles: true, composed: false }));
   }
 
   initWebComponent() {

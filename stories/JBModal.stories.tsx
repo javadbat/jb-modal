@@ -44,7 +44,7 @@ export const LifecycleEvents: Story = {
     useEffect(() => {
       const timer = window.setTimeout(() => {
         modalRef.current?.dispatchEvent(new CustomEvent('load', { bubbles: true, composed: true }));
-        modalRef.current?.dispatchEvent(new CustomEvent('init', { bubbles: true, composed: true }));
+        modalRef.current?.dispatchEvent(new CustomEvent('init', { bubbles: true, composed: false }));
       }, 0);
 
       return () => window.clearTimeout(timer);
