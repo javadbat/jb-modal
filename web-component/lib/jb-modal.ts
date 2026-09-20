@@ -1,6 +1,6 @@
 import { defineWebComponent, JBBaseComponent, parseBooleanAttribute } from "jb-core";
 import { i18n } from "jb-core/i18n";
-import { registerDefaultVariables } from "jb-core/theme";
+import { breakPoints, registerDefaultVariables } from "jb-core/theme";
 import { canRestoreFocus, getDeepActiveElement, getFocusableElements } from "./focus.js";
 import CSS from "./jb-modal.css";
 import { jbModalManager } from "./jb-modal-manager.js";
@@ -8,6 +8,7 @@ import VariablesCSS from "./variables.css";
 import { dictionary } from "./i18n";
 import { renderHTML } from "./render";
 import type { ElementsObject, JBModalCloseEventType } from "./types.js";
+import { GestureController } from "./gesture-controller.js";
 export * from "./jb-modal-manager.js";
 export * from "./types.js";
 
@@ -17,9 +18,8 @@ type ModalHistoryState = {
 };
 
 export class JBModalWebComponent extends JBBaseComponent {
-  #isOpen = false;
   #internals!: ElementInternals;
-  #JBID = Symbol("JBID");
+  #gestureController!: GestureController;
   #id = "";
   #eventController?: AbortController;
   #previouslyFocusedElement: HTMLElement | null = null;
@@ -27,7 +27,16 @@ export class JBModalWebComponent extends JBBaseComponent {
   elements!: ElementsObject;
   autoCloseOnBackgroundClick = false;
   autoCloseOnEscape = true;
+  /**
+   * enable and disable swipe to close effect (enabled by default)
+   */
+  swipeToClose = true;
+  /**
+   * on SwipeDown we can allow user to grab content div or not default is false so user can't close modal by swiping on a a content
+   */
+  dragFromContent = false;
 
+  #JBID = Symbol("JBID");
   get JBID() {
     return this.#JBID;
   }
@@ -43,6 +52,7 @@ export class JBModalWebComponent extends JBBaseComponent {
     }
   }
 
+  #isOpen = false;
   get isOpen() {
     return this.#isOpen;
   }
@@ -50,15 +60,23 @@ export class JBModalWebComponent extends JBBaseComponent {
   set isOpen(value: boolean) {
     value ? this.open() : this.close();
   }
-
+  /**
+   * is modal is in bottom sheet mode (we turn to bottom sheet in small media)
+   *  @description used in gesture-controller to enable swipedown effect
+   */
+  get isBottomSheet() {
+    return window.matchMedia(`(max-width: ${breakPoints.md / 16}rem)`);
+  }
   constructor() {
     super();
     this.initWebComponent();
+
   }
 
   connectedCallback() {
     this.callOnLoadEvent();
     this.initProp();
+    this.#gestureController.connect();
 
     this.checkInitialOpenness();
     this.callOnInitEvent();
@@ -74,6 +92,7 @@ export class JBModalWebComponent extends JBBaseComponent {
     if (this.#isOpen) {
       this.#closeWithoutHistoryNavigation();
     }
+    this.#gestureController.disconnect();
   }
 
   callOnLoadEvent() {
@@ -102,10 +121,15 @@ export class JBModalWebComponent extends JBBaseComponent {
     this.elements = {
       componentWrapper: shadowRoot.querySelector(".jb-modal-web-component")!,
       background: shadowRoot.querySelector(".modal-background")!,
-      content: shadowRoot.querySelector(".content-wrapper")!,
+      content: {
+        section: shadowRoot.querySelector(".modal-content")!,
+        wrapper: shadowRoot.querySelector(".content-wrapper")!,
+      },
+      bottomSheetHandle: shadowRoot.querySelector(".drag-handle")!,
       headerSlot: shadowRoot.querySelector('slot[name="header"]')!,
     };
     this.#updateAccessibleName();
+    this.#gestureController = new GestureController(this, () => this.#requestClose("SWIPE_DOWN"), this.close);
   }
 
   registerEventListener() {
@@ -179,25 +203,30 @@ export class JBModalWebComponent extends JBBaseComponent {
     if (!this.#isOpen || !jbModalManager.isTopmostModal(this)) {
       return;
     }
-    const closeAllowed = this.dispatchCloseEvent("BACKGROUND_CLICK");
+    const closeAllowed = this.#requestClose("BACKGROUND_CLICK");
     if (closeAllowed && this.autoCloseOnBackgroundClick) {
       this.close();
     }
   };
-
-  dispatchCloseEvent(type: JBModalCloseEventType): boolean {
-    return this.dispatchEvent(
+  #requestClose(type: JBModalCloseEventType) {
+    if (this.#gestureController.isClosing) return false;
+    if (!this.dispatchEvent(new CustomEvent("cancel", { bubbles: true, composed: true, cancelable: true, detail: { eventType: type } }))) return false;
+    this.#dispatchCloseEvent(type);
+    return true;
+  }
+  #dispatchCloseEvent(type: JBModalCloseEventType) {
+    this.dispatchEvent(
       new CustomEvent("close", {
         bubbles: true,
         composed: true,
-        cancelable: true,
+        cancelable: false,
         detail: { eventType: type },
       }),
     );
   }
 
   /** @public Closes the modal. */
-  close() {
+  close = () => {
     if (!this.#isOpen) {
       return;
     }
@@ -214,10 +243,10 @@ export class JBModalWebComponent extends JBBaseComponent {
       // A directly loaded #modalId has no component-owned entry to go back to, so remove only its hash.
       window.history.replaceState(this.getHistoryStateWithoutThisModal(), "", this.getUrlWithoutHash());
     }
-  }
+  };
 
   /** @public Opens the modal. */
-  open() {
+  open = ()=>{
     if (this.#isOpen) {
       return;
     }
@@ -309,7 +338,7 @@ export class JBModalWebComponent extends JBBaseComponent {
     if (event.key === "Escape") {
       event.preventDefault();
       event.stopPropagation();
-      const closeAllowed = this.dispatchCloseEvent("ESCAPE_KEY");
+      const closeAllowed = this.#requestClose("ESCAPE_KEY");
       if (closeAllowed && this.autoCloseOnEscape) {
         this.close();
       }
@@ -322,7 +351,7 @@ export class JBModalWebComponent extends JBBaseComponent {
     const focusableElements = getFocusableElements(this);
     if (focusableElements.length === 0) {
       event.preventDefault();
-      this.elements.content.focus({ preventScroll: true });
+      this.elements.content.wrapper.focus({ preventScroll: true });
       return;
     }
     const activeElement = getDeepActiveElement();
@@ -349,7 +378,7 @@ export class JBModalWebComponent extends JBBaseComponent {
     if (!this.#isOpen || !this.id || !jbModalManager.isTopmostModal(this) || window.location.hash === `#${this.id}`) {
       return;
     }
-    const closeAllowed = this.dispatchCloseEvent("HISTORY_BACK_EVENT");
+    const closeAllowed = this.#requestClose("HISTORY_BACK_EVENT");
     if (closeAllowed) {
       // The browser already navigated, so closing here must not navigate history a second time.
       this.#closeWithoutHistoryNavigation();

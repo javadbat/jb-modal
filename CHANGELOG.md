@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0] - 2026-09-20
+
+### Changed
+
+- Add  cancellable `cancel` event dispatched before `close` event.
+- Make `close` event non-cancelable like native dialog.
+- Add handle and swipe down support to close modal as a bottom sheet in smaller device. 
+
 ## [2.0.1] - 2026-09-12
 
 ### Fixed
