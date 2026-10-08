@@ -212,6 +212,7 @@ For complete styling guidance, live examples, and copyable style recipes, see th
 | `--jb-modal-bg-color` | Modal content background color. |
 | `--jb-modal-back-bg-color` | Modal backdrop background color. |
 | `--jb-modal-border-radius` | Modal content border radius. |
+| `--jb-modal-corner-shape` | Modal content corner shape; defaults to the global `--jb-corner-shape` token. |
 | `--jb-modal-z-index` | Modal z-index. |
 
 ```css

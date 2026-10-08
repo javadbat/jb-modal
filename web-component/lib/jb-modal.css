@@ -67,6 +67,7 @@
             height: auto;
             background-color: var(--bg-color);
             border-radius: var(--border-radius);
+            corner-shape: var(--content-corner-shape);
             max-width: calc(100% - 2rem);
             max-height: calc(100dvh - 4rem);
             display: grid;

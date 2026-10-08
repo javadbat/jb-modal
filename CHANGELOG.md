@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.2.0] - 2026-10-08
+
+### Added
+
+- Support the global `--jb-corner-shape` token for the modal content, with a `--jb-modal-corner-shape` override.
+
 ## [2.1.0] - 2026-09-20
 
 ### Changed

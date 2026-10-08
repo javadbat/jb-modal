@@ -163,6 +163,10 @@
               "description": "Modal content border radius."
             },
             {
+              "name": "--jb-modal-corner-shape",
+              "description": "Modal content corner shape; defaults to the global `--jb-corner-shape` token."
+            },
+            {
               "name": "--jb-modal-z-index",
               "description": "Modal z-index."
             }

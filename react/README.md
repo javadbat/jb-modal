@@ -143,6 +143,7 @@ The React component uses the same CSS variables and parts as the web component. 
 | `--jb-modal-bg-color` | Modal content background color. |
 | `--jb-modal-back-bg-color` | Modal backdrop background color. |
 | `--jb-modal-border-radius` | Modal content border radius. |
+| `--jb-modal-corner-shape` | Modal content corner shape; defaults to the global `--jb-corner-shape` token. |
 | `--jb-modal-z-index` | Modal z-index. |
 
 ```css
