@@ -83,7 +83,8 @@ export class JBModalWebComponent extends JBBaseComponent {
     if (!this.#isOpen) {
       // A11y: set inert after construction because it reflects an attribute;
       // custom-element constructors must not add attributes to their host.
-      this.inert = true;
+      //it may cause hydration error in SSR framework like nextjs (in set attribute) we delay update so it happen after hydration
+      setTimeout(()=>{this.inert = true},100);
     }
   }
 
